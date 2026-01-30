@@ -13,8 +13,8 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0a;
-      color: #fff;
+      background: #ffffff;
+      color: #1a1a1a;
       min-height: 100vh;
       overflow: hidden;
     }
@@ -33,8 +33,8 @@
 
     /* Left Sidebar */
     .sidebar {
-      background: #0a0a0a;
-      border-right: 1px solid #1a1a1a;
+      background: #fafafa;
+      border-right: 1px solid #eee;
       padding: 32px 24px;
       overflow-y: auto;
       display: flex;
@@ -51,13 +51,14 @@
     .sidebar h1 {
       font-size: 1.25rem;
       font-weight: 600;
+      color: #1a1a1a;
     }
 
     .prompts-toggle {
       padding: 6px 10px;
       background: transparent;
-      border: 1px solid #333;
-      color: #666;
+      border: 1px solid #ddd;
+      color: #888;
       border-radius: 6px;
       font-size: 11px;
       cursor: pointer;
@@ -65,21 +66,21 @@
     }
 
     .prompts-toggle:hover {
-      border-color: #555;
-      color: #888;
+      border-color: #bbb;
+      color: #666;
     }
 
     .prompts-toggle.active {
-      background: #1a1a1a;
-      border-color: #333;
-      color: #aaa;
+      background: #f0f0f0;
+      border-color: #ccc;
+      color: #555;
     }
 
     .section-label {
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: #444;
+      color: #999;
       margin-bottom: 16px;
     }
 
@@ -105,12 +106,12 @@
     }
 
     .persona-btn:hover {
-      background: #111;
+      background: #f5f5f5;
     }
 
     .persona-btn.active {
-      background: #111;
-      border-color: #222;
+      background: #f0f0f0;
+      border-color: #e0e0e0;
     }
 
     .persona-avatar {
@@ -118,12 +119,12 @@
       height: 44px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #222;
+      border: 2px solid #eee;
       flex-shrink: 0;
     }
 
     .persona-btn.active .persona-avatar {
-      border-color: #fff;
+      border-color: #1a1a1a;
     }
 
     .persona-btn-info {
@@ -134,23 +135,23 @@
     .persona-btn .name {
       font-size: 14px;
       font-weight: 500;
-      color: #888;
+      color: #666;
       margin-bottom: 2px;
     }
 
     .persona-btn.active .name {
-      color: #fff;
+      color: #1a1a1a;
     }
 
     .persona-btn .role {
       font-size: 12px;
-      color: #555;
+      color: #999;
     }
 
     /* Prompt Box */
     .prompt-box {
-      background: #0f0f0f;
-      border: 1px solid #1a1a1a;
+      background: #f5f5f5;
+      border: 1px solid #eee;
       border-radius: 10px;
       padding: 14px;
       margin-bottom: 24px;
@@ -165,7 +166,7 @@
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #444;
+      color: #999;
       margin-bottom: 8px;
     }
 
@@ -203,17 +204,18 @@
     }
 
     .memory-tag {
-      background: #141414;
+      background: #fff;
+      border: 1px solid #e5e5e5;
       padding: 6px 10px;
       border-radius: 14px;
       font-size: 11px;
-      color: #555;
+      color: #666;
     }
 
     .generate-btn {
       padding: 14px 24px;
-      background: #fff;
-      color: #000;
+      background: #1a1a1a;
+      color: #fff;
       border: none;
       border-radius: 10px;
       cursor: pointer;
@@ -224,11 +226,11 @@
     }
 
     .generate-btn:hover {
-      opacity: 0.9;
+      background: #333;
     }
 
     .generate-btn:disabled {
-      opacity: 0.2;
+      opacity: 0.3;
       cursor: not-allowed;
     }
 
@@ -238,7 +240,7 @@
       align-items: center;
       justify-content: center;
       padding: 40px;
-      background: #050505;
+      background: #f5f5f5;
       position: relative;
     }
 
@@ -273,6 +275,7 @@
       touch-action: pan-y;
       transition: transform 0.1s ease-out;
       will-change: transform;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     }
 
     .card:active {
@@ -302,6 +305,7 @@
       left: 0;
       right: 0;
       padding: 28px;
+      color: #fff;
     }
 
     .card-topic {
@@ -317,6 +321,7 @@
       font-weight: 600;
       line-height: 1.2;
       margin-bottom: 10px;
+      color: #fff;
     }
 
     .card-subheadline {
@@ -347,6 +352,7 @@
       font-weight: 600;
       opacity: 0;
       pointer-events: none;
+      color: #fff;
     }
 
     .swipe-hint.left {
@@ -371,23 +377,23 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #222;
+      background: #ddd;
       transition: all 0.3s;
     }
 
     .stack-dot.active {
-      background: #fff;
+      background: #1a1a1a;
       width: 24px;
       border-radius: 4px;
     }
 
     .stack-dot.seen {
-      background: #444;
+      background: #bbb;
     }
 
     .tap-hint {
       text-align: center;
-      color: #333;
+      color: #999;
       font-size: 12px;
       margin-top: 16px;
     }
@@ -399,7 +405,7 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: #333;
+      color: #bbb;
       text-align: center;
       padding: 40px;
     }
@@ -417,8 +423,8 @@
 
     /* Right Panel - Mini Apps */
     .panel {
-      background: #0a0a0a;
-      border-left: 1px solid #1a1a1a;
+      background: #fafafa;
+      border-left: 1px solid #eee;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -426,29 +432,31 @@
 
     .panel-header {
       padding: 24px;
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 1px solid #eee;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      background: #fff;
     }
 
     .panel-header-info h2 {
       font-size: 1.1rem;
       margin-bottom: 4px;
+      color: #1a1a1a;
     }
 
     .panel-header-info p {
       font-size: 12px;
-      color: #555;
+      color: #999;
     }
 
     .panel-close {
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background: #141414;
+      background: #f5f5f5;
       border: none;
-      color: #666;
+      color: #999;
       font-size: 18px;
       cursor: pointer;
       display: flex;
@@ -458,8 +466,8 @@
     }
 
     .panel-close:hover {
-      background: #1a1a1a;
-      color: #888;
+      background: #eee;
+      color: #666;
     }
 
     .panel-content {
@@ -473,17 +481,17 @@
       align-items: center;
       gap: 14px;
       padding: 14px;
-      background: #111;
+      background: #fff;
       border-radius: 14px;
       margin-bottom: 10px;
       cursor: pointer;
       transition: all 0.2s;
-      border: 1px solid transparent;
+      border: 1px solid #eee;
     }
 
     .mini-app:hover {
-      background: #151515;
-      border-color: #222;
+      border-color: #ddd;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     .mini-app-icon {
@@ -505,16 +513,17 @@
     .mini-app-info h4 {
       font-size: 14px;
       margin-bottom: 3px;
+      color: #1a1a1a;
     }
 
     .mini-app-info p {
       font-size: 12px;
-      color: #555;
+      color: #888;
       line-height: 1.4;
     }
 
     .mini-app-arrow {
-      color: #333;
+      color: #ccc;
       font-size: 16px;
     }
 
@@ -530,7 +539,7 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: #444;
+      color: #999;
     }
 
     .done-state .checkmark {
@@ -852,7 +861,7 @@ tools within this category.</pre>
     let currentCardIndex = 0;
     let cards = [];
     let showPrompts = false;
-    let selectedCard = null;
+    let panelOpen = false;
 
     // Initialize
     function init() {
@@ -925,6 +934,9 @@ tools within this category.</pre>
 
       document.getElementById('tapHint').style.display = 'block';
       renderCardStack();
+
+      // Open panel with first card
+      openPanel(cards[0]);
     }
 
     function renderCardStack() {
@@ -940,6 +952,7 @@ tools within this category.</pre>
         `;
         document.getElementById('stackIndicator').innerHTML = '';
         document.getElementById('tapHint').style.display = 'none';
+        closePanel();
         return;
       }
 
@@ -964,6 +977,11 @@ tools within this category.</pre>
       });
 
       renderStackIndicator();
+
+      // Update panel with current card if panel is open
+      if (panelOpen && cards[currentCardIndex]) {
+        updatePanel(cards[currentCardIndex]);
+      }
     }
 
     function createCardElement(card, index) {
@@ -1076,7 +1094,12 @@ tools within this category.</pre>
     }
 
     function openPanel(card) {
-      selectedCard = card;
+      panelOpen = true;
+      updatePanel(card);
+      document.getElementById('layout').classList.add('panel-open');
+    }
+
+    function updatePanel(card) {
       const apps = miniAppsByTopic[card.topic] || [];
 
       document.getElementById('panelTitle').textContent = card.topic;
@@ -1093,13 +1116,11 @@ tools within this category.</pre>
           <div class="mini-app-arrow">→</div>
         </div>
       `).join('');
-
-      document.getElementById('layout').classList.add('panel-open');
     }
 
     function closePanel() {
+      panelOpen = false;
       document.getElementById('layout').classList.remove('panel-open');
-      selectedCard = null;
     }
 
     init();
