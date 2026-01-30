@@ -5,6 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>For You Collections</title>
   <style>
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-Thin.otf') format('opentype');
+      font-weight: 100;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-ThinItalic.otf') format('opentype');
+      font-weight: 100;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-Light.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-LightItalic.otf') format('opentype');
+      font-weight: 300;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-Italic.otf') format('opentype');
+      font-weight: 400;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-Medium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-MediumItalic.otf') format('opentype');
+      font-weight: 500;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-BoldItalic.otf') format('opentype');
+      font-weight: 700;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-Black.otf') format('opentype');
+      font-weight: 900;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Selecta';
+      src: url('/fonts/Selecta/Selecta-BlackItalic.otf') format('opentype');
+      font-weight: 900;
+      font-style: italic;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -12,28 +85,23 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Selecta', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #ffffff;
       color: #1a1a1a;
       min-height: 100vh;
       overflow: hidden;
     }
 
-    /* Three Column Layout */
+    /* Two Column Layout */
     .layout {
       display: grid;
-      grid-template-columns: 340px 1fr 0px;
+      grid-template-columns: 340px 1fr;
       height: 100vh;
-      transition: grid-template-columns 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .layout.panel-open {
-      grid-template-columns: 340px 1fr 400px;
     }
 
     /* Left Sidebar */
     .sidebar {
-      background: #fafafa;
+      background: #ffffff;
       border-right: 1px solid #eee;
       padding: 24px;
       overflow-y: auto;
@@ -298,26 +366,166 @@
     /* Main Content - Card Stack */
     .main {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
+      flex-direction: column;
       background: #f5f5f5;
       position: relative;
+      overflow: hidden;
+    }
+
+    /* Top panel for selectors */
+    .top-panel {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .style-selector-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .style-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .style-prompt-toggle {
+      display: none;
+    }
+
+    .style-prompt-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid #ddd;
+      color: #bbb;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .style-prompt-btn:hover {
+      border-color: #999;
+      color: #666;
+      background: #f5f5f5;
+    }
+
+    .style-prompt-btn.active {
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+      color: #fff;
+    }
+
+    .style-prompt-btn:hover {
+      border-color: #999;
+      color: #666;
+      background: #f5f5f5;
+    }
+
+    .style-prompt-btn.active {
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+      color: #fff;
+    }
+
+    .style-prompt-box {
+      display: none;
+      background: #f8f8f8;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 4px;
+      max-width: 320px;
+    }
+
+    .style-prompt-box.visible {
+      display: block;
+    }
+
+    .style-prompt-box .prompt-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #999;
+      margin-bottom: 6px;
+    }
+
+    .style-prompt-box .prompt-text {
+      font-size: 11px;
+      color: #555;
+      line-height: 1.5;
     }
 
     .card-area {
+      flex: 1;
       width: 100%;
-      max-width: 400px;
+      max-width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 40px;
+      justify-content: center;
     }
 
-    /* Style selector above cards */
+    /* Model toggle */
+    .model-toggle {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      background: #e8e8e8;
+      padding: 4px;
+      border-radius: 50px;
+      width: fit-content;
+    }
+
+    .model-toggle .model-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: none;
+      border-radius: 50px;
+      font-size: 12px;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .model-toggle .model-btn:hover {
+      color: #666;
+    }
+
+    .model-toggle .model-btn.active {
+      background: #fff;
+      color: #1a1a1a;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .model-toggle .model-btn .model-icon {
+      font-size: 14px;
+    }
+
+    /* Style selector */
     .style-selector-main {
       display: flex;
       gap: 6px;
-      margin-bottom: 24px;
       justify-content: center;
       flex-wrap: nowrap;
     }
@@ -357,35 +565,68 @@
     .card-stack-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 3/4;
-      max-height: 560px;
+      max-width: 100%;
+      overflow: hidden;
+      min-height: 420px;
+    }
+
+    /* Fade mask for carousel edges */
+    .card-stack-container::before,
+    .card-stack-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .card-stack-container::before {
+      left: 0;
+      background: linear-gradient(to right, #f5f5f5 0%, transparent 100%);
+    }
+
+    .card-stack-container::after {
+      right: 0;
+      background: linear-gradient(to left, #f5f5f5 0%, transparent 100%);
     }
 
     .card-stack {
-      position: relative;
-      width: 100%;
-      height: 100%;
+      display: flex;
+      gap: 20px;
+      padding: 20px 50%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .card-stack::-webkit-scrollbar {
+      display: none;
     }
 
     .card {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      flex: 0 0 280px;
+      height: 380px;
       border-radius: 24px;
       overflow: hidden;
-      cursor: grab;
-      touch-action: pan-y;
-      transition: transform 0.1s ease-out;
-      will-change: transform;
+      cursor: pointer;
+      will-change: transform, opacity;
       box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      scroll-snap-align: center;
+      transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
     }
 
-    .card:active {
-      cursor: grabbing;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.2);
     }
 
-    .card.animating {
-      transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    .card.active {
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
     }
 
     .card-bg {
@@ -419,10 +660,10 @@
     }
 
     .card-headline {
-      font-size: 1.5rem;
+      font-size: 1.05rem;
       font-weight: 600;
-      line-height: 1.2;
-      margin-bottom: 10px;
+      line-height: 1.3;
+      margin-bottom: 8px;
       color: #fff;
     }
 
@@ -456,28 +697,38 @@
       backdrop-filter: blur(10px);
     }
 
-    .swipe-hint {
+    .card-no-image {
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0;
-      pointer-events: none;
-      color: #fff;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
-    .swipe-hint.left {
-      left: 20px;
-      background: #ff4444;
+    .card-loading {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #999;
     }
 
-    .swipe-hint.right {
-      right: 20px;
-      background: #44cc44;
+    .card-loading-spinner {
+      font-size: 28px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 12px;
     }
+
+    .card-loading-text {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
 
     /* Stack indicator */
     .stack-indicator {
@@ -518,7 +769,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%;
+      min-height: 380px;
+      width: 100%;
       color: #bbb;
       text-align: center;
       padding: 40px;
@@ -540,69 +792,72 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Right Panel - Mini Apps */
-    .panel {
-      background: #fafafa;
-      border-left: 1px solid #eee;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+    /* Inline Mini Apps Section (below cards) */
+    .mini-apps-section {
+      display: none;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-top: 20px;
     }
 
-    .panel-header {
-      padding: 24px;
-      border-bottom: 1px solid #eee;
+    .mini-apps-section.visible {
+      display: block;
+    }
+
+    .mini-apps-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      background: #fff;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
-    .panel-header-info h2 {
-      font-size: 1.1rem;
-      margin-bottom: 4px;
+    .mini-apps-header h3 {
+      font-size: 14px;
+      font-weight: 600;
       color: #1a1a1a;
     }
 
-    .panel-header-info p {
+    .mini-apps-header span {
       font-size: 12px;
       color: #999;
     }
 
-    .panel-close {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
+    .mini-apps-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
       background: #f5f5f5;
       border: none;
       color: #999;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
     }
 
-    .panel-close:hover {
+    .mini-apps-close:hover {
       background: #eee;
       color: #666;
     }
 
-    .panel-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
+    .mini-apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
     }
 
     .mini-app {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 14px;
-      background: #fff;
-      border-radius: 14px;
-      margin-bottom: 10px;
+      gap: 12px;
+      padding: 12px;
+      background: #fafafa;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s;
       border: 1px solid #eee;
@@ -610,7 +865,7 @@
 
     .mini-app:hover {
       border-color: #ddd;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      background: #f5f5f5;
     }
 
     .mini-app-icon {
@@ -678,6 +933,279 @@
       }
     }
 
+    /* Bottom Panel for Prompt Editing */
+    .bottom-panel {
+      position: fixed;
+      bottom: 0;
+      left: 340px;
+      right: 0;
+      background: #ffffff;
+      border-top: 1px solid #e8e8e8;
+      padding: 12px 24px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bottom-panel-inner {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .bottom-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .bottom-panel-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #999;
+    }
+
+    .bottom-panel-pills {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    /* Prompt Editor Modal */
+    .prompt-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .prompt-modal-overlay.visible {
+      display: flex;
+    }
+
+    .prompt-modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .prompt-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .prompt-modal-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .prompt-modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f5f5f5;
+      border: none;
+      color: #666;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .prompt-modal-close:hover {
+      background: #eee;
+    }
+
+    .prompt-modal textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #333;
+      resize: vertical;
+      margin-bottom: 16px;
+    }
+
+    .prompt-modal textarea:focus {
+      outline: none;
+      border-color: #1a1a1a;
+    }
+
+    .prompt-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .prompt-modal-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .prompt-modal-btn.reset {
+      background: transparent;
+      border: 1px solid #ddd;
+      color: #666;
+    }
+
+    .prompt-modal-btn.reset:hover {
+      border-color: #999;
+    }
+
+    .prompt-modal-btn.save {
+      background: #1a1a1a;
+      border: 1px solid #1a1a1a;
+      color: #fff;
+    }
+
+    .prompt-modal-btn.save:hover {
+      background: #333;
+    }
+
+    /* Success Toast */
+    .success-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #22c55e;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 300;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+    }
+
+    .success-toast.visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .prompt-pill {
+      padding: 6px 12px;
+      background: #f5f5f5;
+      border: 1px solid #e5e5e5;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .prompt-pill:hover {
+      border-color: #ccc;
+      background: #f0f0f0;
+    }
+
+    .prompt-pill.active {
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+      color: #fff;
+    }
+
+    .prompt-editor {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .prompt-editor.visible {
+      display: block;
+    }
+
+    .prompt-editor-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .prompt-editor textarea {
+      width: 100%;
+      min-height: 60px;
+      padding: 12px;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #333;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    .prompt-editor textarea:focus {
+      outline: none;
+      border-color: #1a1a1a;
+    }
+
+    .prompt-editor-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .prompt-editor-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .prompt-editor-btn.reset {
+      background: transparent;
+      border: 1px solid #ddd;
+      color: #888;
+    }
+
+    .prompt-editor-btn.reset:hover {
+      border-color: #999;
+      color: #666;
+    }
+
+    .prompt-editor-btn.save {
+      background: #1a1a1a;
+      border: 1px solid #1a1a1a;
+      color: #fff;
+    }
+
+    .prompt-editor-btn.save:hover {
+      background: #333;
+    }
+
+    .prompt-saved-indicator {
+      font-size: 10px;
+      color: #22c55e;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .prompt-saved-indicator.visible {
+      opacity: 1;
+    }
+
     @media (max-width: 768px) {
       .layout {
         grid-template-columns: 1fr;
@@ -697,6 +1225,9 @@
       }
       .layout.panel-open .panel {
         transform: translateX(0);
+      }
+      .bottom-panel {
+        left: 0;
       }
     }
   </style>
@@ -723,7 +1254,7 @@ activities. Return 5 diverse topics.</pre>
       </div>
       <div class="filter-tabs" id="filterTabs">
         <button class="filter-tab active" data-filter="all">All</button>
-        <button class="filter-tab" data-filter="fictional">Fictional</button>
+        <button class="filter-tab" data-filter="normie">Normies</button>
         <button class="filter-tab" data-filter="luminary">Tech</button>
         <button class="filter-tab" data-filter="culture">Culture</button>
       </div>
@@ -754,13 +1285,33 @@ tone to persona's sophistication.</pre>
 
     <!-- Main Content -->
     <main class="main">
-      <div class="card-area">
-        <div class="style-selector-main" id="styleSelector">
-          <button class="style-btn active" data-style="photo"><span class="icon">📷</span> Photo</button>
-          <button class="style-btn" data-style="illustration"><span class="icon">🎨</span> Illustration</button>
-          <button class="style-btn" data-style="3d"><span class="icon">🧊</span> 3D</button>
-          <button class="style-btn" data-style="minimal"><span class="icon">◻️</span> Minimal</button>
+      <div class="top-panel">
+        <div class="style-selector-wrapper">
+          <div class="style-selector-main" id="styleSelector">
+            <div class="style-btn-group">
+              <button class="style-btn active" data-style="photo"><span class="icon">📷</span> Photo</button>
+              <button class="style-prompt-btn" data-style="photo" title="Show photo prompt">✦</button>
+            </div>
+            <div class="style-btn-group">
+              <button class="style-btn" data-style="illustration"><span class="icon">🎨</span> Illustration</button>
+              <button class="style-prompt-btn" data-style="illustration" title="Show illustration prompt">✦</button>
+            </div>
+            <div class="style-btn-group">
+              <button class="style-btn" data-style="3d"><span class="icon">🧊</span> 3D</button>
+              <button class="style-prompt-btn" data-style="3d" title="Show 3D prompt">✦</button>
+            </div>
+            <div class="style-btn-group">
+              <button class="style-btn" data-style="minimal"><span class="icon">◻️</span> Minimal</button>
+              <button class="style-prompt-btn" data-style="minimal" title="Show minimal prompt">✦</button>
+            </div>
+          </div>
         </div>
+        <div class="model-toggle" id="modelToggle">
+          <button class="model-btn active" data-model="gemini"><span class="model-icon">✦</span> Gemini</button>
+          <button class="model-btn" data-model="bytedance"><span class="model-icon">◆</span> ByteDance</button>
+        </div>
+      </div>
+      <div class="card-area">
         <div class="card-stack-container" id="cardStackContainer">
           <div class="card-stack" id="cardStack">
             <div class="empty-state">
@@ -770,35 +1321,54 @@ tone to persona's sophistication.</pre>
           </div>
         </div>
         <div class="stack-indicator" id="stackIndicator"></div>
-        <div class="tap-hint" id="tapHint" style="display: none;">Tap card to explore • Swipe to browse</div>
+        <div class="tap-hint" id="tapHint" style="display: none;">Tap a card to explore • Use arrow keys to browse</div>
+
+        <!-- Mini Apps Section (inline below cards) -->
+        <div class="mini-apps-section" id="miniAppsSection">
+          <div class="mini-apps-header">
+            <div>
+              <h3 id="miniAppsTitle">Category</h3>
+              <span id="miniAppsSubtitle">Explore mini-apps</span>
+            </div>
+            <button class="mini-apps-close" id="miniAppsClose">×</button>
+          </div>
+          <div class="mini-apps-grid" id="miniAppsList"></div>
+        </div>
       </div>
     </main>
 
-    <!-- Right Panel -->
-    <aside class="panel" id="panel">
-      <div class="panel-header">
-        <div class="panel-header-info">
-          <h2 id="panelTitle">Category</h2>
-          <p id="panelSubtitle">Explore mini-apps</p>
+    <!-- Bottom Panel for Prompt Editing -->
+    <div class="bottom-panel" id="bottomPanel">
+      <div class="bottom-panel-inner">
+        <div class="bottom-panel-header">
+          <span class="bottom-panel-title">Prompt Templates</span>
         </div>
-        <button class="panel-close" id="panelClose">×</button>
+        <div class="bottom-panel-pills" id="promptPills">
+          <button class="prompt-pill" data-prompt="system">System</button>
+          <button class="prompt-pill" data-prompt="headline">Headline</button>
+          <button class="prompt-pill" data-prompt="subheadline">Subheadline</button>
+          <button class="prompt-pill" data-prompt="image">Image</button>
+        </div>
       </div>
-      <div class="panel-content">
-        <div class="section-header" style="margin-bottom: 16px;">
-          <span class="section-label">Mini-Apps</span>
-          <button class="prompt-toggle-btn" data-prompt="miniAppsPrompt" title="Show prompt">✦</button>
+    </div>
+
+    <!-- Prompt Editor Modal -->
+    <div class="prompt-modal-overlay" id="promptModal">
+      <div class="prompt-modal">
+        <div class="prompt-modal-header">
+          <span class="prompt-modal-title" id="promptModalTitle">Edit Prompt</span>
+          <button class="prompt-modal-close" id="promptModalClose">×</button>
         </div>
-        <div class="prompt-box" id="miniAppsPrompt">
-          <div class="label">Mini-Apps Generation Prompt</div>
-          <pre>For category "{topic}" and persona:
-Generate 4-5 relevant mini-apps with
-name, description, icon emoji, and
-color. Apps should feel like useful
-tools within this category.</pre>
+        <textarea id="promptTextarea" placeholder="Enter your prompt template..."></textarea>
+        <div class="prompt-modal-actions">
+          <button class="prompt-modal-btn reset" id="resetPromptBtn">Reset to Default</button>
+          <button class="prompt-modal-btn save" id="savePromptBtn">Save</button>
         </div>
-        <div id="miniAppsList"></div>
       </div>
-    </aside>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="success-toast" id="successToast">✓ Prompt saved successfully</div>
   </div>
 
   <script>
@@ -828,56 +1398,82 @@ tools within this category.</pre>
 
     // Personas organized by type
     const personas = [
-      // Fictional personas
+      // Normies - everyday people with relatable interests
       {
-        id: 'creative-professional',
-        name: 'Maya Chen',
-        role: 'Creative Director',
-        type: 'fictional',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
-        bio: 'A 34-year-old creative director based in Brooklyn. Passionate about sustainable design, experimental typography, and finding inspiration in urban architecture.',
-        memories: ['sustainable design', 'typography', 'urban exploration', 'vintage books', 'gallery visits', 'brand identity']
+        id: 'sarah-chen',
+        name: 'Sarah Chen',
+        age: 28,
+        role: 'Product Designer',
+        type: 'normie',
+        avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&q=80&fit=crop&crop=face',
+        bio: 'Design lead at a fintech startup. Obsessed with good coffee, weekend hiking, and finding the perfect work-life balance. Currently learning pottery on Sundays.',
+        memories: ['design systems', 'specialty coffee', 'hiking trails', 'ceramics', 'remote work', 'plant care']
       },
       {
-        id: 'tech-entrepreneur',
-        name: 'Alex Rivera',
-        role: 'Startup Founder',
-        type: 'fictional',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-        bio: 'A 29-year-old tech entrepreneur building their second startup in the AI space. Interested in productivity systems, meditation, and long-distance running.',
-        memories: ['AI technology', 'productivity', 'meditation', 'running', 'sci-fi novels', 'system design']
+        id: 'marcus-johnson',
+        name: 'Marcus Johnson',
+        age: 34,
+        role: 'High School Teacher',
+        type: 'normie',
+        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&q=80&fit=crop&crop=face',
+        bio: 'History teacher and basketball coach. Believes in the power of storytelling to connect with students. Weekend grill master and amateur woodworker.',
+        memories: ['education', 'basketball', 'BBQ recipes', 'woodworking', 'podcasts', 'local history']
       },
       {
-        id: 'culinary-explorer',
-        name: 'Sofia Russo',
-        role: 'Food Writer',
-        type: 'fictional',
-        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',
-        bio: 'A 42-year-old food writer who spent years living in Italy and Japan. Obsessed with fermentation, seasonal cooking, and family recipes.',
-        memories: ['Italian cuisine', 'Japanese cooking', 'fermentation', 'seasonal ingredients', 'food history']
+        id: 'zoe-martinez',
+        name: 'Zoe Martinez',
+        age: 22,
+        role: 'College Student',
+        type: 'normie',
+        avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&q=80&fit=crop&crop=face',
+        bio: 'Studying environmental science while working part-time at a coffee shop. Into thrifting, film photography, and planning road trips with friends.',
+        memories: ['sustainability', 'vintage fashion', 'film cameras', 'road trips', 'coffee', 'indie music']
       },
       {
-        id: 'outdoor-minimalist',
-        name: 'Kai Nakamura',
-        role: 'Nature Photographer',
-        type: 'fictional',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
-        bio: 'A 38-year-old nature photographer living in a converted van. Documents wilderness areas and advocates for conservation.',
-        memories: ['wilderness photography', 'van life', 'conservation', 'minimalism', 'mountain trails']
+        id: 'david-kim',
+        name: 'David Kim',
+        age: 26,
+        role: 'Software Engineer',
+        type: 'normie',
+        avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&q=80&fit=crop&crop=face',
+        bio: 'Backend developer who codes by day and games by night. Home automation enthusiast, amateur photographer, and dedicated dog dad to a golden retriever.',
+        memories: ['coding', 'gaming', 'smart home', 'photography', 'dogs', 'mechanical keyboards']
+      },
+      {
+        id: 'maya-patel',
+        name: 'Maya Patel',
+        age: 19,
+        role: 'Content Creator',
+        type: 'normie',
+        avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80&fit=crop&crop=face',
+        bio: 'Just started posting lifestyle content on TikTok while figuring out what to do after high school. Loves skincare, anime, and trying new restaurants.',
+        memories: ['social media', 'skincare routines', 'anime', 'food videos', 'aesthetics', 'K-pop']
+      },
+      {
+        id: 'james-oconnor',
+        name: 'James O\'Connor',
+        age: 38,
+        role: 'Marketing Manager',
+        type: 'normie',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&fit=crop&crop=face',
+        bio: 'Works in tech marketing but lives for the weekends. Craft beer enthusiast, amateur cyclist, and dedicated fantasy football commissioner. Dad of two.',
+        memories: ['marketing', 'craft beer', 'cycling', 'fantasy sports', 'parenting', 'grilling']
       },
       // Tech Luminaries
       {
         id: 'marc-andreessen',
         name: 'Marc Andreessen',
+        age: 53,
         role: 'Venture Capitalist',
         type: 'luminary',
-        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Marc_Andreessen-9.jpg/440px-Marc_Andreessen-9.jpg',
+        avatar: 'https://media.hachyderm.io/media_attachments/files/113/691/722/294/061/460/original/d94833f50b93778d.jpeg',
         bio: 'Co-founder of Netscape and Andreessen Horowitz. Pioneer of the modern web browser. Believes software is eating the world and that technology is the primary driver of progress.',
         memories: ['venture capital', 'software eating the world', 'techno-optimism', 'web3', 'AI', 'founder mentality']
       },
       {
         id: 'elon-musk',
         name: 'Elon Musk',
+        age: 53,
         role: 'Tech CEO',
         type: 'luminary',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/440px-Elon_Musk_Royal_Society_%28crop2%29.jpg',
@@ -887,6 +1483,7 @@ tools within this category.</pre>
       {
         id: 'satya-nadella',
         name: 'Satya Nadella',
+        age: 57,
         role: 'Microsoft CEO',
         type: 'luminary',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg/440px-MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg',
@@ -896,6 +1493,7 @@ tools within this category.</pre>
       {
         id: 'jensen-huang',
         name: 'Jensen Huang',
+        age: 61,
         role: 'NVIDIA CEO',
         type: 'luminary',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Jensen_Huang_GTC_Keynote_%282024%29.png/440px-Jensen_Huang_GTC_Keynote_%282024%29.png',
@@ -905,6 +1503,7 @@ tools within this category.</pre>
       {
         id: 'sam-altman',
         name: 'Sam Altman',
+        age: 39,
         role: 'OpenAI CEO',
         type: 'luminary',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Sam_Altman_-_TechCrunch_SF_2019_%28cropped%29.jpg/440px-Sam_Altman_-_TechCrunch_SF_2019_%28cropped%29.jpg',
@@ -914,6 +1513,7 @@ tools within this category.</pre>
       {
         id: 'sundar-pichai',
         name: 'Sundar Pichai',
+        age: 52,
         role: 'Google CEO',
         type: 'luminary',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Sundar_Pichai_%2832522152118%29_%28cropped%29.jpg/440px-Sundar_Pichai_%2832522152118%29_%28cropped%29.jpg',
@@ -924,6 +1524,7 @@ tools within this category.</pre>
       {
         id: 'tony-hawk',
         name: 'Tony Hawk',
+        age: 56,
         role: 'Pro Skateboarder',
         type: 'culture',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Tony_Hawk_by_Gage_Skidmore.jpg/440px-Tony_Hawk_by_Gage_Skidmore.jpg',
@@ -933,6 +1534,7 @@ tools within this category.</pre>
       {
         id: 'tyler-creator',
         name: 'Tyler, the Creator',
+        age: 33,
         role: 'Artist & Designer',
         type: 'culture',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Tyler%2C_the_Creator_-_Roskilde_Festival_2015.jpg/440px-Tyler%2C_the_Creator_-_Roskilde_Festival_2015.jpg',
@@ -942,6 +1544,7 @@ tools within this category.</pre>
       {
         id: 'emma-chamberlain',
         name: 'Emma Chamberlain',
+        age: 23,
         role: 'Content Creator',
         type: 'culture',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Emma_Chamberlain_-_2023.jpg/440px-Emma_Chamberlain_-_2023.jpg',
@@ -951,6 +1554,7 @@ tools within this category.</pre>
       {
         id: 'simone-biles',
         name: 'Simone Biles',
+        age: 27,
         role: 'Olympic Gymnast',
         type: 'culture',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Simone_Biles_in_2024_%28cropped%29.jpg/440px-Simone_Biles_in_2024_%28cropped%29.jpg',
@@ -960,6 +1564,7 @@ tools within this category.</pre>
       {
         id: 'pharrell-williams',
         name: 'Pharrell Williams',
+        age: 51,
         role: 'Producer & Designer',
         type: 'culture',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Pharrell_Williams_2023.jpg/440px-Pharrell_Williams_2023.jpg',
@@ -969,6 +1574,7 @@ tools within this category.</pre>
       {
         id: 'nyjah-huston',
         name: 'Nyjah Huston',
+        age: 29,
         role: 'Pro Skateboarder',
         type: 'culture',
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Nyjah_Huston_2022.jpg/440px-Nyjah_Huston_2022.jpg',
@@ -977,179 +1583,270 @@ tools within this category.</pre>
       }
     ];
 
-    // Topics by persona
+    // Topics by persona - general interest categories
     const topicsByPersona = {
-      'creative-professional': [
-        { topic: 'Typography', headline: 'The Lost Art of Hand-Lettering', subheadline: 'How Brooklyn sign painters are keeping traditional letterforms alive in the digital age', image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80' },
-        { topic: 'Sustainable Design', headline: 'Materials That Give Back', subheadline: 'Exploring circular design principles through the work of five innovative studios', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80' },
-        { topic: 'Architecture', headline: 'Brutalism\'s Quiet Revival', subheadline: 'Why young architects are revisiting concrete poetry in residential spaces', image: 'https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?w=800&q=80' },
-        { topic: 'Creative Process', headline: 'The 4AM Sketchbook', subheadline: 'Inside the morning rituals of designers who swear by pre-dawn creativity', image: 'https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?w=800&q=80' },
-        { topic: 'Visual Culture', headline: 'When Bookstores Were Galleries', subheadline: 'A photographic journey through the most beautiful independent bookshops', image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80' }
+      // Normies - everyday relatable topics
+      'sarah-chen': [
+        { topic: 'Design', headline: 'Design Systems 101', subheadline: 'Create consistent, scalable visual languages', image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80' },
+        { topic: 'Coffee', headline: 'Better Coffee at Home', subheadline: 'Simple techniques for café-quality brews', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80' },
+        { topic: 'Outdoors', headline: 'Day Hikes Near You', subheadline: 'Find trails for every skill level', image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&q=80' },
+        { topic: 'Hobbies', headline: 'Getting Into Ceramics', subheadline: 'Start your pottery journey today', image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80' },
+        { topic: 'Home', headline: 'Indoor Plant Guide', subheadline: 'Keep your houseplants thriving', image: 'https://images.unsplash.com/photo-1545241047-6083a3684587?w=800&q=80' }
       ],
-      'tech-entrepreneur': [
-        { topic: 'AI & Creativity', headline: 'The Co-Pilot Mindset', subheadline: 'How founders are learning to think alongside AI rather than against it', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
-        { topic: 'Mindfulness', headline: 'The Silent Morning', subheadline: 'Why top founders are abandoning phones for meditation before 7AM', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80' },
-        { topic: 'Endurance', headline: 'Run to Build', subheadline: 'The unexpected connection between ultramarathons and startup resilience', image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80' },
-        { topic: 'Future Fiction', headline: 'Sci-Fi as Business Strategy', subheadline: 'The novels that predicted today\'s tech—and what they say about tomorrow', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80' },
-        { topic: 'Systems Thinking', headline: 'The Anti-Productivity System', subheadline: 'Counterintuitive frameworks for getting more done by doing less', image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80' }
+      'marcus-johnson': [
+        { topic: 'Education', headline: 'Learn Anything Faster', subheadline: 'Science-backed study techniques', image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80' },
+        { topic: 'Sports', headline: 'Basketball Fundamentals', subheadline: 'Improve your game step by step', image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80' },
+        { topic: 'Food', headline: 'BBQ Essentials', subheadline: 'Master the grill this weekend', image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80' },
+        { topic: 'DIY', headline: 'Woodworking Basics', subheadline: 'Build your first project', image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&q=80' },
+        { topic: 'Learning', headline: 'Best Podcasts Right Now', subheadline: 'What to listen to this week', image: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80' }
       ],
-      'culinary-explorer': [
-        { topic: 'Fermentation', headline: 'The Patience of Koji', subheadline: 'A 72-hour journey into Japan\'s most transformative ingredient', image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&q=80' },
-        { topic: 'Italian Heritage', headline: 'Nonnas Never Measured', subheadline: 'Preserving recipes that exist only in muscle memory and love', image: 'https://images.unsplash.com/photo-1556761223-4c4282c73f77?w=800&q=80' },
-        { topic: 'Seasonal Cooking', headline: 'The Winter Larder', subheadline: 'Ancient preservation techniques for a modern kitchen', image: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80' },
-        { topic: 'Food History', headline: 'When Empires Ate', subheadline: 'How trade routes shaped the dishes we now call home cooking', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80' },
-        { topic: 'Kitchen Tools', headline: 'The Pan That Raised Me', subheadline: 'Personal essays on the heirloom cookware we\'ll never replace', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80' }
+      'zoe-martinez': [
+        { topic: 'Sustainability', headline: 'Eco-Friendly Living', subheadline: 'Small changes that matter', image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80' },
+        { topic: 'Fashion', headline: 'Thrift Store Finds', subheadline: 'Score vintage gems for less', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
+        { topic: 'Photography', headline: 'Shoot Film Again', subheadline: 'Analog photography basics', image: 'https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?w=800&q=80' },
+        { topic: 'Travel', headline: 'Road Trip Planning', subheadline: 'Epic drives worth taking', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80' },
+        { topic: 'Music', headline: 'Indie Music Discovery', subheadline: 'Find your new favorites', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80' }
       ],
-      'outdoor-minimalist': [
-        { topic: 'Light & Landscape', headline: 'Chasing Golden Hour', subheadline: 'The photographer\'s obsession with those fleeting moments of perfect light', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80' },
-        { topic: 'Conservation', headline: 'The Last Wild Places', subheadline: 'Documenting wilderness before it exists only in photographs', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80' },
-        { topic: 'Minimalism', headline: 'Everything I Own Fits Here', subheadline: 'What two years of van life taught me about what actually matters', image: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=800&q=80' },
-        { topic: 'Solitude', headline: 'The Gift of Being Alone', subheadline: 'Finding yourself in places where no one can find you', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80' },
-        { topic: 'Wildlife', headline: 'Patience as Practice', subheadline: 'The meditation of waiting for wildlife to reveal itself', image: 'https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=800&q=80' }
+      'maya-patel': [
+        { topic: 'Social Media', headline: 'Grow Your Following', subheadline: 'Content tips that work', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80' },
+        { topic: 'Skincare', headline: 'Skincare Routines', subheadline: 'Build your perfect routine', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&q=80' },
+        { topic: 'Anime', headline: 'Must-Watch Anime', subheadline: 'This season\'s best shows', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=800&q=80' },
+        { topic: 'Food', headline: 'Best Food Spots', subheadline: 'Where to eat right now', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80' },
+        { topic: 'K-pop', headline: 'K-Pop Updates', subheadline: 'News from your favorites', image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80' }
       ],
+      'david-kim': [
+        { topic: 'Tech', headline: 'Code Better Today', subheadline: 'Tips for cleaner, faster development', image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80' },
+        { topic: 'Gaming', headline: 'Games Worth Playing', subheadline: 'This season\'s best picks', image: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&q=80' },
+        { topic: 'Smart Home', headline: 'Home Automation 101', subheadline: 'Make your home work for you', image: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=800&q=80' },
+        { topic: 'Photography', headline: 'Phone Photography Tips', subheadline: 'Take better photos instantly', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80' },
+        { topic: 'Pets', headline: 'Happy Dog, Happy Life', subheadline: 'Everything for your best friend', image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80' }
+      ],
+      'james-oconnor': [
+        { topic: 'Beer', headline: 'Discover Craft Beer', subheadline: 'Find your new favorite brew', image: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&q=80' },
+        { topic: 'Cycling', headline: 'Best Bike Routes', subheadline: 'Scenic rides near you', image: 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=800&q=80' },
+        { topic: 'Sports', headline: 'Fantasy Sports Guide', subheadline: 'Draft smarter, win more', image: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80' },
+        { topic: 'Parenting', headline: 'Parenting Hacks', subheadline: 'Make family life easier', image: 'https://images.unsplash.com/photo-1536640712-4d4c36ff0e4e?w=800&q=80' },
+        { topic: 'Food', headline: 'Grilling Essentials', subheadline: 'Backyard cooking mastered', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80' }
+      ],
+      // Tech Luminaries
       'marc-andreessen': [
-        { topic: 'Software Revolution', headline: 'Why Software Still Eats Everything', subheadline: 'Two decades later, the thesis is stronger than ever—here\'s what\'s being consumed next', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80' },
-        { topic: 'Techno-Optimism', headline: 'The Case for Building', subheadline: 'Why pessimism is a luxury we can\'t afford and optimism is a moral imperative', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80' },
-        { topic: 'Venture Capital', headline: 'Pattern Recognition', subheadline: 'What separates billion-dollar founders from everyone else', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
-        { topic: 'AI Future', headline: 'Intelligence Abundance', subheadline: 'When AI makes expertise free, what becomes truly valuable?', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
-        { topic: 'Media & Tech', headline: 'The Great Rebundling', subheadline: 'How technology is reconstructing media after a decade of unbundling', image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80' }
+        { topic: 'Technology', headline: 'Tech Trends to Watch', subheadline: 'What\'s shaping the future', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80' },
+        { topic: 'Business', headline: 'Build Something Great', subheadline: 'Lessons from top founders', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80' },
+        { topic: 'Investing', headline: 'Smart Investing 101', subheadline: 'Grow your wealth wisely', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
+        { topic: 'AI', headline: 'AI Tools You Need', subheadline: 'Work smarter with AI', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
+        { topic: 'Media', headline: 'Future of Media', subheadline: 'How we\'ll consume content', image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80' }
       ],
       'elon-musk': [
-        { topic: 'Mars Colonization', headline: 'Making Life Multi-Planetary', subheadline: 'The engineering challenges of building a civilization on Mars', image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80' },
-        { topic: 'First Principles', headline: 'Reasoning From Zero', subheadline: 'How to solve impossible problems by questioning every assumption', image: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&q=80' },
-        { topic: 'Electric Future', headline: 'The S-Curve of Adoption', subheadline: 'Why the transition to sustainable energy is now unstoppable', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=80' },
-        { topic: 'Neural Interfaces', headline: 'Bandwidth to the Brain', subheadline: 'The next frontier of human-computer interaction', image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80' },
-        { topic: 'Manufacturing', headline: 'The Machine That Builds the Machine', subheadline: 'Why the factory is the product that matters most', image: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80' }
+        { topic: 'Space', headline: 'Space Exploration Today', subheadline: 'The new era of discovery', image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80' },
+        { topic: 'Problem Solving', headline: 'Think From First Principles', subheadline: 'Solve any problem better', image: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&q=80' },
+        { topic: 'Sustainability', headline: 'Electric Vehicle Guide', subheadline: 'Is an EV right for you?', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=80' },
+        { topic: 'Science', headline: 'Brain-Computer Interfaces', subheadline: 'The future of human potential', image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80' },
+        { topic: 'Engineering', headline: 'How Things Get Built', subheadline: 'Inside modern manufacturing', image: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80' }
       ],
       'satya-nadella': [
-        { topic: 'Growth Mindset', headline: 'Learn It All vs Know It All', subheadline: 'How changing Microsoft\'s culture changed everything', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80' },
-        { topic: 'Cloud Computing', headline: 'The Intelligent Cloud', subheadline: 'Why cloud is the foundation of every modern business', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80' },
-        { topic: 'Empathy in Tech', headline: 'The Soft Edge of Innovation', subheadline: 'Why emotional intelligence is the hardest engineering problem', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80' },
-        { topic: 'AI Democratization', headline: 'AI for Every Developer', subheadline: 'Making artificial intelligence accessible to the next billion builders', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
-        { topic: 'Platform Thinking', headline: 'Ecosystems Over Products', subheadline: 'The strategic shift that powers modern tech giants', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' }
+        { topic: 'Leadership', headline: 'Lead With Empathy', subheadline: 'Build stronger teams', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80' },
+        { topic: 'Cloud', headline: 'Cloud Computing Basics', subheadline: 'Understand the modern web', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80' },
+        { topic: 'Empathy', headline: 'Emotional Intelligence', subheadline: 'The skill that changes everything', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80' },
+        { topic: 'AI', headline: 'AI for Everyone', subheadline: 'Practical AI applications', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
+        { topic: 'Strategy', headline: 'Platform Thinking', subheadline: 'Build ecosystems, not products', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' }
       ],
       'jensen-huang': [
-        { topic: 'GPU Revolution', headline: 'The Parallel Universe', subheadline: 'How graphics processors became the engine of artificial intelligence', image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&q=80' },
-        { topic: 'AI Infrastructure', headline: 'Building the AI Factory', subheadline: 'Why data centers are the new oil refineries', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80' },
-        { topic: 'Robotics', headline: 'Physical AI', subheadline: 'When artificial intelligence learns to move through the world', image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80' },
-        { topic: 'Gaming Technology', headline: 'The Simulation Hypothesis', subheadline: 'How gaming technology is creating new realities', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80' },
-        { topic: 'Accelerated Computing', headline: 'The End of General Purpose', subheadline: 'Why specialized hardware is the future of computing', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80' }
+        { topic: 'Computing', headline: 'GPU Revolution', subheadline: 'Why graphics cards power AI', image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&q=80' },
+        { topic: 'Infrastructure', headline: 'Data Center Basics', subheadline: 'Where the cloud lives', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80' },
+        { topic: 'Robotics', headline: 'Robots Among Us', subheadline: 'AI in the physical world', image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80' },
+        { topic: 'Gaming', headline: 'Gaming Tech Explained', subheadline: 'What powers your games', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80' },
+        { topic: 'Hardware', headline: 'Chip Technology', subheadline: 'The silicon inside everything', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80' }
       ],
       'sam-altman': [
-        { topic: 'AGI Progress', headline: 'The Road to Superintelligence', subheadline: 'Mapping the milestones between here and artificial general intelligence', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
-        { topic: 'AI Safety', headline: 'Aligned by Design', subheadline: 'Building AI systems that want what we want', image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80' },
-        { topic: 'Startup Building', headline: 'The YC Playbook', subheadline: 'Timeless principles for building companies that matter', image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&q=80' },
-        { topic: 'Energy & Compute', headline: 'The Power Bottleneck', subheadline: 'Why the AI future depends on solving energy abundance', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80' },
-        { topic: 'Economic Transformation', headline: 'Post-Scarcity Thinking', subheadline: 'What happens when intelligence becomes a commodity', image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80' }
+        { topic: 'AI', headline: 'Understanding AI', subheadline: 'What it is and where it\'s going', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
+        { topic: 'Safety', headline: 'AI Safety Basics', subheadline: 'Building responsible technology', image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80' },
+        { topic: 'Startups', headline: 'Startup Fundamentals', subheadline: 'Build a company that lasts', image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&q=80' },
+        { topic: 'Energy', headline: 'Clean Energy Future', subheadline: 'Powering tomorrow\'s world', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80' },
+        { topic: 'Economics', headline: 'Future of Work', subheadline: 'How AI changes careers', image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80' }
       ],
       'sundar-pichai': [
-        { topic: 'Search Evolution', headline: 'Beyond Ten Blue Links', subheadline: 'How AI is transforming the way we find information', image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80' },
-        { topic: 'AI for Good', headline: 'Technology as Equalizer', subheadline: 'Using artificial intelligence to solve humanity\'s biggest challenges', image: 'https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=800&q=80' },
-        { topic: 'Mobile First', headline: 'The Android Decade', subheadline: 'How mobile transformed computing and what comes next', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80' },
-        { topic: 'Quantum Computing', headline: 'Beyond Classical Limits', subheadline: 'The race to build computers that think differently', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80' },
-        { topic: 'Responsible AI', headline: 'Building Trust at Scale', subheadline: 'The principles guiding AI development for billions of users', image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80' }
+        { topic: 'Search', headline: 'Search Smarter', subheadline: 'Get better results faster', image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80' },
+        { topic: 'Impact', headline: 'Tech for Good', subheadline: 'Technology solving real problems', image: 'https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=800&q=80' },
+        { topic: 'Mobile', headline: 'Mobile First World', subheadline: 'Apps that matter', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80' },
+        { topic: 'Quantum', headline: 'Quantum Computing 101', subheadline: 'The next computing frontier', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80' },
+        { topic: 'Ethics', headline: 'Ethical Technology', subheadline: 'Building with responsibility', image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80' }
       ],
+      // Culture personas
       'tony-hawk': [
-        { topic: 'Skateboard Legacy', headline: 'The 900 That Changed Everything', subheadline: 'How one trick redefined what was possible on a skateboard', image: 'https://images.unsplash.com/photo-1564982724940-ba0e7a6c0ed0?w=800&q=80' },
-        { topic: 'Building Brands', headline: 'From Boards to Billions', subheadline: 'Turning a passion into a global skateboarding empire', image: 'https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80' },
-        { topic: 'Longevity', headline: 'Still Rolling at 50', subheadline: 'The mindset and practice that keeps legends performing', image: 'https://images.unsplash.com/photo-1621544402532-78c290378588?w=800&q=80' },
-        { topic: 'Video Game Culture', headline: 'Press Start to Skate', subheadline: 'How a video game introduced millions to skateboard culture', image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80' },
-        { topic: 'Skate Parks', headline: 'Concrete Waves', subheadline: 'The art and engineering behind the perfect skate park', image: 'https://images.unsplash.com/photo-1572776685609-4e3f6e5a5e2b?w=800&q=80' }
+        { topic: 'Skateboarding', headline: 'Learn to Skate', subheadline: 'Get started on a board', image: 'https://images.unsplash.com/photo-1564982724940-ba0e7a6c0ed0?w=800&q=80' },
+        { topic: 'Entrepreneurship', headline: 'Turn Passion Into Business', subheadline: 'Build around what you love', image: 'https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80' },
+        { topic: 'Fitness', headline: 'Stay Active at Any Age', subheadline: 'Keep moving, keep growing', image: 'https://images.unsplash.com/photo-1621544402532-78c290378588?w=800&q=80' },
+        { topic: 'Gaming', headline: 'Sports Video Games', subheadline: 'Best action sports games', image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80' },
+        { topic: 'Design', headline: 'Skate Park Design', subheadline: 'Architecture meets action', image: 'https://images.unsplash.com/photo-1572776685609-4e3f6e5a5e2b?w=800&q=80' }
       ],
       'tyler-creator': [
-        { topic: 'Creative Vision', headline: 'No Boundaries, No Genre', subheadline: 'Building a universe where music, fashion, and art collide', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80' },
-        { topic: 'Fashion Identity', headline: 'Golf Wang State of Mind', subheadline: 'How personal style became a cultural movement', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
-        { topic: 'DIY Empire', headline: 'Odd Future Forever', subheadline: 'Building a creative collective from scratch in the internet age', image: 'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=800&q=80' },
-        { topic: 'Album as Art', headline: 'The World Inside the Album', subheadline: 'Creating immersive sonic and visual experiences', image: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=800&q=80' },
-        { topic: 'Festival Culture', headline: 'Camp Flog Gnaw Dreams', subheadline: 'Curating experiences that bring creative communities together', image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80' }
+        { topic: 'Creativity', headline: 'Unlock Your Creativity', subheadline: 'Make something every day', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80' },
+        { topic: 'Fashion', headline: 'Find Your Style', subheadline: 'Express yourself through clothes', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
+        { topic: 'Music', headline: 'Music Production Basics', subheadline: 'Make your first beat', image: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=800&q=80' },
+        { topic: 'Community', headline: 'Build Your Community', subheadline: 'Find your people online', image: 'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=800&q=80' },
+        { topic: 'Events', headline: 'Host Better Events', subheadline: 'Bring people together', image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80' }
       ],
       'emma-chamberlain': [
-        { topic: 'Authenticity Online', headline: 'The End of Perfection', subheadline: 'How being real became the most powerful content strategy', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80' },
-        { topic: 'Coffee Culture', headline: 'More Than a Morning Ritual', subheadline: 'Building a coffee brand that reflects a generation\'s values', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80' },
-        { topic: 'Creator Economy', headline: 'Bedroom to Boardroom', subheadline: 'The new playbook for turning influence into business', image: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=80' },
-        { topic: 'Gen Z Style', headline: 'Thrifted, Not Gifted', subheadline: 'Why sustainable fashion resonates with a new generation', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
-        { topic: 'Mental Wellness', headline: 'Logging Off to Stay On', subheadline: 'Navigating fame, burnout, and boundaries in public', image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800&q=80' }
+        { topic: 'Content', headline: 'Content Creation 101', subheadline: 'Start creating today', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80' },
+        { topic: 'Coffee', headline: 'Coffee Culture', subheadline: 'Explore the world of coffee', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80' },
+        { topic: 'Business', headline: 'Creator Economy', subheadline: 'Turn content into career', image: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=80' },
+        { topic: 'Style', headline: 'Thrift Shopping Tips', subheadline: 'Find unique pieces for less', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
+        { topic: 'Wellness', headline: 'Digital Wellness', subheadline: 'Balance screen time', image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800&q=80' }
       ],
       'simone-biles': [
-        { topic: 'Peak Performance', headline: 'The Physics of Flight', subheadline: 'How the greatest gymnast pushes the limits of human movement', image: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=800&q=80' },
-        { topic: 'Mental Health', headline: 'The Courage to Pause', subheadline: 'Redefining strength by knowing when to step back', image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800&q=80' },
-        { topic: 'Athletic Excellence', headline: 'Training the Impossible', subheadline: 'Inside the daily grind that produces historic performances', image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80' },
-        { topic: 'Advocacy', headline: 'Speaking Truth to Power', subheadline: 'Using a platform to fight for athlete rights and safety', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80' },
-        { topic: 'Legacy Building', headline: 'Beyond the Medals', subheadline: 'What true greatness looks like when the competition ends', image: 'https://images.unsplash.com/photo-1461896836934- voices-of-gold?w=800&q=80' }
+        { topic: 'Performance', headline: 'Peak Performance', subheadline: 'Achieve your athletic best', image: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=800&q=80' },
+        { topic: 'Mental Health', headline: 'Mental Health Matters', subheadline: 'Take care of your mind', image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800&q=80' },
+        { topic: 'Training', headline: 'Training Like a Pro', subheadline: 'Elite workout principles', image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80' },
+        { topic: 'Advocacy', headline: 'Use Your Voice', subheadline: 'Stand up for what matters', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80' },
+        { topic: 'Legacy', headline: 'Build Your Legacy', subheadline: 'What you leave behind', image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80' }
       ],
       'pharrell-williams': [
-        { topic: 'Sound Design', headline: 'The Neptunes Formula', subheadline: 'Deconstructing the production style that defined an era', image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80' },
-        { topic: 'Luxury Fashion', headline: 'Louis Vuitton\'s New Language', subheadline: 'Bringing streetwear sensibility to the highest echelons of fashion', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
-        { topic: 'Timeless Cool', headline: 'The Art of Not Aging', subheadline: 'Staying culturally relevant across multiple decades', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80' },
-        { topic: 'Collaboration', headline: 'The Multiplier Effect', subheadline: 'Why the best creators make everyone around them better', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80' },
-        { topic: 'Brand Building', headline: 'Billionaire Boys Club Rules', subheadline: 'Creating cultural artifacts that transcend product categories', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80' }
+        { topic: 'Music', headline: 'Music Production', subheadline: 'Create your own sound', image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80' },
+        { topic: 'Fashion', headline: 'Fashion Forward', subheadline: 'Stay ahead of trends', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
+        { topic: 'Culture', headline: 'Cultural Trends', subheadline: 'What\'s shaping culture now', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80' },
+        { topic: 'Collaboration', headline: 'Work Better Together', subheadline: 'The power of collaboration', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80' },
+        { topic: 'Branding', headline: 'Build Your Brand', subheadline: 'Stand out and be remembered', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80' }
       ],
       'nyjah-huston': [
-        { topic: 'Street Skating', headline: 'Reading the Urban Landscape', subheadline: 'How street skaters see architecture differently', image: 'https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80' },
-        { topic: 'Competition Mind', headline: 'Pressure is a Privilege', subheadline: 'The mental game behind winning at the highest level', image: 'https://images.unsplash.com/photo-1564982724940-ba0e7a6c0ed0?w=800&q=80' },
-        { topic: 'Athletic Training', headline: 'Skaters Are Athletes Now', subheadline: 'How professional training transformed skateboarding', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80' },
-        { topic: 'Olympic Skateboarding', headline: 'When Counterculture Went Gold', subheadline: 'Skateboarding\'s complicated relationship with mainstream sports', image: 'https://images.unsplash.com/photo-1569517282132-25d22f4573e6?w=800&q=80' },
-        { topic: 'Skate Tech', headline: 'The Gear That Makes It Possible', subheadline: 'Board science and the equipment behind modern tricks', image: 'https://images.unsplash.com/photo-1531565637446-32307b194362?w=800&q=80' }
+        { topic: 'Skateboarding', headline: 'Street Skating', subheadline: 'See the city differently', image: 'https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80' },
+        { topic: 'Competition', headline: 'Compete at Your Best', subheadline: 'Mental game mastery', image: 'https://images.unsplash.com/photo-1564982724940-ba0e7a6c0ed0?w=800&q=80' },
+        { topic: 'Fitness', headline: 'Athletic Training', subheadline: 'Build strength and agility', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80' },
+        { topic: 'Olympics', headline: 'Olympic Dreams', subheadline: 'The road to the games', image: 'https://images.unsplash.com/photo-1569517282132-25d22f4573e6?w=800&q=80' },
+        { topic: 'Gear', headline: 'Gear Guide', subheadline: 'Equipment that performs', image: 'https://images.unsplash.com/photo-1531565637446-32307b194362?w=800&q=80' }
       ]
     };
 
-    // Mini apps by topic (keeping existing ones, adding new for luminaries)
+    // Mini apps by broader topic categories
     const miniAppsByTopic = {
-      'Typography': [
-        { name: 'Letter Lab', desc: 'Practice hand-lettering with guided stroke exercises', icon: '✍️', color: '#2D3436' },
-        { name: 'Type Pair', desc: 'AI-powered font pairing suggestions for your projects', icon: '🔤', color: '#6C5CE7' },
-        { name: 'Kerning Game', desc: 'Train your eye with interactive spacing challenges', icon: '📐', color: '#00B894' },
-        { name: 'Font Scanner', desc: 'Identify typefaces from photos instantly', icon: '📷', color: '#E17055' }
+      // Tech & Business topics
+      'Technology': [
+        { name: 'Tech Trends', desc: 'Track emerging technologies and adoption', icon: '📊', color: '#6C5CE7' },
+        { name: 'Industry Map', desc: 'See which sectors are being transformed', icon: '🗺️', color: '#00B894' },
+        { name: 'Startup Radar', desc: 'Discover innovative companies to watch', icon: '📡', color: '#E17055' },
+        { name: 'Tech News', desc: 'Curated updates from the tech world', icon: '📰', color: '#636E72' }
       ],
-      'Sustainable Design': [
-        { name: 'Material Index', desc: 'Browse eco-friendly materials with sourcing info', icon: '🌱', color: '#00B894' },
-        { name: 'Carbon Calc', desc: 'Estimate the environmental impact of design choices', icon: '📊', color: '#636E72' },
-        { name: 'Circular Studio', desc: 'Design products with end-of-life in mind', icon: '♻️', color: '#74B9FF' },
-        { name: 'Green Suppliers', desc: 'Directory of sustainable manufacturers', icon: '🏭', color: '#55A3A2' }
+      'Business': [
+        { name: 'Strategy Lab', desc: 'Tools for business planning and analysis', icon: '📋', color: '#6C5CE7' },
+        { name: 'Market Watch', desc: 'Track market trends and opportunities', icon: '📈', color: '#00B894' },
+        { name: 'Case Studies', desc: 'Learn from successful companies', icon: '📚', color: '#E17055' },
+        { name: 'Network Hub', desc: 'Connect with business professionals', icon: '🤝', color: '#636E72' }
       ],
-      'Architecture': [
-        { name: 'Brutalist Map', desc: 'Discover concrete masterpieces near you', icon: '🗺️', color: '#636E72' },
-        { name: 'Structure Scan', desc: 'AR overlay showing building construction methods', icon: '📱', color: '#2D3436' },
-        { name: 'Space Sketch', desc: 'Quick architectural concept drawings', icon: '✏️', color: '#B2BEC3' },
-        { name: 'Light Study', desc: 'Simulate natural light in any space', icon: '☀️', color: '#FDCB6E' }
+      'Investing': [
+        { name: 'Portfolio Tracker', desc: 'Monitor your investments in one place', icon: '💰', color: '#00B894' },
+        { name: 'Due Diligence', desc: 'Research tools for smart investing', icon: '🔍', color: '#6C5CE7' },
+        { name: 'Market News', desc: 'Real-time updates on markets', icon: '📰', color: '#E17055' },
+        { name: 'Learn Investing', desc: 'Courses on investment fundamentals', icon: '📖', color: '#636E72' }
       ],
-      'Software Revolution': [
-        { name: 'Market Map', desc: 'Track which industries are being software-ized', icon: '🗺️', color: '#6C5CE7' },
-        { name: 'Disruption Alert', desc: 'Early signals of software eating new sectors', icon: '⚡', color: '#E17055' },
-        { name: 'Founder Radar', desc: 'Track emerging founders in key verticals', icon: '📡', color: '#00B894' },
-        { name: 'Tech Thesis', desc: 'Build and test investment theses', icon: '📝', color: '#2D3436' }
+      'AI': [
+        { name: 'AI Explorer', desc: 'Discover and try the latest AI tools', icon: '🤖', color: '#6C5CE7' },
+        { name: 'Prompt Lab', desc: 'Master the art of AI prompting', icon: '✨', color: '#00B894' },
+        { name: 'AI News', desc: 'Stay updated on AI developments', icon: '📰', color: '#E17055' },
+        { name: 'Build with AI', desc: 'Tutorials for AI integration', icon: '🔧', color: '#636E72' }
       ],
-      'Mars Colonization': [
-        { name: 'Mars Sim', desc: 'Simulate colony building on the red planet', icon: '🔴', color: '#E17055' },
-        { name: 'Rocket Math', desc: 'Calculate orbital mechanics and fuel needs', icon: '🚀', color: '#2D3436' },
-        { name: 'Habitat Designer', desc: 'Design pressurized living spaces', icon: '🏠', color: '#636E72' },
-        { name: 'Resource Planner', desc: 'Plan ISRU and supply chains', icon: '⛏️', color: '#FDCB6E' }
+      'Space': [
+        { name: 'Launch Tracker', desc: 'Follow upcoming rocket launches', icon: '🚀', color: '#E17055' },
+        { name: 'Night Sky', desc: 'Explore stars and planets above you', icon: '🌌', color: '#6C5CE7' },
+        { name: 'Space News', desc: 'Updates from the final frontier', icon: '📰', color: '#00B894' },
+        { name: 'Mission Archive', desc: 'History of space exploration', icon: '📚', color: '#636E72' }
       ],
-      'Growth Mindset': [
-        { name: 'Mindset Check', desc: 'Daily reflection on fixed vs growth thinking', icon: '🧠', color: '#6C5CE7' },
-        { name: 'Learn Log', desc: 'Track your learning journey and insights', icon: '📚', color: '#00B894' },
-        { name: 'Feedback Loop', desc: 'Structured feedback collection and analysis', icon: '🔄', color: '#74B9FF' },
-        { name: 'Culture Pulse', desc: 'Measure team mindset and culture health', icon: '💓', color: '#FD79A8' }
+      'Sustainability': [
+        { name: 'Carbon Tracker', desc: 'Monitor your environmental impact', icon: '🌱', color: '#00B894' },
+        { name: 'Green Products', desc: 'Discover sustainable alternatives', icon: '♻️', color: '#6C5CE7' },
+        { name: 'Climate News', desc: 'Updates on sustainability efforts', icon: '📰', color: '#E17055' },
+        { name: 'Action Guide', desc: 'Practical steps for a greener life', icon: '📋', color: '#636E72' }
       ],
-      'GPU Revolution': [
-        { name: 'CUDA Lab', desc: 'Learn parallel programming interactively', icon: '💻', color: '#76B900' },
-        { name: 'Benchmark', desc: 'Compare GPU performance across workloads', icon: '📊', color: '#2D3436' },
-        { name: 'ML Optimizer', desc: 'Optimize your models for GPU inference', icon: '⚡', color: '#E17055' },
-        { name: 'Chip Watch', desc: 'Track the GPU and AI chip landscape', icon: '👁️', color: '#636E72' }
+      'Leadership': [
+        { name: 'Leadership Lab', desc: 'Develop your management skills', icon: '🎯', color: '#6C5CE7' },
+        { name: 'Team Builder', desc: 'Tools for building great teams', icon: '👥', color: '#00B894' },
+        { name: 'Coach Connect', desc: 'Find mentors and coaches', icon: '🤝', color: '#E17055' },
+        { name: 'Daily Habits', desc: 'Routines of effective leaders', icon: '📅', color: '#636E72' }
       ],
-      'AGI Progress': [
-        { name: 'Capability Track', desc: 'Monitor AI benchmark progress over time', icon: '📈', color: '#6C5CE7' },
-        { name: 'Safety Score', desc: 'Evaluate AI systems on alignment metrics', icon: '🛡️', color: '#00B894' },
-        { name: 'Research Radar', desc: 'Track breakthrough papers and discoveries', icon: '📡', color: '#E17055' },
-        { name: 'Timeline Model', desc: 'Explore different AGI arrival scenarios', icon: '⏳', color: '#636E72' }
+      'Computing': [
+        { name: 'Code Lab', desc: 'Interactive coding challenges', icon: '💻', color: '#6C5CE7' },
+        { name: 'Tech Stack', desc: 'Explore modern development tools', icon: '🔧', color: '#00B894' },
+        { name: 'System Design', desc: 'Learn to architect at scale', icon: '📐', color: '#E17055' },
+        { name: 'Dev News', desc: 'Updates for developers', icon: '📰', color: '#636E72' }
       ],
-      'Search Evolution': [
-        { name: 'Query Lab', desc: 'Explore how AI transforms search queries', icon: '🔍', color: '#4285F4' },
-        { name: 'Intent Map', desc: 'Understand user intent classification', icon: '🧭', color: '#00B894' },
-        { name: 'Answer Engine', desc: 'Build AI-powered Q&A experiences', icon: '💬', color: '#6C5CE7' },
-        { name: 'Knowledge Graph', desc: 'Explore connected information structures', icon: '🕸️', color: '#E17055' }
+      'Gaming': [
+        { name: 'Game Finder', desc: 'Discover your next favorite game', icon: '🎮', color: '#6C5CE7' },
+        { name: 'Gaming News', desc: 'Updates from the gaming world', icon: '📰', color: '#E17055' },
+        { name: 'Stream Tools', desc: 'Everything for content creators', icon: '📹', color: '#00B894' },
+        { name: 'Community', desc: 'Connect with other gamers', icon: '👥', color: '#636E72' }
       ],
-      // Add defaults for other topics
+      'Robotics': [
+        { name: 'Robot Lab', desc: 'Learn robotics fundamentals', icon: '🤖', color: '#6C5CE7' },
+        { name: 'Project Ideas', desc: 'Inspiration for your next build', icon: '💡', color: '#00B894' },
+        { name: 'Parts Finder', desc: 'Source components for projects', icon: '🔧', color: '#E17055' },
+        { name: 'Maker Community', desc: 'Connect with other builders', icon: '👥', color: '#636E72' }
+      ],
+      // Lifestyle & Culture topics
+      'Skateboarding': [
+        { name: 'Trick Library', desc: 'Learn tricks with slow-motion breakdowns', icon: '🛹', color: '#E17055' },
+        { name: 'Spot Finder', desc: 'Discover skateable spots near you', icon: '📍', color: '#00B894' },
+        { name: 'Pro Videos', desc: 'Watch legendary video parts', icon: '🎬', color: '#6C5CE7' },
+        { name: 'Progress Track', desc: 'Log and celebrate your milestones', icon: '📈', color: '#FDCB6E' }
+      ],
+      'Fashion': [
+        { name: 'Style Guide', desc: 'Outfit ideas and inspiration', icon: '👔', color: '#E84393' },
+        { name: 'Trend Watch', desc: 'What\'s happening in fashion', icon: '📈', color: '#6C5CE7' },
+        { name: 'Closet Organizer', desc: 'Manage and plan your wardrobe', icon: '👚', color: '#00B894' },
+        { name: 'Shop Smart', desc: 'Find deals on quality pieces', icon: '🛍️', color: '#E17055' }
+      ],
+      'Music': [
+        { name: 'Beat Maker', desc: 'Create beats with intuitive tools', icon: '🥁', color: '#6C5CE7' },
+        { name: 'Discover', desc: 'Find your next favorite artist', icon: '🎵', color: '#00B894' },
+        { name: 'Learn Music', desc: 'Courses on production and theory', icon: '📚', color: '#E17055' },
+        { name: 'Collab Hub', desc: 'Connect with other musicians', icon: '🤝', color: '#636E72' }
+      ],
+      'Creativity': [
+        { name: 'Mood Builder', desc: 'Create visual mood boards', icon: '🎨', color: '#E84393' },
+        { name: 'Daily Prompts', desc: 'Creative exercises and challenges', icon: '✨', color: '#6C5CE7' },
+        { name: 'Inspo Feed', desc: 'Curated creative inspiration', icon: '💡', color: '#00B894' },
+        { name: 'Share Work', desc: 'Get feedback on your projects', icon: '👥', color: '#E17055' }
+      ],
+      'Coffee': [
+        { name: 'Brew Guide', desc: 'Perfect your coffee technique', icon: '☕', color: '#8B4513' },
+        { name: 'Bean Finder', desc: 'Discover roasters and origins', icon: '🌍', color: '#00B894' },
+        { name: 'Café Map', desc: 'Find the best coffee shops', icon: '🗺️', color: '#E17055' },
+        { name: 'Taste Log', desc: 'Track your coffee journey', icon: '📝', color: '#6C5CE7' }
+      ],
+      'Fitness': [
+        { name: 'Workout Builder', desc: 'Create custom training plans', icon: '💪', color: '#E17055' },
+        { name: 'Track Progress', desc: 'Log workouts and see gains', icon: '📈', color: '#00B894' },
+        { name: 'Form Check', desc: 'Perfect your exercise technique', icon: '📐', color: '#6C5CE7' },
+        { name: 'Nutrition Guide', desc: 'Fuel your performance', icon: '🥗', color: '#FDCB6E' }
+      ],
+      'Wellness': [
+        { name: 'Mindfulness', desc: 'Guided meditation and breathing', icon: '🧘', color: '#6C5CE7' },
+        { name: 'Sleep Better', desc: 'Improve your rest quality', icon: '😴', color: '#00B894' },
+        { name: 'Mood Journal', desc: 'Track and understand your feelings', icon: '📔', color: '#E17055' },
+        { name: 'Habit Builder', desc: 'Create positive daily routines', icon: '✅', color: '#FDCB6E' }
+      ],
+      'Content': [
+        { name: 'Content Planner', desc: 'Plan and schedule your posts', icon: '📅', color: '#74B9FF' },
+        { name: 'Edit Suite', desc: 'Tools for photo and video editing', icon: '✂️', color: '#636E72' },
+        { name: 'Analytics', desc: 'Track your content performance', icon: '📊', color: '#00B894' },
+        { name: 'Creator Tips', desc: 'Learn from successful creators', icon: '💡', color: '#E17055' }
+      ],
+      'Mental Health': [
+        { name: 'Daily Check-in', desc: 'Track your mental wellness', icon: '💚', color: '#00B894' },
+        { name: 'Guided Support', desc: 'Resources for tough moments', icon: '🤝', color: '#6C5CE7' },
+        { name: 'Journaling', desc: 'Reflect and process thoughts', icon: '📔', color: '#E17055' },
+        { name: 'Community', desc: 'Connect with supportive people', icon: '👥', color: '#636E72' }
+      ],
+      'Training': [
+        { name: 'Program Builder', desc: 'Create structured training plans', icon: '📋', color: '#E17055' },
+        { name: 'Video Analysis', desc: 'Review and improve technique', icon: '🎬', color: '#6C5CE7' },
+        { name: 'Recovery Tools', desc: 'Optimize rest and regeneration', icon: '🧘', color: '#00B894' },
+        { name: 'Coach Connect', desc: 'Find expert guidance', icon: '🤝', color: '#636E72' }
+      ],
+      'Competition': [
+        { name: 'Event Finder', desc: 'Discover upcoming competitions', icon: '🏆', color: '#FDCB6E' },
+        { name: 'Prep Guide', desc: 'Get ready to compete', icon: '📋', color: '#E17055' },
+        { name: 'Mental Game', desc: 'Performance psychology tools', icon: '🧠', color: '#6C5CE7' },
+        { name: 'Results Tracker', desc: 'Log and analyze your performance', icon: '📊', color: '#00B894' }
+      ],
+      // Default for any unmapped topics
       'default': [
         { name: 'Deep Dive', desc: 'Comprehensive guides and tutorials', icon: '📖', color: '#6C5CE7' },
         { name: 'Practice Mode', desc: 'Interactive exercises and challenges', icon: '🎯', color: '#00B894' },
@@ -1158,85 +1855,351 @@ tools within this category.</pre>
       ]
     };
 
-    // Culture & Sports mini-apps
-    miniAppsByTopic['Skateboard Legacy'] = [
-      { name: 'Trick Library', desc: 'Learn every trick with slow-motion breakdowns', icon: '🛹', color: '#E17055' },
-      { name: 'Spot Finder', desc: 'Discover skateable spots near you', icon: '📍', color: '#00B894' },
-      { name: 'Pro Archive', desc: 'Watch legendary video parts from the greats', icon: '🎬', color: '#6C5CE7' },
-      { name: 'Progress Track', desc: 'Log and celebrate your trick milestones', icon: '📈', color: '#FDCB6E' }
-    ];
-    miniAppsByTopic['Creative Vision'] = [
-      { name: 'Mood Builder', desc: 'Create visual mood boards for your projects', icon: '🎨', color: '#E84393' },
-      { name: 'Sound Lab', desc: 'Experiment with beats and production', icon: '🎹', color: '#6C5CE7' },
-      { name: 'Color Theory', desc: 'Build striking color palettes', icon: '🌈', color: '#00B894' },
-      { name: 'Inspo Feed', desc: 'Curated creative inspiration across mediums', icon: '✨', color: '#FDCB6E' }
-    ];
-    miniAppsByTopic['Authenticity Online'] = [
-      { name: 'Content Planner', desc: 'Plan without overthinking', icon: '📅', color: '#74B9FF' },
-      { name: 'Edit Light', desc: 'Minimal editing for authentic vibes', icon: '✂️', color: '#636E72' },
-      { name: 'Burnout Check', desc: 'Monitor your creative energy levels', icon: '🔋', color: '#00B894' },
-      { name: 'Real Talk', desc: 'Prompts for genuine connection with your audience', icon: '💬', color: '#E17055' }
-    ];
-    miniAppsByTopic['Coffee Culture'] = [
-      { name: 'Brew Guide', desc: 'Perfect your pour-over technique', icon: '☕', color: '#8B4513' },
-      { name: 'Bean Finder', desc: 'Discover roasters and origins', icon: '🌍', color: '#00B894' },
-      { name: 'Café Map', desc: 'Find the best coffee shops anywhere', icon: '🗺️', color: '#E17055' },
-      { name: 'Taste Log', desc: 'Track and rate your coffee journey', icon: '📝', color: '#6C5CE7' }
-    ];
-    miniAppsByTopic['Peak Performance'] = [
-      { name: 'Training Log', desc: 'Track workouts and recovery', icon: '💪', color: '#E17055' },
-      { name: 'Mental Prep', desc: 'Visualization and focus techniques', icon: '🧠', color: '#6C5CE7' },
-      { name: 'Movement Lab', desc: 'Analyze and improve your form', icon: '📐', color: '#00B894' },
-      { name: 'Goal Setter', desc: 'Break down big goals into daily actions', icon: '🎯', color: '#FDCB6E' }
-    ];
-    miniAppsByTopic['Sound Design'] = [
-      { name: 'Beat Maker', desc: 'Create beats with intuitive tools', icon: '🥁', color: '#6C5CE7' },
-      { name: 'Sample Dig', desc: 'Discover rare samples and sounds', icon: '💿', color: '#2D3436' },
-      { name: 'Mix Master', desc: 'Learn mixing techniques from the pros', icon: '🎚️', color: '#E17055' },
-      { name: 'Collab Hub', desc: 'Connect with other producers', icon: '🤝', color: '#00B894' }
-    ];
-    miniAppsByTopic['Street Skating'] = [
-      { name: 'Spot Scout', desc: 'Document and share street spots', icon: '📸', color: '#636E72' },
-      { name: 'Line Builder', desc: 'Plan your lines before you skate them', icon: '✏️', color: '#E17055' },
-      { name: 'Crew Finder', desc: 'Connect with local skaters', icon: '👥', color: '#00B894' },
-      { name: 'Session Recap', desc: 'Edit and share your best clips', icon: '🎬', color: '#6C5CE7' }
-    ];
+    // Map additional topics to existing categories
+    const topicAliases = {
+      'Media': 'Business',
+      'Strategy': 'Business',
+      'Startups': 'Business',
+      'Entrepreneurship': 'Business',
+      'Branding': 'Business',
+      'Cloud': 'Computing',
+      'Hardware': 'Computing',
+      'Infrastructure': 'Computing',
+      'Quantum': 'Computing',
+      'Science': 'Technology',
+      'Engineering': 'Technology',
+      'Problem Solving': 'Technology',
+      'Safety': 'AI',
+      'Ethics': 'AI',
+      'Energy': 'Sustainability',
+      'Economics': 'Business',
+      'Impact': 'Sustainability',
+      'Search': 'AI',
+      'Mobile': 'Technology',
+      'Empathy': 'Leadership',
+      'Design': 'Creativity',
+      'Style': 'Fashion',
+      'Culture': 'Creativity',
+      'Collaboration': 'Community',
+      'Community': 'default',
+      'Events': 'default',
+      'Performance': 'Fitness',
+      'Legacy': 'default',
+      'Advocacy': 'default',
+      'Olympics': 'Competition',
+      'Gear': 'default'
+    };
 
-    // Add remaining mini-apps mappings
-    const defaultTopics = ['Creative Process', 'Visual Culture', 'AI & Creativity', 'Mindfulness', 'Endurance',
-      'Future Fiction', 'Systems Thinking', 'Fermentation', 'Italian Heritage', 'Seasonal Cooking', 'Food History',
-      'Kitchen Tools', 'Light & Landscape', 'Conservation', 'Minimalism', 'Solitude', 'Wildlife',
-      'Techno-Optimism', 'Venture Capital', 'AI Future', 'Media & Tech', 'First Principles', 'Electric Future',
-      'Neural Interfaces', 'Manufacturing', 'Cloud Computing', 'Empathy in Tech', 'AI Democratization',
-      'Platform Thinking', 'AI Infrastructure', 'Robotics', 'Gaming Technology', 'Accelerated Computing',
-      'AI Safety', 'Startup Building', 'Energy & Compute', 'Economic Transformation', 'AI for Good',
-      'Mobile First', 'Quantum Computing', 'Responsible AI',
-      'Building Brands', 'Longevity', 'Video Game Culture', 'Skate Parks', 'Fashion Identity', 'DIY Empire',
-      'Album as Art', 'Festival Culture', 'Creator Economy', 'Gen Z Style', 'Mental Wellness', 'Mental Health',
-      'Athletic Excellence', 'Advocacy', 'Legacy Building', 'Luxury Fashion', 'Timeless Cool', 'Collaboration',
-      'Brand Building', 'Competition Mind', 'Athletic Training', 'Olympic Skateboarding', 'Skate Tech'];
-
-    defaultTopics.forEach(topic => {
-      if (!miniAppsByTopic[topic]) {
-        miniAppsByTopic[topic] = miniAppsByTopic['default'];
+    // Helper to get mini apps for a topic
+    function getMiniAppsForTopic(topic) {
+      if (miniAppsByTopic[topic]) return miniAppsByTopic[topic];
+      if (topicAliases[topic] && miniAppsByTopic[topicAliases[topic]]) {
+        return miniAppsByTopic[topicAliases[topic]];
       }
-    });
+      return miniAppsByTopic['default'];
+    }
 
     let selectedPersona = null;
     let cards = [];
+    let originalCards = []; // Keep track of original order for indicator
     let panelOpen = false;
+
+    // Default prompt templates
+    const defaultPrompts = {
+      system: `You are an expert at creating personalized content recommendations. Given a persona and topic, generate engaging headlines and descriptions that would appeal to their interests and sophistication level.`,
+      headline: `Create a compelling headline (5-8 words) that captures attention. Be specific and actionable. Match the tone to the persona's style - sophisticated for experts, approachable for general audiences.`,
+      subheadline: `Write a supporting subheadline (10-15 words) that expands on the headline. Add context, hint at the value, and create curiosity. Keep it conversational.`,
+      image: `Generate an atmospheric, evocative image that captures the mood and theme. Focus on composition, lighting, and emotional resonance. The image should feel editorial and premium.`
+    };
+
+    // Load saved prompts from localStorage or use defaults
+    function loadPrompts() {
+      const saved = localStorage.getItem('foryou-prompts');
+      if (saved) {
+        return { ...defaultPrompts, ...JSON.parse(saved) };
+      }
+      return { ...defaultPrompts };
+    }
+
+    let customPrompts = loadPrompts();
     let currentStyle = 'photo';
     let currentFilter = 'all';
+    let currentModel = 'gemini'; // 'gemini' or 'bytedance'
+
+    // Utility: debounce function
+    function debounce(fn, delay) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), delay);
+      };
+    }
 
     // Initialize
     function init() {
+      initModelToggle();
       initStyleSelector();
+      initStylePromptToggles();
       initFilterTabs();
       initPromptToggles();
+      initBottomPanel();
       renderPersonaList();
 
       document.getElementById('generateBtn').onclick = generateCards;
-      document.getElementById('panelClose').onclick = closePanel;
+
+      // Keyboard navigation for card stack
+      document.addEventListener('keydown', (e) => {
+        if (cards.length === 0) return;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          navigateCards(1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          navigateCards(-1);
+        }
+      });
+    }
+
+    function initBottomPanel() {
+      const pills = document.querySelectorAll('.prompt-pill');
+      const modal = document.getElementById('promptModal');
+      const modalTitle = document.getElementById('promptModalTitle');
+      const modalClose = document.getElementById('promptModalClose');
+      const textarea = document.getElementById('promptTextarea');
+      const saveBtn = document.getElementById('savePromptBtn');
+      const resetBtn = document.getElementById('resetPromptBtn');
+      const successToast = document.getElementById('successToast');
+      let activePrompt = null;
+
+      const promptLabels = {
+        system: 'Edit System Prompt',
+        headline: 'Edit Headline Prompt',
+        subheadline: 'Edit Subheadline Prompt',
+        image: 'Edit Image Prompt'
+      };
+
+      function showToast(message) {
+        successToast.textContent = message || '✓ Prompt saved successfully';
+        successToast.classList.add('visible');
+        setTimeout(() => successToast.classList.remove('visible'), 3000);
+      }
+
+      function closeModal() {
+        modal.classList.remove('visible');
+        pills.forEach(p => p.classList.remove('active'));
+        activePrompt = null;
+      }
+
+      pills.forEach(pill => {
+        pill.onclick = () => {
+          const promptKey = pill.dataset.prompt;
+
+          // Show modal for this prompt
+          pills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          modalTitle.textContent = promptLabels[promptKey] || 'Edit Prompt';
+          textarea.value = customPrompts[promptKey] || defaultPrompts[promptKey];
+          modal.classList.add('visible');
+          activePrompt = promptKey;
+          textarea.focus();
+        };
+      });
+
+      modalClose.onclick = closeModal;
+
+      // Close on overlay click
+      modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
+      };
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) {
+          closeModal();
+        }
+      });
+
+      saveBtn.onclick = () => {
+        if (!activePrompt) return;
+        customPrompts[activePrompt] = textarea.value;
+        localStorage.setItem('foryou-prompts', JSON.stringify(customPrompts));
+
+        // Close modal and show success toast
+        closeModal();
+        showToast('✓ Prompt saved successfully');
+      };
+
+      resetBtn.onclick = () => {
+        if (!activePrompt) return;
+        textarea.value = defaultPrompts[activePrompt];
+        customPrompts[activePrompt] = defaultPrompts[activePrompt];
+        localStorage.setItem('foryou-prompts', JSON.stringify(customPrompts));
+
+        closeModal();
+        showToast('✓ Prompt reset to default');
+      };
+    }
+
+
+    function navigateCards(direction) {
+      if (cards.length === 0) return;
+      currentCardIndex = (currentCardIndex + direction + cards.length) % cards.length;
+      updateActiveCard();
+      if (panelOpen) {
+        updatePanel(cards[currentCardIndex]);
+      }
+    }
+
+    // Physics-based card swiping
+    let cardOffsets = []; // Store random offsets for each card
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragCurrentX = 0;
+    let dragCurrentY = 0;
+    let dragVelocityX = 0;
+    let lastDragX = 0;
+    let lastDragTime = 0;
+    let activeCardEl = null;
+
+    function generateCardOffsets(count) {
+      cardOffsets = [];
+      for (let i = 0; i < count; i++) {
+        cardOffsets.push({
+          rotation: (Math.random() - 0.5) * 8, // -4 to 4 degrees
+          offsetX: (Math.random() - 0.5) * 10, // -5 to 5 px
+          offsetY: Math.random() * 3 // 0 to 3 px
+        });
+      }
+    }
+
+    function initSwipeGestures() {
+      const stack = document.getElementById('cardStackContainer');
+
+      // Touch events
+      stack.addEventListener('touchstart', handleDragStart, { passive: false });
+      stack.addEventListener('touchmove', handleDragMove, { passive: false });
+      stack.addEventListener('touchend', handleDragEnd, { passive: true });
+      stack.addEventListener('touchcancel', handleDragEnd, { passive: true });
+
+      // Mouse events
+      stack.addEventListener('mousedown', handleDragStart);
+      document.addEventListener('mousemove', handleDragMove);
+      document.addEventListener('mouseup', handleDragEnd);
+    }
+
+    function handleDragStart(e) {
+      if (cards.length === 0) return;
+
+      const point = e.touches ? e.touches[0] : e;
+      dragStartX = point.clientX;
+      dragStartY = point.clientY;
+      dragCurrentX = 0;
+      dragCurrentY = 0;
+      lastDragX = 0;
+      lastDragTime = Date.now();
+      dragVelocityX = 0;
+      isDragging = true;
+
+      // Find the top card
+      const stack = document.getElementById('cardStack');
+      activeCardEl = stack.querySelector('.card.active');
+      if (activeCardEl) {
+        activeCardEl.classList.add('dragging');
+      }
+
+      if (e.type === 'mousedown') {
+        e.preventDefault();
+      }
+    }
+
+    function handleDragMove(e) {
+      if (!isDragging || !activeCardEl) return;
+
+      const point = e.touches ? e.touches[0] : e;
+      dragCurrentX = point.clientX - dragStartX;
+      dragCurrentY = point.clientY - dragStartY;
+
+      // Calculate velocity
+      const now = Date.now();
+      const dt = now - lastDragTime;
+      if (dt > 0) {
+        dragVelocityX = (dragCurrentX - lastDragX) / dt * 16; // normalize to ~60fps
+      }
+      lastDragX = dragCurrentX;
+      lastDragTime = now;
+
+      // Apply transform with rotation based on drag distance
+      const rotation = dragCurrentX * 0.05;
+      const scale = 1 - Math.abs(dragCurrentX) * 0.0002;
+      activeCardEl.style.transform = `translateX(${dragCurrentX}px) translateY(${dragCurrentY * 0.3}px) rotate(${rotation}deg) scale(${Math.max(0.95, scale)})`;
+
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+    }
+
+    function handleDragEnd(e) {
+      if (!isDragging) return;
+      isDragging = false;
+
+      if (!activeCardEl) return;
+      activeCardEl.classList.remove('dragging');
+
+      const threshold = 80;
+      const velocityThreshold = 3;
+      const shouldSwipe = Math.abs(dragCurrentX) > threshold || Math.abs(dragVelocityX) > velocityThreshold;
+
+      if (shouldSwipe && cards.length > 1) {
+        // Animate card to back of stack
+        const direction = dragCurrentX > 0 ? -1 : 1; // swipe left = next, swipe right = previous
+        const totalCards = cards.length;
+
+        // Calculate where the back of the stack is
+        const backOffset = cardOffsets[currentCardIndex] || { rotation: 0, offsetX: 0, offsetY: 0 };
+        const backRotation = backOffset.rotation + ((totalCards - 1) * 2 * direction);
+        const backTranslateX = backOffset.offsetX + ((totalCards - 1) * 12 * direction);
+        const backTranslateY = (totalCards - 1) * 3 + backOffset.offsetY;
+        const backScale = 1 - ((totalCards - 1) * 0.03);
+
+        activeCardEl.classList.add('to-back');
+        activeCardEl.style.transform = `translateX(${backTranslateX}px) translateY(${backTranslateY}px) rotate(${backRotation}deg) scale(${backScale})`;
+        activeCardEl.style.zIndex = 0;
+
+        setTimeout(() => {
+          navigateCards(direction);
+        }, 300);
+      } else {
+        // Snap back with spring animation
+        activeCardEl.classList.add('animating');
+        activeCardEl.style.transform = 'translateX(0) translateY(0) rotate(0deg) scale(1)';
+
+        setTimeout(() => {
+          if (activeCardEl) {
+            activeCardEl.classList.remove('animating');
+          }
+        }, 400);
+      }
+
+      setTimeout(() => {
+        activeCardEl = null;
+      }, 50);
+      dragCurrentX = 0;
+      dragCurrentY = 0;
+    }
+
+    function initModelToggle() {
+      const toggle = document.getElementById('modelToggle');
+      toggle.querySelectorAll('.model-btn').forEach(btn => {
+        btn.onclick = () => {
+          toggle.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentModel = btn.dataset.model;
+          console.log('Model changed to:', currentModel);
+          // Re-render cards with new model's images
+          if (cards.length > 0) {
+            renderCardStack();
+          }
+        };
+      });
     }
 
     function initPromptToggles() {
@@ -1256,11 +2219,43 @@ tools within this category.</pre>
     function initStyleSelector() {
       const selector = document.getElementById('styleSelector');
       selector.querySelectorAll('.style-btn').forEach(btn => {
-        btn.onclick = () => {
+        btn.onclick = async () => {
+          const previousStyle = currentStyle;
           selector.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentStyle = btn.dataset.style;
           console.log('Style changed to:', currentStyle);
+
+          // If we have cards and style changed, regenerate images
+          if (cards.length > 0 && currentStyle !== previousStyle) {
+            // Reset to original cards and regenerate
+            if (selectedPersona) {
+              await generateCards();
+            }
+          }
+        };
+      });
+    }
+
+    function initStylePromptToggles() {
+      const modal = document.getElementById('promptModal');
+      const modalTitle = document.getElementById('promptModalTitle');
+      const textarea = document.getElementById('promptTextarea');
+      const successToast = document.getElementById('successToast');
+
+      document.querySelectorAll('.style-prompt-btn').forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const style = btn.dataset.style;
+          const styleLabel = visualStyles[style]?.label || style;
+
+          modalTitle.textContent = `${styleLabel} Style Prompt`;
+          textarea.value = visualStyles[style]?.prompt || 'No prompt defined';
+          textarea.readOnly = true; // Style prompts are read-only for now
+          modal.classList.add('visible');
+
+          // Store reference for potential future editing
+          modal.dataset.stylePrompt = style;
         };
       });
     }
@@ -1277,27 +2272,55 @@ tools within this category.</pre>
       });
     }
 
+    // Cache for rendered persona elements
+    const personaElementCache = new Map();
+
     function renderPersonaList() {
       const list = document.getElementById('personaList');
-      list.innerHTML = '';
 
       const filtered = currentFilter === 'all'
         ? personas
         : personas.filter(p => p.type === currentFilter);
 
-      filtered.forEach(persona => {
-        const btn = document.createElement('button');
-        btn.className = 'persona-btn' + (selectedPersona?.id === persona.id ? ' active' : '');
-        btn.innerHTML = `
-          <img class="persona-avatar" src="${persona.avatar}" alt="${persona.name}" onerror="this.src='https://via.placeholder.com/80?text=${persona.name[0]}'">
-          <div class="persona-btn-info">
-            <div class="name">${persona.name}</div>
-            <div class="role">${persona.role}</div>
-          </div>
-          ${persona.type === 'luminary' ? '<span class="persona-badge">Public Figure</span>' : ''}
-        `;
-        btn.onclick = () => selectPersona(persona);
-        list.appendChild(btn);
+      // Get current children IDs
+      const currentIds = new Set(filtered.map(p => p.id));
+
+      // Remove personas not in filtered list
+      Array.from(list.children).forEach(child => {
+        if (!currentIds.has(child.dataset.personaId)) {
+          child.remove();
+        }
+      });
+
+      // Add or update personas
+      filtered.forEach((persona, index) => {
+        let btn = personaElementCache.get(persona.id);
+
+        if (!btn) {
+          // Create new button only if not cached
+          btn = document.createElement('button');
+          btn.className = 'persona-btn';
+          btn.dataset.personaId = persona.id;
+          btn.innerHTML = `
+            <img class="persona-avatar" src="${persona.avatar}" alt="${persona.name}" loading="eager" onerror="this.src='https://via.placeholder.com/80?text=${persona.name[0]}'">
+            <div class="persona-btn-info">
+              <div class="name">${persona.name}, ${persona.age}</div>
+              <div class="role">${persona.role}</div>
+            </div>
+            ${persona.type === 'luminary' ? '<span class="persona-badge">Tech</span>' : ''}
+            ${persona.type === 'culture' ? '<span class="persona-badge">Culture</span>' : ''}
+          `;
+          btn.onclick = () => selectPersona(persona);
+          personaElementCache.set(persona.id, btn);
+        }
+
+        // Update active state
+        btn.classList.toggle('active', selectedPersona?.id === persona.id);
+
+        // Add to list if not already there
+        if (!list.contains(btn)) {
+          list.appendChild(btn);
+        }
       });
     }
 
@@ -1330,34 +2353,37 @@ tools within this category.</pre>
       if (!selectedPersona) return;
 
       // Clone the array so we can manipulate it for the stack loop
-      cards = [...(topicsByPersona[selectedPersona.id] || topicsByPersona['tech-entrepreneur'])];
+      cards = [...(topicsByPersona[selectedPersona.id] || topicsByPersona['sarah-chen'])];
+      // Add unique IDs to track original positions
+      cards = cards.map((card, i) => ({ ...card, _originalIndex: i }));
+      originalCards = [...cards];
+      currentCardIndex = 0;
+
+      // Generate fresh random offsets for the new cards
+      generateCardOffsets(cards.length);
 
       document.getElementById('tapHint').style.display = 'block';
 
-      // Show loading state
-      const stack = document.getElementById('cardStack');
-      stack.innerHTML = `
-        <div class="empty-state">
-          <div class="icon" style="animation: spin 1s linear infinite;">✦</div>
-          <p>Generating ${currentStyle === 'photo' ? '' : currentStyle + ' '}images...</p>
-        </div>
-      `;
+      // Render cards immediately with loading states for non-photo styles
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const needsGeneration = currentStyle !== 'photo' && !isLocalhost;
 
-      // Generate images for non-photo styles
+      // Mark cards as loading if we need to generate images
+      if (needsGeneration) {
+        cards = cards.map(card => ({ ...card, isLoading: true }));
+      }
+
+      // Render initial cards (with loading state if needed)
+      renderCardStack();
+
+      // Generate images progressively for non-photo styles
       if (currentStyle !== 'photo') {
-        try {
-          // Generate images one by one to show progress
-          const enhancedCards = [];
+        if (isLocalhost) {
+          console.log('Image generation requires Vercel deployment');
+        } else {
+          // Generate images one by one and update cards as they complete
           for (let i = 0; i < cards.length; i++) {
             const card = cards[i];
-
-            // Update loading message
-            stack.innerHTML = `
-              <div class="empty-state">
-                <div class="icon" style="animation: spin 1s linear infinite;">✦</div>
-                <p>Generating image ${i + 1} of ${cards.length}...</p>
-              </div>
-            `;
 
             try {
               const response = await fetch('/api/generate-image', {
@@ -1372,30 +2398,35 @@ tools within this category.</pre>
 
               if (response.ok) {
                 const data = await response.json();
-                enhancedCards.push({
+                cards[i] = {
                   ...card,
+                  isLoading: false,
                   enhancedPrompt: data.imagePrompt,
+                  geminiImage: data.gemini?.imageData || null,
+                  bytedanceImage: data.bytedance?.imageUrl || null,
                   generatedImage: data.imageData || null
-                });
+                };
               } else {
-                enhancedCards.push(card);
+                console.log('API error:', await response.text());
+                cards[i] = { ...card, isLoading: false };
               }
             } catch (e) {
               console.log('Image generation failed for card', i, e);
-              enhancedCards.push(card);
+              cards[i] = { ...card, isLoading: false };
             }
+
+            // Update just this card in the DOM
+            updateCardInPlace(i);
           }
-          cards = enhancedCards;
-        } catch (error) {
-          console.log('Using default cards:', error);
+          originalCards = [...cards];
         }
       }
-
-      renderCardStack();
 
       // Open panel with first card
       openPanel(cards[0]);
     }
+
+    let currentCardIndex = 0;
 
     function renderCardStack() {
       const stack = document.getElementById('cardStack');
@@ -1403,51 +2434,134 @@ tools within this category.</pre>
 
       if (cards.length === 0) return;
 
-      // Always show first 3 cards (stack loops)
-      const visibleCards = cards.slice(0, Math.min(3, cards.length));
-
-      visibleCards.reverse().forEach((card, reverseIndex) => {
-        const actualIndex = visibleCards.length - 1 - reverseIndex;
-        const cardEl = createCardElement(card, actualIndex);
-
-        const offset = actualIndex * 8;
-        const scale = 1 - (actualIndex * 0.03);
-        cardEl.style.transform = `translateY(${offset}px) scale(${scale})`;
-        cardEl.style.zIndex = visibleCards.length - actualIndex;
-
-        if (actualIndex === 0) {
-          enableSwipe(cardEl);
-        }
-
+      // Render all cards in carousel
+      cards.forEach((card, i) => {
+        const cardEl = createCardElement(card, i);
+        cardEl.onclick = () => {
+          currentCardIndex = i;
+          updateActiveCard();
+          openPanel(card);
+        };
         stack.appendChild(cardEl);
       });
 
       renderStackIndicator();
 
-      if (panelOpen && cards[0]) {
-        updatePanel(cards[0]);
+      // Scroll to center on first card
+      setTimeout(() => {
+        const firstCard = stack.children[currentCardIndex];
+        if (firstCard) {
+          firstCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      }, 100);
+
+      // Add scroll listener to update active card
+      stack.onscroll = debounce(() => {
+        const stackRect = stack.getBoundingClientRect();
+        const centerX = stackRect.left + stackRect.width / 2;
+
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        Array.from(stack.children).forEach((card, i) => {
+          const cardRect = card.getBoundingClientRect();
+          const cardCenterX = cardRect.left + cardRect.width / 2;
+          const distance = Math.abs(cardCenterX - centerX);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestIndex = i;
+          }
+        });
+
+        if (closestIndex !== currentCardIndex) {
+          currentCardIndex = closestIndex;
+          renderStackIndicator();
+          if (panelOpen && cards[currentCardIndex]) {
+            updatePanel(cards[currentCardIndex]);
+          }
+        }
+      }, 50);
+
+      if (panelOpen && cards[currentCardIndex]) {
+        updatePanel(cards[currentCardIndex]);
       }
+    }
+
+    function updateActiveCard() {
+      // Re-render stack to apply new transforms
+      renderCardStack();
+    }
+
+    function updateCardInPlace(index) {
+      // Re-render the whole stack to maintain proper transforms and z-ordering
+      renderCardStack();
     }
 
     function createCardElement(card, index) {
       const cardEl = document.createElement('div');
       cardEl.className = 'card';
 
-      // Use generated image if available, otherwise fall back to default
-      const imageSource = card.generatedImage || card.image;
-      const isGenerated = !!card.generatedImage;
+      // Show loading state if card is still generating
+      if (card.isLoading) {
+        cardEl.innerHTML = `
+          <div class="card-bg" style="background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%)"></div>
+          <div class="card-loading">
+            <div class="card-loading-spinner">✦</div>
+            <div class="card-loading-text">Generating ${currentStyle}...</div>
+          </div>
+          <div class="card-content">
+            <div class="card-topic">${card.topic}</div>
+            <div class="card-headline">${card.headline}</div>
+            <div class="card-subheadline">${card.subheadline}</div>
+          </div>
+          <div class="card-style-badge">${visualStyles[currentStyle].label}</div>
+        `;
+        return cardEl;
+      }
+
+      // Use generated image based on current model selection, fall back to default
+      let imageSource = card.image;
+      let isGenerated = false;
+      let modelLabel = '';
+      let hasImage = true;
+
+      if (currentModel === 'gemini' && card.geminiImage) {
+        imageSource = card.geminiImage;
+        isGenerated = true;
+        modelLabel = 'Gemini';
+      } else if (currentModel === 'bytedance' && card.bytedanceImage) {
+        imageSource = card.bytedanceImage;
+        isGenerated = true;
+        modelLabel = 'ByteDance';
+      } else if (card.generatedImage) {
+        // Legacy fallback
+        imageSource = card.generatedImage;
+        isGenerated = true;
+      }
+
+      // Check if we have a valid image
+      if (!imageSource || imageSource === 'undefined' || imageSource === 'null') {
+        hasImage = false;
+      }
+
+      const badgeText = isGenerated
+        ? `✦ ${modelLabel ? modelLabel + ' • ' : ''}${visualStyles[currentStyle].label}`
+        : visualStyles[currentStyle].label;
+
+      const bgStyle = hasImage
+        ? `background-image: url('${imageSource}')`
+        : `background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
 
       cardEl.innerHTML = `
-        <div class="card-bg" style="background-image: url('${imageSource}')"></div>
+        <div class="card-bg" style="${bgStyle}"></div>
         <div class="card-overlay"></div>
+        ${!hasImage ? '<div class="card-no-image">No image available</div>' : ''}
         <div class="card-content">
           <div class="card-topic">${card.topic}</div>
           <div class="card-headline">${card.headline}</div>
           <div class="card-subheadline">${card.subheadline}</div>
         </div>
-        <div class="card-style-badge">${isGenerated ? '✦ ' : ''}${visualStyles[currentStyle].label}</div>
-        <div class="swipe-hint left">SKIP</div>
-        <div class="swipe-hint right">SAVE</div>
+        <div class="card-style-badge">${badgeText}</div>
       `;
 
       cardEl.addEventListener('click', (e) => {
@@ -1459,99 +2573,38 @@ tools within this category.</pre>
       return cardEl;
     }
 
-    function enableSwipe(cardEl) {
-      let startX = 0;
-      let currentX = 0;
-      let isDragging = false;
-
-      const onStart = (e) => {
-        isDragging = true;
-        cardEl.classList.add('dragging');
-        startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-      };
-
-      const onMove = (e) => {
-        if (!isDragging) return;
-
-        const x = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-        currentX = x - startX;
-
-        const rotation = currentX * 0.05;
-        cardEl.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
-
-        const leftHint = cardEl.querySelector('.swipe-hint.left');
-        const rightHint = cardEl.querySelector('.swipe-hint.right');
-
-        leftHint.style.opacity = currentX < -50 ? Math.min(1, Math.abs(currentX + 50) / 100) : 0;
-        rightHint.style.opacity = currentX > 50 ? Math.min(1, (currentX - 50) / 100) : 0;
-      };
-
-      const onEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-
-        setTimeout(() => {
-          cardEl.classList.remove('dragging');
-        }, 100);
-
-        const threshold = 100;
-
-        if (Math.abs(currentX) > threshold) {
-          cardEl.classList.add('animating');
-          const direction = currentX > 0 ? 1 : -1;
-          cardEl.style.transform = `translateX(${direction * 500}px) rotate(${direction * 30}deg)`;
-          cardEl.style.opacity = '0';
-
-          setTimeout(() => {
-            // Move current card to end of stack (loop)
-            const swipedCard = cards.shift();
-            cards.push(swipedCard);
-            renderCardStack();
-          }, 300);
-        } else {
-          cardEl.classList.add('animating');
-          cardEl.style.transform = 'translateX(0) rotate(0)';
-          cardEl.querySelector('.swipe-hint.left').style.opacity = 0;
-          cardEl.querySelector('.swipe-hint.right').style.opacity = 0;
-
-          setTimeout(() => {
-            cardEl.classList.remove('animating');
-          }, 300);
-        }
-
-        currentX = 0;
-      };
-
-      cardEl.addEventListener('mousedown', onStart);
-      cardEl.addEventListener('touchstart', onStart, { passive: true });
-
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('touchmove', onMove, { passive: true });
-
-      document.addEventListener('mouseup', onEnd);
-      document.addEventListener('touchend', onEnd);
-    }
-
     function renderStackIndicator() {
       const indicator = document.getElementById('stackIndicator');
+      if (cards.length === 0) return;
+
       indicator.innerHTML = cards.map((_, i) => {
         let className = 'stack-dot';
-        if (i === 0) className += ' active';
-        return `<div class="${className}"></div>`;
+        if (i === currentCardIndex) className += ' active';
+        return `<div class="${className}" onclick="goToCard(${i})"></div>`;
       }).join('');
+    }
+
+    function goToCard(index) {
+      currentCardIndex = index;
+      const stack = document.getElementById('cardStack');
+      const targetCard = stack.children[index];
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+      updateActiveCard();
     }
 
     function openPanel(card) {
       panelOpen = true;
       updatePanel(card);
-      document.getElementById('layout').classList.add('panel-open');
+      document.getElementById('miniAppsSection').classList.add('visible');
     }
 
     function updatePanel(card) {
-      const apps = miniAppsByTopic[card.topic] || miniAppsByTopic['default'];
+      const apps = getMiniAppsForTopic(card.topic);
 
-      document.getElementById('panelTitle').textContent = card.topic;
-      document.getElementById('panelSubtitle').textContent = `${apps.length} mini-apps to explore`;
+      document.getElementById('miniAppsTitle').textContent = card.topic;
+      document.getElementById('miniAppsSubtitle').textContent = `${apps.length} mini-apps to explore`;
 
       const list = document.getElementById('miniAppsList');
       list.innerHTML = apps.map(app => `
@@ -1561,15 +2614,17 @@ tools within this category.</pre>
             <h4>${app.name}</h4>
             <p>${app.desc}</p>
           </div>
-          <div class="mini-app-arrow">→</div>
         </div>
       `).join('');
     }
 
     function closePanel() {
       panelOpen = false;
-      document.getElementById('layout').classList.remove('panel-open');
+      document.getElementById('miniAppsSection').classList.remove('visible');
     }
+
+    // Initialize mini-apps close button
+    document.getElementById('miniAppsClose').onclick = closePanel;
 
     init();
   </script>

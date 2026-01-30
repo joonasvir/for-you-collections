@@ -12,6 +12,73 @@ const stylePrompts = {
   minimal: 'Minimalist graphic design, solid color blocks, simple geometric shapes, clean composition, Bauhaus inspired, modern flat design aesthetic'
 };
 
+// Generate image using ByteDance Seedream 4.5 via nodeBrain
+async function generateByteDanceImage(prompt, gatewayKey) {
+  try {
+    const response = await fetch(`${NODEBRAIN_BASE_URL}/api/gateway/image/generate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': gatewayKey
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        model: 'bytedance_v4_5_create',
+        ratio: 'portrait',
+        size: 'M',
+        num_images: 1
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success && data.images && data.images.length > 0) {
+        return { success: true, imageUrl: data.images[0].url };
+      }
+    }
+    const errorData = await response.json().catch(() => ({}));
+    return { success: false, error: errorData.error || 'ByteDance generation failed' };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+// Generate image using Google Imagen 4
+async function generateGeminiImage(prompt, googleKey) {
+  try {
+    const response = await fetch(
+      `${GOOGLE_AI_URL}/models/imagen-4.0-generate-001:predict?key=${googleKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          instances: [{ prompt: prompt }],
+          parameters: {
+            sampleCount: 1,
+            aspectRatio: '3:4',
+            personGeneration: 'allow_adult'
+          }
+        })
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.predictions && data.predictions.length > 0) {
+        const base64Image = data.predictions[0].bytesBase64Encoded;
+        const mimeType = data.predictions[0].mimeType || 'image/png';
+        return { success: true, imageData: `data:${mimeType};base64,${base64Image}` };
+      }
+    }
+    const errorData = await response.json().catch(() => ({}));
+    return { success: false, error: errorData.error?.message || 'Gemini generation failed' };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
 export default async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -53,7 +120,7 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'system',
-            content: `You are an expert at creating image generation prompts for Imagen 3. Given a topic, create a detailed, evocative prompt. Be specific about composition, lighting, mood, colors, and details. Keep it under 100 words. Do not include any markdown, links, citations, or explanations - output ONLY the pure prompt text. Style: ${styleContext}`
+            content: `You are an expert at creating image generation prompts. Given a topic, create a detailed, evocative prompt. Be specific about composition, lighting, mood, colors, and details. Keep it under 100 words. Do not include any markdown, links, citations, or explanations - output ONLY the pure prompt text. Style: ${styleContext}`
           },
           {
             role: 'user',
@@ -75,71 +142,45 @@ export default async function handler(req, res) {
     const llmData = await llmResponse.json();
     const imagePrompt = llmData.content;
 
-    // Step 2: If generateImage is true and we have Google AI key, generate the image
-    if (generateImage && googleKey) {
-      try {
-        // Use Imagen 4 via Gemini API
-        const imagenResponse = await fetch(
-          `${GOOGLE_AI_URL}/models/imagen-4.0-generate-001:predict?key=${googleKey}`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              instances: [
-                {
-                  prompt: imagePrompt
-                }
-              ],
-              parameters: {
-                sampleCount: 1,
-                aspectRatio: '3:4',
-                personGeneration: 'allow_adult'
-              }
-            })
-          }
-        );
+    // Step 2: If generateImage is true, generate from BOTH models simultaneously
+    if (generateImage) {
+      const results = {
+        success: true,
+        imagePrompt: imagePrompt,
+        style: style,
+        originalTopic: prompt,
+        gemini: null,
+        bytedance: null
+      };
 
-        if (imagenResponse.ok) {
-          const imagenData = await imagenResponse.json();
+      // Run both image generations in parallel
+      const [geminiResult, bytedanceResult] = await Promise.all([
+        googleKey ? generateGeminiImage(imagePrompt, googleKey) : Promise.resolve({ success: false, error: 'No Google API key' }),
+        generateByteDanceImage(imagePrompt, gatewayKey)
+      ]);
 
-          if (imagenData.predictions && imagenData.predictions.length > 0) {
-            // Imagen returns base64 encoded images
-            const base64Image = imagenData.predictions[0].bytesBase64Encoded;
-            const mimeType = imagenData.predictions[0].mimeType || 'image/png';
-
-            return res.status(200).json({
-              success: true,
-              imagePrompt: imagePrompt,
-              imageData: `data:${mimeType};base64,${base64Image}`,
-              style: style,
-              originalTopic: prompt
-            });
-          }
-        } else {
-          const errorData = await imagenResponse.json().catch(() => ({}));
-          console.error('Imagen error:', JSON.stringify(errorData));
-
-          // Fall back to just returning the prompt
-          return res.status(200).json({
-            success: true,
-            imagePrompt: imagePrompt,
-            imageError: errorData.error?.message || 'Failed to generate image',
-            style: style,
-            originalTopic: prompt
-          });
-        }
-      } catch (imgError) {
-        console.error('Image generation error:', imgError);
-        return res.status(200).json({
-          success: true,
-          imagePrompt: imagePrompt,
-          imageError: imgError.message,
-          style: style,
-          originalTopic: prompt
-        });
+      // Store Gemini result
+      if (geminiResult.success) {
+        results.gemini = { imageData: geminiResult.imageData };
+      } else {
+        results.gemini = { error: geminiResult.error };
       }
+
+      // Store ByteDance result
+      if (bytedanceResult.success) {
+        results.bytedance = { imageUrl: bytedanceResult.imageUrl };
+      } else {
+        results.bytedance = { error: bytedanceResult.error };
+      }
+
+      // For backwards compatibility, set imageData to Gemini if available
+      if (geminiResult.success) {
+        results.imageData = geminiResult.imageData;
+      } else if (bytedanceResult.success) {
+        results.imageData = bytedanceResult.imageUrl;
+      }
+
+      return res.status(200).json(results);
     }
 
     // Return just the prompt if not generating image
@@ -148,7 +189,7 @@ export default async function handler(req, res) {
       imagePrompt: imagePrompt,
       style: style,
       originalTopic: prompt,
-      imageGenerationAvailable: !!googleKey
+      imageGenerationAvailable: !!googleKey || !!gatewayKey
     });
 
   } catch (error) {

@@ -1,6 +1,6 @@
 # nodeBrain Public API
 
-**Single reference for LLM generation and prompt fetching.** nodeBrain is a centralized LLM gateway and prompt management system. This document explains how to call the APIs: chat/complete, streaming, models, and fetching prompts from Langfuse.
+**Single reference for LLM, prompts, and image APIs.** nodeBrain is a centralized LLM gateway and prompt management system. This document explains how to call the APIs: chat/complete, streaming, models, prompts from Langfuse, and image generation (direct Fal.ai).
 
 *This file is the only doc the developer gets. Everything they need is below.*
 
@@ -80,6 +80,22 @@ response = requests.get(
     headers=headers
 )
 print(response.json()["prompt"])
+
+# Generate image
+response = requests.post(
+    f"{BASE_URL}/api/gateway/image/generate",
+    headers=headers,
+    json={
+        "prompt": "A sunset over mountains, oil painting style",
+        "ratio": "landscape"
+    },
+    timeout=120
+)
+result = response.json()
+if result["success"]:
+    print(result["images"][0]["url"])
+else:
+    print(f"Error: {result['error']}")
 ```
 
 ---
@@ -177,11 +193,11 @@ Prompts are stored in Langfuse; nodeBrain fetches and serves them via the API.
 
 1. **Get the list of available prompts**  
    Call `GET /api/public/llm/catalog` (or `/api/gateway/llm/catalog` with API key).  
-   Response: `{ "prompts": [ { "name", "summary" }, ... ] }` — every prompt’s name and a short description.
+   Response: `{ "prompts": [ { "name", "summary" }, ... ] }` — every prompt's name and a short description.
 
 2. **Request a specific prompt from Langfuse**  
    Call `GET /api/public/llm/prompt/:promptName` (or gateway equivalent).  
-   Pass a **prompt identifier** that the server supports. You can discover what’s available from the catalog response; typical identifiers include: `CHAT_INTRO_PROMPT`, `CHAT_CREATE_PROMPT`, `CHAT_EDIT_PROMPT`, `APP_RECOMMENDATIONS_PROMPT`, `HINTS_PROMPT`, `FOR_YOU_PROMPT`, `FOR_YOU_EMPTY_PROMPT`, `POWERUP_SUGGESTIONS_PROMPT`, `POWERUP_EMPTY_PROMPT`, `EDIT_SUGGESTIONS_PROMPT`, `INTEGRATION_DETECTION_PROMPT`. The exact set depends on your deployment.
+   Pass a **prompt identifier** that the server supports. You can discover what's available from the catalog response; typical identifiers include: `CHAT_INTRO_PROMPT`, `CHAT_CREATE_PROMPT`, `CHAT_EDIT_PROMPT`, `APP_RECOMMENDATIONS_PROMPT`, `HINTS_PROMPT`, `FOR_YOU_PROMPT`, `FOR_YOU_EMPTY_PROMPT`, `POWERUP_SUGGESTIONS_PROMPT`, `POWERUP_EMPTY_PROMPT`, `EDIT_SUGGESTIONS_PROMPT`, `INTEGRATION_DETECTION_PROMPT`. The exact set depends on your deployment.
 
 To fetch several prompts in one request, use `POST /api/public/llm/prompts` with `{ "promptNames": ["...", "..."] }`.
 
@@ -243,7 +259,242 @@ Get multiple prompts at once (batched).
 
 ---
 
-## Available Models
+## Image Endpoints
+
+Image generation uses the **Gateway** only (API key required). Calls Fal.ai directly.
+
+### POST `/api/gateway/image/generate`
+
+Generate images from a text prompt using Fal.ai.
+
+**Auth:** Gateway API key (`X-API-Key` or `Authorization: Bearer`).
+
+**Request:**
+```json
+{
+  "prompt": "A sunset over mountains, oil painting style",
+  "model": "default",
+  "ratio": "square",
+  "size": "M",
+  "num_images": 1,
+  "image_url": null
+}
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `prompt` | string | **Yes** | Text prompt for image generation |
+| `model` | string | No | Model ID or direct Fal path (default: `fal-ai/flux-1/schnell`) |
+| `ratio` | string | No | `"square"` (default) \| `"portrait"` \| `"landscape"` |
+| `size` | string | No | `"S"` \| `"M"` (default) \| `"L"` \| `"XL"` |
+| `num_images` | number | No | Number of images: 1–4, default `1` |
+| `image_url` | string | No | Reference image URL for img2img |
+
+**Response (success):**
+```json
+{
+  "success": true,
+  "images": [
+    {
+      "url": "https://fal.media/files/...",
+      "width": 768,
+      "height": 768
+    }
+  ],
+  "model": "fal-ai/flux-1/schnell",
+  "prompt": "A sunset over mountains..."
+}
+```
+
+**Response (error):** `{ "success": false, "error": "..." }` — or `503` if `FAL_API_KEY` not configured.
+
+### GET `/api/gateway/image/models`
+
+List available image generation models.
+
+**Response:**
+```json
+{
+  "models": [
+    { "id": "default", "fal_model": "fal-ai/flux-1/schnell", "type": "text2img" },
+    { "id": "nano_banana_create", "fal_model": "fal-ai/nano-banana", "type": "text2img" }
+  ],
+  "default": "default"
+}
+```
+
+### Image Generation Examples
+
+**curl:**
+```bash
+curl -X POST "https://nodes.ivanovskii.com/api/gateway/image/generate" \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -d '{"prompt": "A cute robot painting a landscape", "ratio": "landscape"}'
+```
+
+**Python (sync):**
+```python
+import requests
+
+def generate_image(prompt: str, ratio: str = "square", model: str = "default") -> str | None:
+    response = requests.post(
+        "https://nodes.ivanovskii.com/api/gateway/image/generate",
+        headers={
+            "Content-Type": "application/json",
+            "X-API-Key": "YOUR_API_KEY"
+        },
+        json={"prompt": prompt, "ratio": ratio, "model": model},
+        timeout=120  # Fal generation can take up to 2 minutes
+    )
+    result = response.json()
+    if result.get("success") and result.get("images"):
+        return result["images"][0]["url"]
+    print(f"Error: {result.get('error')}")
+    return None
+
+# Usage
+url = generate_image("A futuristic city at night", ratio="landscape")
+print(url)
+```
+
+**Python (async with aiohttp):**
+```python
+import aiohttp
+
+async def generate_image_async(prompt: str, ratio: str = "square") -> str | None:
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "https://nodes.ivanovskii.com/api/gateway/image/generate",
+            headers={
+                "Content-Type": "application/json",
+                "X-API-Key": "YOUR_API_KEY"
+            },
+            json={"prompt": prompt, "ratio": ratio},
+            timeout=aiohttp.ClientTimeout(total=120)
+        ) as response:
+            result = await response.json()
+            if result.get("success") and result.get("images"):
+                return result["images"][0]["url"]
+            print(f"Error: {result.get('error')}")
+            return None
+```
+
+**TypeScript/JavaScript:**
+```typescript
+async function generateImage(prompt: string, ratio = 'square'): Promise<string | null> {
+  const response = await fetch('https://nodes.ivanovskii.com/api/gateway/image/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-API-Key': 'YOUR_API_KEY',
+    },
+    body: JSON.stringify({ prompt, ratio }),
+  });
+  
+  const result = await response.json();
+  if (result.success && result.images?.[0]) {
+    return result.images[0].url;
+  }
+  console.error('Error:', result.error);
+  return null;
+}
+```
+
+### Image Generation with Reference Image (img2img)
+
+Pass `image_url` to use an existing image as reference:
+
+```python
+response = requests.post(
+    "https://nodes.ivanovskii.com/api/gateway/image/generate",
+    headers=headers,
+    json={
+        "prompt": "Transform into anime style",
+        "image_url": "https://example.com/my-photo.jpg",
+        "model": "nano_banana"  # Use an img2img model
+    },
+    timeout=120
+)
+```
+
+### Batch Generation (multiple images)
+
+Set `num_images` to generate multiple images at once (1–4):
+
+```python
+response = requests.post(
+    "https://nodes.ivanovskii.com/api/gateway/image/generate",
+    headers=headers,
+    json={
+        "prompt": "Abstract colorful patterns",
+        "num_images": 4
+    },
+    timeout=120
+)
+for img in result["images"]:
+    print(img["url"])
+```
+
+### Image Error Handling
+
+| Status | `success` | Meaning |
+|--------|-----------|---------|
+| `200` | `true` | Success — images in `images[]` |
+| `200` | `false` | Generation failed — see `error` |
+| `400` | — | Bad request (missing `prompt`) |
+| `500` | — | Fal API error |
+| `503` | — | `FAL_API_KEY` not configured |
+
+### Available Image Models
+
+Pass `model` to select a specific Fal model. Use model ID or direct Fal path.
+
+**Text-to-Image:**
+
+| model | Fal Model | Best For |
+|-------|-----------|----------|
+| `default` | fal-ai/flux-1/schnell | Fast, general purpose (default) |
+| `nano_banana_create` | fal-ai/nano-banana | Google Nano Banana |
+| `nano_banana_pro_create` | fal-ai/nano-banana-pro | Higher quality Nano Banana |
+| `imagen4` | fal-ai/imagen4/preview/fast | Google Imagen 4 |
+| `bytedance_v4_create` | fal-ai/bytedance/seedream/v4/text-to-image | ByteDance Seedream 4.0 |
+| `bytedance_v4_5_create` | fal-ai/bytedance/seedream/v4.5/text-to-image | ByteDance Seedream 4.5 |
+| `kontext_pro_create` | fal-ai/flux-pro/kontext/text-to-image | FLUX Kontext Pro, best typography |
+| `flux_1_schnell` | fal-ai/flux-1/schnell | Very fast |
+| `flux_krea` | fal-ai/flux/krea | Creative/artistic |
+| `fooocus` | fal-ai/fooocus | Auto prompt enhancement |
+| `hidream` | fal-ai/hidream-i1-fast | HiDream fast |
+| `hidream_for_covers` | fal-ai/hidream-i1-full | HiDream full quality |
+
+**Image-to-Image (use with `image_url`):**
+
+| model | Fal Model | Best For |
+|-------|-----------|----------|
+| `nano_banana` | fal-ai/nano-banana/edit | Fast edits |
+| `nano_banana_pro` | fal-ai/nano-banana-pro/edit | Higher quality edits |
+| `bytedance_v4` | fal-ai/bytedance/seedream/v4/edit | Design work |
+| `kontext_pro` | fal-ai/flux-pro/kontext/multi | Pro-level editing |
+
+**Direct Fal model path:**
+
+You can also pass any Fal model path directly:
+
+```python
+response = requests.post(
+    "https://nodes.ivanovskii.com/api/gateway/image/generate",
+    headers=headers,
+    json={
+        "prompt": "A cat",
+        "model": "fal-ai/fast-sdxl"  # Direct Fal model path
+    },
+    timeout=120
+)
+```
+
+---
+
+## Available LLM Models
 
 Common models available via nodeBrain:
 
@@ -402,4 +653,3 @@ async function generateSuggestions(userInput: string): Promise<string[]> {
   return parseJsonFromResponse<string[]>(response) || [];
 }
 ```
-
