@@ -84,43 +84,6 @@
       margin-bottom: 12px;
     }
 
-    /* Visual Style Selector */
-    .style-selector {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .style-btn {
-      padding: 8px 12px;
-      background: #fff;
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      font-size: 12px;
-      color: #666;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .style-btn:hover {
-      border-color: #ccc;
-      background: #fafafa;
-    }
-
-    .style-btn.active {
-      border-color: #1a1a1a;
-      color: #1a1a1a;
-      background: #f5f5f5;
-    }
-
-    .style-btn .icon {
-      font-size: 14px;
-    }
-
     /* Persona Filters */
     .filter-tabs {
       display: flex;
@@ -330,6 +293,46 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    /* Style selector above cards */
+    .style-selector-main {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .style-selector-main .style-btn {
+      padding: 10px 16px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .style-selector-main .style-btn:hover {
+      border-color: #ccc;
+      background: #fafafa;
+    }
+
+    .style-selector-main .style-btn.active {
+      border-color: #1a1a1a;
+      color: #1a1a1a;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+
+    .style-selector-main .style-btn .icon {
+      font-size: 16px;
     }
 
     .card-stack-container {
@@ -683,22 +686,6 @@
         <button class="prompts-toggle" id="promptsToggle">Prompts</button>
       </div>
 
-      <div class="section-label">Visual Style</div>
-      <div class="style-selector" id="styleSelector">
-        <button class="style-btn active" data-style="photo"><span class="icon">📷</span> Photo</button>
-        <button class="style-btn" data-style="illustration"><span class="icon">🎨</span> Illustration</button>
-        <button class="style-btn" data-style="3d"><span class="icon">🧊</span> 3D Render</button>
-        <button class="style-btn" data-style="minimal"><span class="icon">◻️</span> Minimal</button>
-      </div>
-
-      <div class="prompt-box" id="stylePrompt">
-        <div class="label">Image Style Prompt</div>
-        <pre id="stylePromptText">Editorial photography style,
-natural lighting, shallow depth
-of field, magazine quality,
-atmospheric and evocative.</pre>
-      </div>
-
       <div class="section-label">Persona Type</div>
       <div class="filter-tabs" id="filterTabs">
         <button class="filter-tab active" data-filter="all">All</button>
@@ -731,6 +718,12 @@ tone to persona's sophistication.</pre>
     <!-- Main Content -->
     <main class="main">
       <div class="card-area">
+        <div class="style-selector-main" id="styleSelector">
+          <button class="style-btn active" data-style="photo"><span class="icon">📷</span> Photo</button>
+          <button class="style-btn" data-style="illustration"><span class="icon">🎨</span> Illustration</button>
+          <button class="style-btn" data-style="3d"><span class="icon">🧊</span> 3D</button>
+          <button class="style-btn" data-style="minimal"><span class="icon">◻️</span> Minimal</button>
+        </div>
         <div class="card-stack-container" id="cardStackContainer">
           <div class="card-stack" id="cardStack">
             <div class="empty-state">
@@ -1044,7 +1037,6 @@ tools within this category.</pre>
     });
 
     let selectedPersona = null;
-    let currentCardIndex = 0;
     let cards = [];
     let showPrompts = false;
     let panelOpen = false;
@@ -1112,7 +1104,6 @@ tools within this category.</pre>
 
     function selectPersona(persona) {
       selectedPersona = persona;
-      currentCardIndex = 0;
       closePanel();
 
       renderPersonaList();
@@ -1147,8 +1138,8 @@ tools within this category.</pre>
     function generateCards() {
       if (!selectedPersona) return;
 
-      cards = topicsByPersona[selectedPersona.id] || topicsByPersona['tech-entrepreneur'];
-      currentCardIndex = 0;
+      // Clone the array so we can manipulate it for the stack loop
+      cards = [...(topicsByPersona[selectedPersona.id] || topicsByPersona['tech-entrepreneur'])];
 
       document.getElementById('tapHint').style.display = 'block';
       renderCardStack();
@@ -1161,24 +1152,14 @@ tools within this category.</pre>
       const stack = document.getElementById('cardStack');
       stack.innerHTML = '';
 
-      if (currentCardIndex >= cards.length) {
-        stack.innerHTML = `
-          <div class="done-state">
-            <div class="checkmark">✓</div>
-            <p>All caught up!</p>
-          </div>
-        `;
-        document.getElementById('stackIndicator').innerHTML = '';
-        document.getElementById('tapHint').style.display = 'none';
-        closePanel();
-        return;
-      }
+      if (cards.length === 0) return;
 
-      const visibleCards = cards.slice(currentCardIndex, currentCardIndex + 3);
+      // Always show first 3 cards (stack loops)
+      const visibleCards = cards.slice(0, Math.min(3, cards.length));
 
       visibleCards.reverse().forEach((card, reverseIndex) => {
         const actualIndex = visibleCards.length - 1 - reverseIndex;
-        const cardEl = createCardElement(card, currentCardIndex + actualIndex);
+        const cardEl = createCardElement(card, actualIndex);
 
         const offset = actualIndex * 8;
         const scale = 1 - (actualIndex * 0.03);
@@ -1194,8 +1175,8 @@ tools within this category.</pre>
 
       renderStackIndicator();
 
-      if (panelOpen && cards[currentCardIndex]) {
-        updatePanel(cards[currentCardIndex]);
+      if (panelOpen && cards[0]) {
+        updatePanel(cards[0]);
       }
     }
 
@@ -1210,7 +1191,6 @@ tools within this category.</pre>
           <div class="card-headline">${card.headline}</div>
           <div class="card-subheadline">${card.subheadline}</div>
         </div>
-        <div class="card-counter">${index + 1} / ${cards.length}</div>
         <div class="card-style-badge">${visualStyles[currentStyle].label}</div>
         <div class="swipe-hint left">SKIP</div>
         <div class="swipe-hint right">SAVE</div>
@@ -1269,7 +1249,9 @@ tools within this category.</pre>
           cardEl.style.opacity = '0';
 
           setTimeout(() => {
-            currentCardIndex++;
+            // Move current card to end of stack (loop)
+            const swipedCard = cards.shift();
+            cards.push(swipedCard);
             renderCardStack();
           }, 300);
         } else {
@@ -1300,8 +1282,7 @@ tools within this category.</pre>
       const indicator = document.getElementById('stackIndicator');
       indicator.innerHTML = cards.map((_, i) => {
         let className = 'stack-dot';
-        if (i === currentCardIndex) className += ' active';
-        else if (i < currentCardIndex) className += ' seen';
+        if (i === 0) className += ' active';
         return `<div class="${className}"></div>`;
       }).join('');
     }
