@@ -690,7 +690,8 @@
       <div class="filter-tabs" id="filterTabs">
         <button class="filter-tab active" data-filter="all">All</button>
         <button class="filter-tab" data-filter="fictional">Fictional</button>
-        <button class="filter-tab" data-filter="luminary">Luminaries</button>
+        <button class="filter-tab" data-filter="luminary">Tech</button>
+        <button class="filter-tab" data-filter="culture">Culture</button>
       </div>
 
       <div class="persona-list" id="personaList"></div>
@@ -878,6 +879,61 @@ tools within this category.</pre>
         avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Sundar_Pichai_%2832522152118%29_%28cropped%29.jpg/440px-Sundar_Pichai_%2832522152118%29_%28cropped%29.jpg',
         bio: 'CEO of Google and Alphabet. Rose through Chrome and Android to lead one of the world\'s most influential companies. Focuses on making AI helpful for everyone.',
         memories: ['search', 'Android', 'Chrome', 'AI for good', 'quantum computing', 'cricket']
+      },
+      // Culture & Sports
+      {
+        id: 'tony-hawk',
+        name: 'Tony Hawk',
+        role: 'Pro Skateboarder',
+        type: 'culture',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Tony_Hawk_by_Gage_Skidmore.jpg/440px-Tony_Hawk_by_Gage_Skidmore.jpg',
+        bio: 'Legendary skateboarder who landed the first 900. Built a skateboarding empire through video games, media, and the Birdhouse brand. Still skating in his 50s.',
+        memories: ['skateboarding', 'vert skating', 'video games', 'X Games', 'entrepreneurship', 'persistence']
+      },
+      {
+        id: 'tyler-creator',
+        name: 'Tyler, the Creator',
+        role: 'Artist & Designer',
+        type: 'culture',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Tyler%2C_the_Creator_-_Roskilde_Festival_2015.jpg/440px-Tyler%2C_the_Creator_-_Roskilde_Festival_2015.jpg',
+        bio: 'Grammy-winning artist, fashion designer, and creative polymath. Founded Odd Future and Golf Wang. Known for bold aesthetics and genre-defying music.',
+        memories: ['music production', 'fashion design', 'Golf le Fleur', 'Camp Flog Gnaw', 'visual art', 'creative independence']
+      },
+      {
+        id: 'emma-chamberlain',
+        name: 'Emma Chamberlain',
+        role: 'Content Creator',
+        type: 'culture',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Emma_Chamberlain_-_2023.jpg/440px-Emma_Chamberlain_-_2023.jpg',
+        bio: 'YouTube pioneer who redefined internet authenticity. Built Chamberlain Coffee into a major brand. Known for her unfiltered style and cultural influence.',
+        memories: ['content creation', 'coffee culture', 'fashion', 'podcasting', 'Gen Z culture', 'authenticity']
+      },
+      {
+        id: 'simone-biles',
+        name: 'Simone Biles',
+        role: 'Olympic Gymnast',
+        type: 'culture',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Simone_Biles_in_2024_%28cropped%29.jpg/440px-Simone_Biles_in_2024_%28cropped%29.jpg',
+        bio: 'Most decorated gymnast in history. Advocate for mental health in sports. Known for pushing the boundaries of what\'s physically possible.',
+        memories: ['gymnastics', 'mental health', 'Olympics', 'athletic excellence', 'resilience', 'advocacy']
+      },
+      {
+        id: 'pharrell-williams',
+        name: 'Pharrell Williams',
+        role: 'Producer & Designer',
+        type: 'culture',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Pharrell_Williams_2023.jpg/440px-Pharrell_Williams_2023.jpg',
+        bio: 'Grammy-winning producer, Louis Vuitton Men\'s creative director, and cultural architect. Built The Neptunes, N.E.R.D, and countless hits across decades.',
+        memories: ['music production', 'luxury fashion', 'Billionaire Boys Club', 'Louis Vuitton', 'timeless style', 'collaboration']
+      },
+      {
+        id: 'nyjah-huston',
+        name: 'Nyjah Huston',
+        role: 'Pro Skateboarder',
+        type: 'culture',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Nyjah_Huston_2022.jpg/440px-Nyjah_Huston_2022.jpg',
+        bio: 'Highest-paid skateboarder and Olympic medalist. Known for technical street skating and fearless approach. Builds skate plazas and trains relentlessly.',
+        memories: ['street skating', 'Olympics', 'competitions', 'fitness training', 'skateboard tech', 'mental focus']
       }
     ];
 
@@ -952,6 +1008,48 @@ tools within this category.</pre>
         { topic: 'Mobile First', headline: 'The Android Decade', subheadline: 'How mobile transformed computing and what comes next', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80' },
         { topic: 'Quantum Computing', headline: 'Beyond Classical Limits', subheadline: 'The race to build computers that think differently', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80' },
         { topic: 'Responsible AI', headline: 'Building Trust at Scale', subheadline: 'The principles guiding AI development for billions of users', image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80' }
+      ],
+      'tony-hawk': [
+        { topic: 'Skateboard Legacy', headline: 'The 900 That Changed Everything', subheadline: 'How one trick redefined what was possible on a skateboard', image: 'https://images.unsplash.com/photo-1564982724940-ba0e7a6c0ed0?w=800&q=80' },
+        { topic: 'Building Brands', headline: 'From Boards to Billions', subheadline: 'Turning a passion into a global skateboarding empire', image: 'https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80' },
+        { topic: 'Longevity', headline: 'Still Rolling at 50', subheadline: 'The mindset and practice that keeps legends performing', image: 'https://images.unsplash.com/photo-1621544402532-78c290378588?w=800&q=80' },
+        { topic: 'Video Game Culture', headline: 'Press Start to Skate', subheadline: 'How a video game introduced millions to skateboard culture', image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80' },
+        { topic: 'Skate Parks', headline: 'Concrete Waves', subheadline: 'The art and engineering behind the perfect skate park', image: 'https://images.unsplash.com/photo-1572776685609-4e3f6e5a5e2b?w=800&q=80' }
+      ],
+      'tyler-creator': [
+        { topic: 'Creative Vision', headline: 'No Boundaries, No Genre', subheadline: 'Building a universe where music, fashion, and art collide', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80' },
+        { topic: 'Fashion Identity', headline: 'Golf Wang State of Mind', subheadline: 'How personal style became a cultural movement', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
+        { topic: 'DIY Empire', headline: 'Odd Future Forever', subheadline: 'Building a creative collective from scratch in the internet age', image: 'https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=800&q=80' },
+        { topic: 'Album as Art', headline: 'The World Inside the Album', subheadline: 'Creating immersive sonic and visual experiences', image: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=800&q=80' },
+        { topic: 'Festival Culture', headline: 'Camp Flog Gnaw Dreams', subheadline: 'Curating experiences that bring creative communities together', image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&q=80' }
+      ],
+      'emma-chamberlain': [
+        { topic: 'Authenticity Online', headline: 'The End of Perfection', subheadline: 'How being real became the most powerful content strategy', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80' },
+        { topic: 'Coffee Culture', headline: 'More Than a Morning Ritual', subheadline: 'Building a coffee brand that reflects a generation\'s values', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80' },
+        { topic: 'Creator Economy', headline: 'Bedroom to Boardroom', subheadline: 'The new playbook for turning influence into business', image: 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&q=80' },
+        { topic: 'Gen Z Style', headline: 'Thrifted, Not Gifted', subheadline: 'Why sustainable fashion resonates with a new generation', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
+        { topic: 'Mental Wellness', headline: 'Logging Off to Stay On', subheadline: 'Navigating fame, burnout, and boundaries in public', image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800&q=80' }
+      ],
+      'simone-biles': [
+        { topic: 'Peak Performance', headline: 'The Physics of Flight', subheadline: 'How the greatest gymnast pushes the limits of human movement', image: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=800&q=80' },
+        { topic: 'Mental Health', headline: 'The Courage to Pause', subheadline: 'Redefining strength by knowing when to step back', image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800&q=80' },
+        { topic: 'Athletic Excellence', headline: 'Training the Impossible', subheadline: 'Inside the daily grind that produces historic performances', image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80' },
+        { topic: 'Advocacy', headline: 'Speaking Truth to Power', subheadline: 'Using a platform to fight for athlete rights and safety', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80' },
+        { topic: 'Legacy Building', headline: 'Beyond the Medals', subheadline: 'What true greatness looks like when the competition ends', image: 'https://images.unsplash.com/photo-1461896836934- voices-of-gold?w=800&q=80' }
+      ],
+      'pharrell-williams': [
+        { topic: 'Sound Design', headline: 'The Neptunes Formula', subheadline: 'Deconstructing the production style that defined an era', image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80' },
+        { topic: 'Luxury Fashion', headline: 'Louis Vuitton\'s New Language', subheadline: 'Bringing streetwear sensibility to the highest echelons of fashion', image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80' },
+        { topic: 'Timeless Cool', headline: 'The Art of Not Aging', subheadline: 'Staying culturally relevant across multiple decades', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80' },
+        { topic: 'Collaboration', headline: 'The Multiplier Effect', subheadline: 'Why the best creators make everyone around them better', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80' },
+        { topic: 'Brand Building', headline: 'Billionaire Boys Club Rules', subheadline: 'Creating cultural artifacts that transcend product categories', image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80' }
+      ],
+      'nyjah-huston': [
+        { topic: 'Street Skating', headline: 'Reading the Urban Landscape', subheadline: 'How street skaters see architecture differently', image: 'https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80' },
+        { topic: 'Competition Mind', headline: 'Pressure is a Privilege', subheadline: 'The mental game behind winning at the highest level', image: 'https://images.unsplash.com/photo-1564982724940-ba0e7a6c0ed0?w=800&q=80' },
+        { topic: 'Athletic Training', headline: 'Skaters Are Athletes Now', subheadline: 'How professional training transformed skateboarding', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80' },
+        { topic: 'Olympic Skateboarding', headline: 'When Counterculture Went Gold', subheadline: 'Skateboarding\'s complicated relationship with mainstream sports', image: 'https://images.unsplash.com/photo-1569517282132-25d22f4573e6?w=800&q=80' },
+        { topic: 'Skate Tech', headline: 'The Gear That Makes It Possible', subheadline: 'Board science and the equipment behind modern tricks', image: 'https://images.unsplash.com/photo-1531565637446-32307b194362?w=800&q=80' }
       ]
     };
 
@@ -1020,6 +1118,50 @@ tools within this category.</pre>
       ]
     };
 
+    // Culture & Sports mini-apps
+    miniAppsByTopic['Skateboard Legacy'] = [
+      { name: 'Trick Library', desc: 'Learn every trick with slow-motion breakdowns', icon: '🛹', color: '#E17055' },
+      { name: 'Spot Finder', desc: 'Discover skateable spots near you', icon: '📍', color: '#00B894' },
+      { name: 'Pro Archive', desc: 'Watch legendary video parts from the greats', icon: '🎬', color: '#6C5CE7' },
+      { name: 'Progress Track', desc: 'Log and celebrate your trick milestones', icon: '📈', color: '#FDCB6E' }
+    ];
+    miniAppsByTopic['Creative Vision'] = [
+      { name: 'Mood Builder', desc: 'Create visual mood boards for your projects', icon: '🎨', color: '#E84393' },
+      { name: 'Sound Lab', desc: 'Experiment with beats and production', icon: '🎹', color: '#6C5CE7' },
+      { name: 'Color Theory', desc: 'Build striking color palettes', icon: '🌈', color: '#00B894' },
+      { name: 'Inspo Feed', desc: 'Curated creative inspiration across mediums', icon: '✨', color: '#FDCB6E' }
+    ];
+    miniAppsByTopic['Authenticity Online'] = [
+      { name: 'Content Planner', desc: 'Plan without overthinking', icon: '📅', color: '#74B9FF' },
+      { name: 'Edit Light', desc: 'Minimal editing for authentic vibes', icon: '✂️', color: '#636E72' },
+      { name: 'Burnout Check', desc: 'Monitor your creative energy levels', icon: '🔋', color: '#00B894' },
+      { name: 'Real Talk', desc: 'Prompts for genuine connection with your audience', icon: '💬', color: '#E17055' }
+    ];
+    miniAppsByTopic['Coffee Culture'] = [
+      { name: 'Brew Guide', desc: 'Perfect your pour-over technique', icon: '☕', color: '#8B4513' },
+      { name: 'Bean Finder', desc: 'Discover roasters and origins', icon: '🌍', color: '#00B894' },
+      { name: 'Café Map', desc: 'Find the best coffee shops anywhere', icon: '🗺️', color: '#E17055' },
+      { name: 'Taste Log', desc: 'Track and rate your coffee journey', icon: '📝', color: '#6C5CE7' }
+    ];
+    miniAppsByTopic['Peak Performance'] = [
+      { name: 'Training Log', desc: 'Track workouts and recovery', icon: '💪', color: '#E17055' },
+      { name: 'Mental Prep', desc: 'Visualization and focus techniques', icon: '🧠', color: '#6C5CE7' },
+      { name: 'Movement Lab', desc: 'Analyze and improve your form', icon: '📐', color: '#00B894' },
+      { name: 'Goal Setter', desc: 'Break down big goals into daily actions', icon: '🎯', color: '#FDCB6E' }
+    ];
+    miniAppsByTopic['Sound Design'] = [
+      { name: 'Beat Maker', desc: 'Create beats with intuitive tools', icon: '🥁', color: '#6C5CE7' },
+      { name: 'Sample Dig', desc: 'Discover rare samples and sounds', icon: '💿', color: '#2D3436' },
+      { name: 'Mix Master', desc: 'Learn mixing techniques from the pros', icon: '🎚️', color: '#E17055' },
+      { name: 'Collab Hub', desc: 'Connect with other producers', icon: '🤝', color: '#00B894' }
+    ];
+    miniAppsByTopic['Street Skating'] = [
+      { name: 'Spot Scout', desc: 'Document and share street spots', icon: '📸', color: '#636E72' },
+      { name: 'Line Builder', desc: 'Plan your lines before you skate them', icon: '✏️', color: '#E17055' },
+      { name: 'Crew Finder', desc: 'Connect with local skaters', icon: '👥', color: '#00B894' },
+      { name: 'Session Recap', desc: 'Edit and share your best clips', icon: '🎬', color: '#6C5CE7' }
+    ];
+
     // Add remaining mini-apps mappings
     const defaultTopics = ['Creative Process', 'Visual Culture', 'AI & Creativity', 'Mindfulness', 'Endurance',
       'Future Fiction', 'Systems Thinking', 'Fermentation', 'Italian Heritage', 'Seasonal Cooking', 'Food History',
@@ -1028,7 +1170,11 @@ tools within this category.</pre>
       'Neural Interfaces', 'Manufacturing', 'Cloud Computing', 'Empathy in Tech', 'AI Democratization',
       'Platform Thinking', 'AI Infrastructure', 'Robotics', 'Gaming Technology', 'Accelerated Computing',
       'AI Safety', 'Startup Building', 'Energy & Compute', 'Economic Transformation', 'AI for Good',
-      'Mobile First', 'Quantum Computing', 'Responsible AI'];
+      'Mobile First', 'Quantum Computing', 'Responsible AI',
+      'Building Brands', 'Longevity', 'Video Game Culture', 'Skate Parks', 'Fashion Identity', 'DIY Empire',
+      'Album as Art', 'Festival Culture', 'Creator Economy', 'Gen Z Style', 'Mental Wellness', 'Mental Health',
+      'Athletic Excellence', 'Advocacy', 'Legacy Building', 'Luxury Fashion', 'Timeless Cool', 'Collaboration',
+      'Brand Building', 'Competition Mind', 'Athletic Training', 'Olympic Skateboarding', 'Skate Tech'];
 
     defaultTopics.forEach(topic => {
       if (!miniAppsByTopic[topic]) {
