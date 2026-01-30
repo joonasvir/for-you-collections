@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You Collections</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+      padding: 40px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 32px;
+      color: #fff;
+    }
+
+    /* Persona Selector */
+    .persona-selector {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+
+    .persona-btn {
+      padding: 16px 24px;
+      border: 1px solid #333;
+      background: #141414;
+      color: #999;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+
+    .persona-btn:hover {
+      border-color: #555;
+      color: #fff;
+    }
+
+    .persona-btn.active {
+      border-color: #fff;
+      color: #fff;
+      background: #1a1a1a;
+    }
+
+    .persona-btn .name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .persona-btn .desc {
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    /* Persona Details */
+    .persona-details {
+      background: #141414;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 48px;
+      border: 1px solid #222;
+    }
+
+    .persona-details h2 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .persona-details p {
+      color: #888;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .memories {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .memory-tag {
+      background: #222;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* Cards Grid */
+    .cards-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .cards-header h2 {
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+
+    .generate-btn {
+      padding: 12px 24px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .generate-btn:hover {
+      opacity: 0.9;
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      height: 400px;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    .card:hover .card-bg {
+      transform: scale(1.05);
+    }
+
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%);
+    }
+
+    .card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+    }
+
+    .card-topic {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+
+    .card-headline {
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .card-subheadline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.4;
+    }
+
+    .card.loading .card-bg {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 40px;
+      color: #555;
+    }
+
+    .empty-state p {
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>For You Collections</h1>
+
+    <div class="persona-selector" id="personaSelector"></div>
+
+    <div class="persona-details" id="personaDetails" style="display: none;">
+      <h2 id="personaName"></h2>
+      <p id="personaDescription"></p>
+      <div class="memories" id="personaMemories"></div>
+    </div>
+
+    <div class="cards-header">
+      <h2>Your Recommendations</h2>
+      <button class="generate-btn" id="generateBtn" disabled>Generate Cards</button>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+      <div class="empty-state">
+        <p>Select a persona to see personalized recommendations</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample personas with descriptions and memories
+    const personas = [
+      {
+        id: 'creative-professional',
+        name: 'Maya',
+        shortDesc: 'Creative Director',
+        description: 'A 34-year-old creative director based in Brooklyn. Passionate about sustainable design, experimental typography, and finding inspiration in urban architecture. Spends weekends exploring galleries and vintage bookstores.',
+        memories: ['sustainable design', 'typography', 'urban exploration', 'vintage books', 'gallery visits', 'Brooklyn life', 'creative process', 'brand identity']
+      },
+      {
+        id: 'tech-entrepreneur',
+        name: 'Alex',
+        shortDesc: 'Startup Founder',
+        description: 'A 29-year-old tech entrepreneur building their second startup in the AI space. Interested in productivity systems, meditation, long-distance running, and science fiction. Believes in building tools that amplify human potential.',
+        memories: ['AI technology', 'productivity', 'meditation practice', 'running marathons', 'sci-fi novels', 'startup culture', 'system design', 'human potential']
+      },
+      {
+        id: 'culinary-explorer',
+        name: 'Sofia',
+        shortDesc: 'Food Writer',
+        description: 'A 42-year-old food writer and home cook who spent years living in Italy and Japan. Obsessed with fermentation, seasonal cooking, and the stories behind family recipes. Collects vintage cookware.',
+        memories: ['Italian cuisine', 'Japanese cooking', 'fermentation', 'seasonal ingredients', 'family recipes', 'vintage cookware', 'food history', 'home cooking']
+      },
+      {
+        id: 'outdoor-minimalist',
+        name: 'Kai',
+        shortDesc: 'Nature Photographer',
+        description: 'A 38-year-old nature photographer and minimalist living in a converted van. Documents wilderness areas and advocates for conservation. Finds peace in solitude and the rhythm of natural light.',
+        memories: ['wilderness photography', 'van life', 'conservation', 'minimalism', 'natural light', 'solitude', 'mountain trails', 'wildlife']
+      }
+    ];
+
+    // Sample topics and content generation (in real app, this would call an AI)
+    const topicsByPersona = {
+      'creative-professional': [
+        { topic: 'Typography', headline: 'The Lost Art of Hand-Lettering', subheadline: 'How Brooklyn sign painters are keeping traditional letterforms alive in the digital age' },
+        { topic: 'Sustainable Design', headline: 'Materials That Give Back', subheadline: 'Exploring circular design principles through the work of five innovative studios' },
+        { topic: 'Architecture', headline: 'Brutalism\'s Quiet Revival', subheadline: 'Why young architects are revisiting concrete poetry in residential spaces' },
+        { topic: 'Creative Process', headline: 'The 4AM Sketchbook', subheadline: 'Inside the morning rituals of designers who swear by pre-dawn creativity' },
+        { topic: 'Visual Culture', headline: 'When Bookstores Were Galleries', subheadline: 'A photographic journey through the most beautiful independent bookshops' }
+      ],
+      'tech-entrepreneur': [
+        { topic: 'AI & Creativity', headline: 'The Co-Pilot Mindset', subheadline: 'How founders are learning to think alongside AI rather than against it' },
+        { topic: 'Mindfulness', headline: 'The Silent Morning', subheadline: 'Why top founders are abandoning phones for meditation before 7AM' },
+        { topic: 'Endurance', headline: 'Run to Build', subheadline: 'The unexpected connection between ultramarathons and startup resilience' },
+        { topic: 'Future Fiction', headline: 'Sci-Fi as Business Strategy', subheadline: 'The novels that predicted today\'s tech—and what they say about tomorrow' },
+        { topic: 'Systems Thinking', headline: 'The Anti-Productivity System', subheadline: 'Counterintuitive frameworks for getting more done by doing less' }
+      ],
+      'culinary-explorer': [
+        { topic: 'Fermentation', headline: 'The Patience of Koji', subheadline: 'A 72-hour journey into Japan\'s most transformative ingredient' },
+        { topic: 'Italian Heritage', headline: 'Nonnas Never Measured', subheadline: 'Preserving recipes that exist only in muscle memory and love' },
+        { topic: 'Seasonal Cooking', headline: 'The Winter Larder', subheadline: 'Ancient preservation techniques for a modern kitchen' },
+        { topic: 'Food History', headline: 'When Empires Ate', subheadline: 'How trade routes shaped the dishes we now call home cooking' },
+        { topic: 'Kitchen Tools', headline: 'The Pan That Raised Me', subheadline: 'Personal essays on the heirloom cookware we\'ll never replace' }
+      ],
+      'outdoor-minimalist': [
+        { topic: 'Light & Landscape', headline: 'Chasing Golden Hour', subheadline: 'The photographer\'s obsession with those fleeting moments of perfect light' },
+        { topic: 'Conservation', headline: 'The Last Wild Places', subheadline: 'Documenting wilderness before it exists only in photographs' },
+        { topic: 'Minimalism', headline: 'Everything I Own Fits Here', subheadline: 'What two years of van life taught me about what actually matters' },
+        { topic: 'Solitude', headline: 'The Gift of Being Alone', subheadline: 'Finding yourself in places where no one can find you' },
+        { topic: 'Wildlife', headline: 'Patience as Practice', subheadline: 'The meditation of waiting for wildlife to reveal itself' }
+      ]
+    };
+
+    // Placeholder images (in real app, these would be AI-generated)
+    const placeholderImages = [
+      'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80',
+      'https://images.unsplash.com/photo-1579762715118-a6f1d4b934f1?w=800&q=80',
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
+      'https://images.unsplash.com/photo-1493134799591-2c9edd8a0967?w=800&q=80',
+      'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&q=80'
+    ];
+
+    let selectedPersona = null;
+
+    // Initialize persona selector
+    function initPersonaSelector() {
+      const selector = document.getElementById('personaSelector');
+      personas.forEach(persona => {
+        const btn = document.createElement('button');
+        btn.className = 'persona-btn';
+        btn.innerHTML = `
+          <div class="name">${persona.name}</div>
+          <div class="desc">${persona.shortDesc}</div>
+        `;
+        btn.onclick = () => selectPersona(persona);
+        selector.appendChild(btn);
+      });
+    }
+
+    // Select a persona
+    function selectPersona(persona) {
+      selectedPersona = persona;
+
+      // Update button states
+      document.querySelectorAll('.persona-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', personas[i].id === persona.id);
+      });
+
+      // Show persona details
+      const details = document.getElementById('personaDetails');
+      details.style.display = 'block';
+      document.getElementById('personaName').textContent = persona.name;
+      document.getElementById('personaDescription').textContent = persona.description;
+
+      const memoriesEl = document.getElementById('personaMemories');
+      memoriesEl.innerHTML = persona.memories.map(m => `<span class="memory-tag">${m}</span>`).join('');
+
+      // Enable generate button
+      document.getElementById('generateBtn').disabled = false;
+
+      // Clear cards
+      document.getElementById('cardsGrid').innerHTML = `
+        <div class="empty-state">
+          <p>Click "Generate Cards" to create personalized recommendations</p>
+        </div>
+      `;
+    }
+
+    // Generate cards
+    function generateCards() {
+      if (!selectedPersona) return;
+
+      const grid = document.getElementById('cardsGrid');
+      const topics = topicsByPersona[selectedPersona.id];
+
+      // Show loading state
+      grid.innerHTML = topics.map(() => `
+        <div class="card loading">
+          <div class="card-bg"></div>
+          <div class="card-overlay"></div>
+          <div class="card-content">
+            <div class="card-topic">Loading...</div>
+            <div class="card-headline">Generating...</div>
+          </div>
+        </div>
+      `).join('');
+
+      // Simulate async generation
+      topics.forEach((item, i) => {
+        setTimeout(() => {
+          const cards = grid.querySelectorAll('.card');
+          if (cards[i]) {
+            cards[i].classList.remove('loading');
+            cards[i].innerHTML = `
+              <div class="card-bg" style="background-image: url('${placeholderImages[i]}')"></div>
+              <div class="card-overlay"></div>
+              <div class="card-content">
+                <div class="card-topic">${item.topic}</div>
+                <div class="card-headline">${item.headline}</div>
+                <div class="card-subheadline">${item.subheadline}</div>
+              </div>
+            `;
+          }
+        }, 500 + (i * 300));
+      });
+    }
+
+    // Initialize
+    initPersonaSelector();
+    document.getElementById('generateBtn').onclick = generateCards;
+  </script>
+</body>
+</html>
