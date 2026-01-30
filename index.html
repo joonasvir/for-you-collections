@@ -1338,37 +1338,53 @@ tools within this category.</pre>
       const stack = document.getElementById('cardStack');
       stack.innerHTML = `
         <div class="empty-state">
-          <div class="icon" style="animation: spin 1s linear infinite;">⏳</div>
-          <p>Generating personalized cards...</p>
+          <div class="icon" style="animation: spin 1s linear infinite;">✦</div>
+          <p>Generating ${currentStyle === 'photo' ? '' : currentStyle + ' '}images...</p>
         </div>
       `;
 
-      // If using illustration/3d/minimal style, try to enhance prompts via API
+      // Generate images for non-photo styles
       if (currentStyle !== 'photo') {
         try {
-          // Generate enhanced prompts for each card (in parallel)
-          const enhancedCards = await Promise.all(
-            cards.map(async (card) => {
-              try {
-                const response = await fetch('/api/generate-image', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    prompt: `${card.topic}: ${card.headline}`,
-                    style: currentStyle
-                  })
-                });
+          // Generate images one by one to show progress
+          const enhancedCards = [];
+          for (let i = 0; i < cards.length; i++) {
+            const card = cards[i];
 
-                if (response.ok) {
-                  const data = await response.json();
-                  return { ...card, enhancedPrompt: data.imagePrompt };
-                }
-              } catch (e) {
-                console.log('API not available, using defaults');
+            // Update loading message
+            stack.innerHTML = `
+              <div class="empty-state">
+                <div class="icon" style="animation: spin 1s linear infinite;">✦</div>
+                <p>Generating image ${i + 1} of ${cards.length}...</p>
+              </div>
+            `;
+
+            try {
+              const response = await fetch('/api/generate-image', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  prompt: `${card.topic}: ${card.headline}. ${card.subheadline}`,
+                  style: currentStyle,
+                  generateImage: true
+                })
+              });
+
+              if (response.ok) {
+                const data = await response.json();
+                enhancedCards.push({
+                  ...card,
+                  enhancedPrompt: data.imagePrompt,
+                  generatedImage: data.imageData || null
+                });
+              } else {
+                enhancedCards.push(card);
               }
-              return card;
-            })
-          );
+            } catch (e) {
+              console.log('Image generation failed for card', i, e);
+              enhancedCards.push(card);
+            }
+          }
           cards = enhancedCards;
         } catch (error) {
           console.log('Using default cards:', error);
@@ -1416,15 +1432,20 @@ tools within this category.</pre>
     function createCardElement(card, index) {
       const cardEl = document.createElement('div');
       cardEl.className = 'card';
+
+      // Use generated image if available, otherwise fall back to default
+      const imageSource = card.generatedImage || card.image;
+      const isGenerated = !!card.generatedImage;
+
       cardEl.innerHTML = `
-        <div class="card-bg" style="background-image: url('${card.image}')"></div>
+        <div class="card-bg" style="background-image: url('${imageSource}')"></div>
         <div class="card-overlay"></div>
         <div class="card-content">
           <div class="card-topic">${card.topic}</div>
           <div class="card-headline">${card.headline}</div>
           <div class="card-subheadline">${card.subheadline}</div>
         </div>
-        <div class="card-style-badge">${visualStyles[currentStyle].label}</div>
+        <div class="card-style-badge">${isGenerated ? '✦ ' : ''}${visualStyles[currentStyle].label}</div>
         <div class="swipe-hint left">SKIP</div>
         <div class="swipe-hint right">SAVE</div>
       `;
