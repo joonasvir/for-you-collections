@@ -6,11 +6,11 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
 
   const gatewayKey = process.env.GATEWAY_API_KEY;
-  const replicateKey = process.env.REPLICATE_API_TOKEN;
+  const googleKey = process.env.GOOGLE_AI_API_KEY;
 
   const status = {
     gatewayKeyConfigured: !!gatewayKey,
-    replicateKeyConfigured: !!replicateKey,
+    googleAIKeyConfigured: !!googleKey,
     nodeBrainUrl: NODEBRAIN_BASE_URL,
     timestamp: new Date().toISOString()
   };
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       status.nodeBrainConnected = response.ok;
       if (response.ok) {
         const models = await response.json();
-        status.availableModels = models.map(m => m.id);
+        status.availableTextModels = models.slice(0, 5).map(m => m.id);
       }
     } catch (error) {
       status.nodeBrainConnected = false;
@@ -32,24 +32,26 @@ export default async function handler(req, res) {
     }
   }
 
-  // Check Replicate connectivity
-  if (replicateKey) {
+  // Check Google AI connectivity
+  if (googleKey) {
     try {
-      const response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-schnell', {
-        headers: { 'Authorization': `Bearer ${replicateKey}` }
-      });
-      status.replicateConnected = response.ok;
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models?key=${googleKey}`
+      );
+      status.googleAIConnected = response.ok;
       if (response.ok) {
-        const model = await response.json();
-        status.fluxModel = model.latest_version?.id ? 'available' : 'not found';
+        const data = await response.json();
+        const imageModels = data.models?.filter(m => m.name.includes('imagen')) || [];
+        status.imagenAvailable = imageModels.length > 0;
+        status.imageModels = imageModels.map(m => m.name);
       }
     } catch (error) {
-      status.replicateConnected = false;
-      status.replicateError = error.message;
+      status.googleAIConnected = false;
+      status.googleAIError = error.message;
     }
   }
 
-  status.imageGenerationReady = status.nodeBrainConnected && status.replicateConnected;
+  status.imageGenerationReady = status.nodeBrainConnected && status.googleAIConnected && status.imagenAvailable;
 
   return res.status(200).json(status);
 }

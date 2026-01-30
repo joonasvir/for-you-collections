@@ -1,15 +1,15 @@
 // Vercel Serverless Function for image generation
-// Environment variables: GATEWAY_API_KEY, REPLICATE_API_TOKEN
+// Environment variables: GATEWAY_API_KEY, GOOGLE_AI_API_KEY
 
 const NODEBRAIN_BASE_URL = 'https://nodes.ivanovskii.com';
-const REPLICATE_API_URL = 'https://api.replicate.com/v1';
+const GOOGLE_AI_URL = 'https://generativelanguage.googleapis.com/v1beta';
 
 // Style prompts for different visual styles
 const stylePrompts = {
-  photo: 'Editorial photography style, natural lighting, shallow depth of field, magazine quality, atmospheric and evocative, 4K, high resolution',
-  illustration: 'Hand-painted gouache illustration with visible brushstrokes, soft painterly style inspired by Studio Ghibli, warm atmospheric lighting, dreamy and whimsical, artistic',
-  '3d': 'Cinema 4D style 3D render, soft lighting, pastel colors, abstract geometric shapes, clean minimalist composition, octane render quality, isometric view',
-  minimal: 'Minimalist graphic design, solid color blocks, simple geometric shapes, clean composition, Bauhaus inspired, modern aesthetic'
+  photo: 'Editorial photography style, natural lighting, shallow depth of field, magazine quality, atmospheric and evocative, 4K, high resolution, professional photograph',
+  illustration: 'Hand-painted gouache illustration with visible brushstrokes, soft painterly style inspired by Studio Ghibli, warm atmospheric lighting, dreamy and whimsical, artistic illustration',
+  '3d': 'Cinema 4D style 3D render, soft lighting, pastel colors, abstract geometric shapes, clean minimalist composition, octane render quality, isometric 3D art',
+  minimal: 'Minimalist graphic design, solid color blocks, simple geometric shapes, clean composition, Bauhaus inspired, modern flat design aesthetic'
 };
 
 export default async function handler(req, res) {
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   }
 
   const gatewayKey = process.env.GATEWAY_API_KEY;
-  const replicateKey = process.env.REPLICATE_API_TOKEN;
+  const googleKey = process.env.GOOGLE_AI_API_KEY;
 
   if (!gatewayKey) {
     return res.status(500).json({ error: 'Gateway API key not configured' });
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
         messages: [
           {
             role: 'system',
-            content: `You are an expert at creating image generation prompts for Flux AI. Given a topic, create a detailed, evocative prompt. Be specific about composition, lighting, mood, colors, and details. Keep it under 150 words. Do not include any markdown, links, or citations - just the pure prompt text. Style: ${styleContext}`
+            content: `You are an expert at creating image generation prompts for Imagen 3. Given a topic, create a detailed, evocative prompt. Be specific about composition, lighting, mood, colors, and details. Keep it under 100 words. Do not include any markdown, links, citations, or explanations - output ONLY the pure prompt text. Style: ${styleContext}`
           },
           {
             role: 'user',
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
         ],
         model: 'gemini-3-flash',
         temperature: 0.8,
-        maxOutputTokens: 250
+        maxOutputTokens: 200
       })
     });
 
@@ -75,60 +75,57 @@ export default async function handler(req, res) {
     const llmData = await llmResponse.json();
     const imagePrompt = llmData.content;
 
-    // Step 2: If generateImage is true and we have Replicate key, generate the image
-    if (generateImage && replicateKey) {
+    // Step 2: If generateImage is true and we have Google AI key, generate the image
+    if (generateImage && googleKey) {
       try {
-        // Start Flux generation
-        const fluxResponse = await fetch(`${REPLICATE_API_URL}/models/black-forest-labs/flux-schnell/predictions`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${replicateKey}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'wait'  // Wait for result (up to 60s)
-          },
-          body: JSON.stringify({
-            input: {
-              prompt: imagePrompt,
-              go_fast: true,
-              num_outputs: 1,
-              aspect_ratio: '3:4',
-              output_format: 'webp',
-              output_quality: 80
-            }
-          })
-        });
+        // Use Imagen 3 via Gemini API
+        const imagenResponse = await fetch(
+          `${GOOGLE_AI_URL}/models/imagen-3.0-generate-002:predict?key=${googleKey}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              instances: [
+                {
+                  prompt: imagePrompt
+                }
+              ],
+              parameters: {
+                sampleCount: 1,
+                aspectRatio: '3:4',
+                personGeneration: 'allow_adult'
+              }
+            })
+          }
+        );
 
-        if (fluxResponse.ok) {
-          const fluxData = await fluxResponse.json();
+        if (imagenResponse.ok) {
+          const imagenData = await imagenResponse.json();
 
-          // Check if we got the output directly (with Prefer: wait)
-          if (fluxData.output && fluxData.output.length > 0) {
+          if (imagenData.predictions && imagenData.predictions.length > 0) {
+            // Imagen returns base64 encoded images
+            const base64Image = imagenData.predictions[0].bytesBase64Encoded;
+            const mimeType = imagenData.predictions[0].mimeType || 'image/png';
+
             return res.status(200).json({
               success: true,
               imagePrompt: imagePrompt,
-              imageUrl: fluxData.output[0],
+              imageData: `data:${mimeType};base64,${base64Image}`,
               style: style,
               originalTopic: prompt
             });
           }
-
-          // If prediction is still processing, return the prediction ID
-          return res.status(200).json({
-            success: true,
-            imagePrompt: imagePrompt,
-            predictionId: fluxData.id,
-            status: fluxData.status,
-            style: style,
-            originalTopic: prompt
-          });
         } else {
-          const errorText = await fluxResponse.text();
-          console.error('Replicate error:', errorText);
+          const errorData = await imagenResponse.json().catch(() => ({}));
+          console.error('Imagen error:', JSON.stringify(errorData));
+
           // Fall back to just returning the prompt
           return res.status(200).json({
             success: true,
             imagePrompt: imagePrompt,
-            imageError: 'Failed to generate image',
+            imageError: errorData.error?.message || 'Failed to generate image',
             style: style,
             originalTopic: prompt
           });
@@ -151,7 +148,7 @@ export default async function handler(req, res) {
       imagePrompt: imagePrompt,
       style: style,
       originalTopic: prompt,
-      imageGenerationAvailable: !!replicateKey
+      imageGenerationAvailable: !!googleKey
     });
 
   } catch (error) {
