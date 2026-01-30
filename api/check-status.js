@@ -5,7 +5,7 @@ const NODEBRAIN_BASE_URL = 'https://nodes.ivanovskii.com';
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
 
-  const apiKey = process.env.NODEBRAIN_API_KEY;
+  const apiKey = process.env.GATEWAY_API_KEY;
 
   const status = {
     apiKeyConfigured: !!apiKey,
