@@ -16,117 +16,143 @@
       background: #0a0a0a;
       color: #fff;
       min-height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
-    .container {
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 24px;
-      min-height: 100vh;
+    /* Three Column Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr 0px;
+      height: 100vh;
+      transition: grid-template-columns 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Header */
-    .header {
+    .layout.panel-open {
+      grid-template-columns: 320px 1fr 400px;
+    }
+
+    /* Left Sidebar */
+    .sidebar {
+      background: #0a0a0a;
+      border-right: 1px solid #1a1a1a;
+      padding: 32px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
-    h1 {
+    .sidebar h1 {
       font-size: 1.25rem;
       font-weight: 600;
     }
 
     .prompts-toggle {
-      padding: 8px 12px;
+      padding: 6px 10px;
       background: transparent;
       border: 1px solid #333;
-      color: #888;
-      border-radius: 8px;
-      font-size: 12px;
+      color: #666;
+      border-radius: 6px;
+      font-size: 11px;
       cursor: pointer;
       transition: all 0.2s;
     }
 
     .prompts-toggle:hover {
       border-color: #555;
-      color: #fff;
+      color: #888;
     }
 
     .prompts-toggle.active {
-      background: #222;
-      border-color: #444;
-      color: #fff;
+      background: #1a1a1a;
+      border-color: #333;
+      color: #aaa;
+    }
+
+    .section-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #444;
+      margin-bottom: 16px;
     }
 
     /* Persona Selector */
-    .persona-selector {
+    .persona-list {
       display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .persona-selector::-webkit-scrollbar {
-      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 32px;
     }
 
     .persona-btn {
-      flex-shrink: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       padding: 12px;
       background: transparent;
-      border: 2px solid transparent;
-      border-radius: 16px;
+      border: 1px solid transparent;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s;
-      width: 80px;
+      text-align: left;
     }
 
     .persona-btn:hover {
-      background: #151515;
+      background: #111;
     }
 
     .persona-btn.active {
-      background: #151515;
-      border-color: #333;
+      background: #111;
+      border-color: #222;
     }
 
     .persona-avatar {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #222;
+      flex-shrink: 0;
     }
 
     .persona-btn.active .persona-avatar {
       border-color: #fff;
     }
 
+    .persona-btn-info {
+      flex: 1;
+      min-width: 0;
+    }
+
     .persona-btn .name {
-      font-size: 12px;
-      color: #888;
+      font-size: 14px;
       font-weight: 500;
+      color: #888;
+      margin-bottom: 2px;
     }
 
     .persona-btn.active .name {
       color: #fff;
     }
 
+    .persona-btn .role {
+      font-size: 12px;
+      color: #555;
+    }
+
     /* Prompt Box */
     .prompt-box {
-      background: #111;
-      border: 1px solid #222;
-      border-radius: 12px;
-      padding: 16px;
+      background: #0f0f0f;
+      border: 1px solid #1a1a1a;
+      border-radius: 10px;
+      padding: 14px;
       margin-bottom: 24px;
       display: none;
     }
@@ -136,93 +162,99 @@
     }
 
     .prompt-box .label {
-      font-size: 10px;
+      font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: #666;
+      color: #444;
       margin-bottom: 8px;
     }
 
     .prompt-box pre {
       font-family: 'SF Mono', Monaco, monospace;
-      font-size: 11px;
-      color: #888;
+      font-size: 10px;
+      color: #666;
       white-space: pre-wrap;
       line-height: 1.5;
     }
 
     /* Persona Details */
     .persona-details {
-      background: #111;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 24px;
-      border: 1px solid #1a1a1a;
+      flex: 1;
       display: none;
+      flex-direction: column;
     }
 
     .persona-details.visible {
-      display: block;
-    }
-
-    .persona-header {
       display: flex;
-      gap: 16px;
-      margin-bottom: 16px;
     }
 
-    .persona-header img {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .persona-header-info {
-      flex: 1;
-    }
-
-    .persona-header-info h2 {
-      font-size: 1.1rem;
-      margin-bottom: 4px;
-    }
-
-    .persona-header-info .role {
-      font-size: 13px;
+    .persona-bio {
       color: #666;
-    }
-
-    .persona-details p {
-      color: #888;
       line-height: 1.6;
       font-size: 13px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .memories {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      margin-bottom: 24px;
     }
 
     .memory-tag {
-      background: #1a1a1a;
+      background: #141414;
       padding: 6px 10px;
-      border-radius: 16px;
+      border-radius: 14px;
       font-size: 11px;
-      color: #777;
+      color: #555;
     }
 
-    /* Card Stack */
+    .generate-btn {
+      padding: 14px 24px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      margin-top: auto;
+    }
+
+    .generate-btn:hover {
+      opacity: 0.9;
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+
+    /* Main Content - Card Stack */
+    .main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: #050505;
+      position: relative;
+    }
+
+    .card-area {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .card-stack-container {
       position: relative;
-      height: 480px;
-      margin-bottom: 24px;
-      display: none;
-    }
-
-    .card-stack-container.visible {
-      display: block;
+      width: 100%;
+      aspect-ratio: 3/4;
+      max-height: 560px;
     }
 
     .card-stack {
@@ -281,7 +313,7 @@
     }
 
     .card-headline {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 600;
       line-height: 1.2;
       margin-bottom: 10px;
@@ -327,58 +359,19 @@
       background: #44cc44;
     }
 
-    /* Generate Button */
-    .generate-section {
-      text-align: center;
-      padding: 60px 20px;
-      display: none;
-    }
-
-    .generate-section.visible {
-      display: block;
-    }
-
-    .generate-section p {
-      color: #555;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .generate-btn {
-      padding: 16px 32px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-
-    .generate-btn:hover {
-      transform: scale(1.02);
-    }
-
-    .generate-btn:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-      transform: none;
-    }
-
     /* Stack indicator */
     .stack-indicator {
       display: flex;
       justify-content: center;
       gap: 6px;
-      margin-top: 16px;
+      margin-top: 20px;
     }
 
     .stack-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #333;
+      background: #222;
       transition: all 0.3s;
     }
 
@@ -389,96 +382,118 @@
     }
 
     .stack-dot.seen {
-      background: #555;
+      background: #444;
     }
 
-    /* Mini Apps Modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      z-index: 100;
+    .tap-hint {
+      text-align: center;
+      color: #333;
+      font-size: 12px;
+      margin-top: 16px;
     }
 
-    .modal-overlay.visible {
-      opacity: 1;
-      visibility: visible;
+    /* Empty state */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #333;
+      text-align: center;
+      padding: 40px;
     }
 
-    .modal {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #141414;
-      border-radius: 24px 24px 0 0;
-      max-height: 85vh;
-      overflow-y: auto;
-      transform: translateY(100%);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 101;
+    .empty-state .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
     }
 
-    .modal.visible {
-      transform: translateY(0);
+    .empty-state p {
+      font-size: 14px;
+      line-height: 1.6;
     }
 
-    .modal-handle {
-      width: 36px;
-      height: 4px;
-      background: #333;
-      border-radius: 2px;
-      margin: 12px auto 0;
+    /* Right Panel - Mini Apps */
+    .panel {
+      background: #0a0a0a;
+      border-left: 1px solid #1a1a1a;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    .modal-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid #222;
+    .panel-header {
+      padding: 24px;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
-    .modal-header h3 {
-      font-size: 1.25rem;
+    .panel-header-info h2 {
+      font-size: 1.1rem;
       margin-bottom: 4px;
     }
 
-    .modal-header p {
-      font-size: 13px;
-      color: #666;
+    .panel-header-info p {
+      font-size: 12px;
+      color: #555;
     }
 
-    .mini-apps-list {
+    .panel-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #141414;
+      border: none;
+      color: #666;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .panel-close:hover {
+      background: #1a1a1a;
+      color: #888;
+    }
+
+    .panel-content {
+      flex: 1;
+      overflow-y: auto;
       padding: 16px;
     }
 
     .mini-app {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 16px;
-      background: #1a1a1a;
-      border-radius: 16px;
-      margin-bottom: 12px;
+      gap: 14px;
+      padding: 14px;
+      background: #111;
+      border-radius: 14px;
+      margin-bottom: 10px;
       cursor: pointer;
       transition: all 0.2s;
+      border: 1px solid transparent;
     }
 
     .mini-app:hover {
-      background: #222;
-      transform: translateX(4px);
+      background: #151515;
+      border-color: #222;
     }
 
     .mini-app-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 22px;
       flex-shrink: 0;
     }
 
@@ -488,167 +503,156 @@
     }
 
     .mini-app-info h4 {
-      font-size: 15px;
-      margin-bottom: 4px;
+      font-size: 14px;
+      margin-bottom: 3px;
     }
 
     .mini-app-info p {
       font-size: 12px;
-      color: #666;
+      color: #555;
       line-height: 1.4;
     }
 
     .mini-app-arrow {
-      color: #444;
-      font-size: 18px;
+      color: #333;
+      font-size: 16px;
     }
 
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #222;
-      border: none;
-      color: #888;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* Card prompt in panel */
+    .panel .prompt-box {
+      margin: 0 0 16px 0;
     }
 
-    .modal-close:hover {
-      background: #333;
-      color: #fff;
-    }
-
-    /* Loading State */
-    .loading-state {
+    /* All done state */
+    .done-state {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 400px;
-      gap: 16px;
-    }
-
-    .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #222;
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-state p {
-      color: #555;
-      font-size: 14px;
-    }
-
-    /* Tap hint */
-    .tap-hint {
-      text-align: center;
+      height: 100%;
       color: #444;
-      font-size: 12px;
-      margin-top: 12px;
+    }
+
+    .done-state .checkmark {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .done-state p {
+      font-size: 15px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .layout {
+        grid-template-columns: 280px 1fr 0px;
+      }
+      .layout.panel-open {
+        grid-template-columns: 280px 1fr 340px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .layout.panel-open {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .panel {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+      }
+      .layout.panel-open .panel {
+        transform: translateX(0);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>For You</h1>
-      <button class="prompts-toggle" id="promptsToggle">Show Prompts</button>
-    </div>
-
-    <div class="persona-selector" id="personaSelector"></div>
-
-    <div class="prompt-box" id="personaPrompt">
-      <div class="label">Persona Selection Prompt</div>
-      <pre>Given the user's profile and memories, select
-the most relevant content topics. Consider:
-- Personal interests and hobbies
-- Professional background
-- Lifestyle and values
-- Recent activities and searches
-
-Return 5 diverse topics that would resonate
-with this specific person.</pre>
-    </div>
-
-    <div class="persona-details" id="personaDetails">
-      <div class="persona-header">
-        <img id="personaAvatar" src="" alt="">
-        <div class="persona-header-info">
-          <h2 id="personaName"></h2>
-          <div class="role" id="personaRole"></div>
-        </div>
+  <div class="layout" id="layout">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>For You</h1>
+        <button class="prompts-toggle" id="promptsToggle">Prompts</button>
       </div>
-      <p id="personaDescription"></p>
-      <div class="memories" id="personaMemories"></div>
-    </div>
 
-    <div class="prompt-box" id="cardPrompt">
-      <div class="label">Card Generation Prompt</div>
-      <pre>For the topic "{topic}" and persona "{name}":
+      <div class="prompt-box" id="personaPrompt">
+        <div class="label">Persona Selection</div>
+        <pre>Given the user's profile and memories,
+select the most relevant content topics.
+Consider personal interests, professional
+background, lifestyle values, and recent
+activities. Return 5 diverse topics.</pre>
+      </div>
 
-Generate a compelling recommendation card:
-1. HEADLINE: Evocative, curiosity-inducing
-   (5-8 words, no clickbait)
-2. SUBHEADLINE: Expand on the hook, hint at
-   the journey (15-20 words)
-3. IMAGE PROMPT: Atmospheric, editorial-style
-   photography description for AI generation
+      <div class="section-label">Choose Persona</div>
+      <div class="persona-list" id="personaList"></div>
 
-Match the tone to the persona's sophistication
-and interests. Make it feel personally curated.</pre>
-    </div>
+      <div class="persona-details" id="personaDetails">
+        <div class="section-label">About</div>
+        <p class="persona-bio" id="personaBio"></p>
 
-    <div class="generate-section" id="generateSection">
-      <p>Ready to generate personalized recommendations</p>
-      <button class="generate-btn" id="generateBtn">Generate Cards</button>
-    </div>
+        <div class="section-label">Memories</div>
+        <div class="memories" id="personaMemories"></div>
 
-    <div class="card-stack-container" id="cardStackContainer">
-      <div class="card-stack" id="cardStack"></div>
-      <div class="stack-indicator" id="stackIndicator"></div>
-      <div class="tap-hint">Tap card to explore • Swipe to browse</div>
-    </div>
+        <div class="prompt-box" id="cardPrompt">
+          <div class="label">Card Generation</div>
+          <pre>For topic "{topic}" and persona:
+Generate headline (5-8 words),
+subheadline (15-20 words), and
+atmospheric image prompt. Match
+tone to persona's sophistication.</pre>
+        </div>
 
-    <div class="prompt-box" id="miniAppsPrompt">
-      <div class="label">Mini-Apps Generation Prompt</div>
-      <pre>For the category "{topic}" and persona "{name}":
+        <button class="generate-btn" id="generateBtn">Generate Recommendations</button>
+      </div>
+    </aside>
 
-Generate 4-5 relevant mini-apps/experiences:
-1. APP NAME: Short, memorable (2-3 words)
-2. DESCRIPTION: What it does (10-15 words)
-3. ICON: Emoji that represents the app
-4. COLOR: Hex color for the icon background
+    <!-- Main Content -->
+    <main class="main">
+      <div class="card-area">
+        <div class="card-stack-container" id="cardStackContainer">
+          <div class="card-stack" id="cardStack">
+            <div class="empty-state">
+              <div class="icon">←</div>
+              <p>Select a persona from the sidebar<br>to generate personalized cards</p>
+            </div>
+          </div>
+        </div>
+        <div class="stack-indicator" id="stackIndicator"></div>
+        <div class="tap-hint" id="tapHint" style="display: none;">Tap card to explore • Swipe to browse</div>
+      </div>
+    </main>
 
-Apps should feel like useful tools or
-interactive experiences within this category,
-tailored to the persona's skill level.</pre>
-    </div>
-  </div>
-
-  <!-- Mini Apps Modal -->
-  <div class="modal-overlay" id="modalOverlay"></div>
-  <div class="modal" id="modal">
-    <div class="modal-handle"></div>
-    <button class="modal-close" id="modalClose">×</button>
-    <div class="modal-header">
-      <h3 id="modalTitle">Category</h3>
-      <p id="modalSubtitle">Explore mini-apps</p>
-    </div>
-    <div class="mini-apps-list" id="miniAppsList"></div>
+    <!-- Right Panel -->
+    <aside class="panel" id="panel">
+      <div class="panel-header">
+        <div class="panel-header-info">
+          <h2 id="panelTitle">Category</h2>
+          <p id="panelSubtitle">Explore mini-apps</p>
+        </div>
+        <button class="panel-close" id="panelClose">×</button>
+      </div>
+      <div class="panel-content">
+        <div class="prompt-box visible" id="miniAppsPrompt">
+          <div class="label">Mini-Apps Generation</div>
+          <pre>For category "{topic}" and persona:
+Generate 4-5 relevant mini-apps with
+name, description, icon emoji, and
+color. Apps should feel like useful
+tools within this category.</pre>
+        </div>
+        <div id="miniAppsList"></div>
+      </div>
+    </aside>
   </div>
 
   <script>
@@ -659,8 +663,7 @@ tailored to the persona's skill level.</pre>
         name: 'Maya',
         role: 'Creative Director',
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
-        cover: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
-        description: 'A 34-year-old creative director based in Brooklyn. Passionate about sustainable design, experimental typography, and finding inspiration in urban architecture.',
+        bio: 'A 34-year-old creative director based in Brooklyn. Passionate about sustainable design, experimental typography, and finding inspiration in urban architecture. Spends weekends exploring galleries and vintage bookstores.',
         memories: ['sustainable design', 'typography', 'urban exploration', 'vintage books', 'gallery visits', 'Brooklyn life', 'brand identity']
       },
       {
@@ -668,8 +671,7 @@ tailored to the persona's skill level.</pre>
         name: 'Alex',
         role: 'Startup Founder',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-        cover: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80',
-        description: 'A 29-year-old tech entrepreneur building their second startup in the AI space. Interested in productivity systems, meditation, and long-distance running.',
+        bio: 'A 29-year-old tech entrepreneur building their second startup in the AI space. Interested in productivity systems, meditation, and long-distance running. Believes in building tools that amplify human potential.',
         memories: ['AI technology', 'productivity', 'meditation', 'running marathons', 'sci-fi novels', 'startup culture', 'system design']
       },
       {
@@ -677,8 +679,7 @@ tailored to the persona's skill level.</pre>
         name: 'Sofia',
         role: 'Food Writer',
         avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',
-        cover: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80',
-        description: 'A 42-year-old food writer who spent years living in Italy and Japan. Obsessed with fermentation, seasonal cooking, and the stories behind family recipes.',
+        bio: 'A 42-year-old food writer who spent years living in Italy and Japan. Obsessed with fermentation, seasonal cooking, and the stories behind family recipes. Collects vintage cookware.',
         memories: ['Italian cuisine', 'Japanese cooking', 'fermentation', 'seasonal ingredients', 'family recipes', 'vintage cookware', 'food history']
       },
       {
@@ -686,8 +687,7 @@ tailored to the persona's skill level.</pre>
         name: 'Kai',
         role: 'Nature Photographer',
         avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
-        cover: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80',
-        description: 'A 38-year-old nature photographer living in a converted van. Documents wilderness areas and advocates for conservation. Finds peace in solitude.',
+        bio: 'A 38-year-old nature photographer living in a converted van. Documents wilderness areas and advocates for conservation. Finds peace in solitude and the rhythm of natural light.',
         memories: ['wilderness photography', 'van life', 'conservation', 'minimalism', 'natural light', 'mountain trails', 'wildlife']
       }
     ];
@@ -852,34 +852,38 @@ tailored to the persona's skill level.</pre>
     let currentCardIndex = 0;
     let cards = [];
     let showPrompts = false;
+    let selectedCard = null;
 
     // Initialize
     function init() {
-      initPersonaSelector();
+      initPersonaList();
 
       document.getElementById('generateBtn').onclick = generateCards;
       document.getElementById('promptsToggle').onclick = togglePrompts;
-      document.getElementById('modalOverlay').onclick = closeModal;
-      document.getElementById('modalClose').onclick = closeModal;
+      document.getElementById('panelClose').onclick = closePanel;
     }
 
-    function initPersonaSelector() {
-      const selector = document.getElementById('personaSelector');
+    function initPersonaList() {
+      const list = document.getElementById('personaList');
       personas.forEach(persona => {
         const btn = document.createElement('button');
         btn.className = 'persona-btn';
         btn.innerHTML = `
           <img class="persona-avatar" src="${persona.avatar}" alt="${persona.name}">
-          <span class="name">${persona.name}</span>
+          <div class="persona-btn-info">
+            <div class="name">${persona.name}</div>
+            <div class="role">${persona.role}</div>
+          </div>
         `;
         btn.onclick = () => selectPersona(persona);
-        selector.appendChild(btn);
+        list.appendChild(btn);
       });
     }
 
     function selectPersona(persona) {
       selectedPersona = persona;
       currentCardIndex = 0;
+      closePanel();
 
       // Update button states
       document.querySelectorAll('.persona-btn').forEach((btn, i) => {
@@ -887,25 +891,26 @@ tailored to the persona's skill level.</pre>
       });
 
       // Show persona details
-      const details = document.getElementById('personaDetails');
-      details.classList.add('visible');
-      document.getElementById('personaAvatar').src = persona.avatar;
-      document.getElementById('personaName').textContent = persona.name;
-      document.getElementById('personaRole').textContent = persona.role;
-      document.getElementById('personaDescription').textContent = persona.description;
+      document.getElementById('personaDetails').classList.add('visible');
+      document.getElementById('personaBio').textContent = persona.bio;
 
       const memoriesEl = document.getElementById('personaMemories');
       memoriesEl.innerHTML = persona.memories.map(m => `<span class="memory-tag">${m}</span>`).join('');
 
-      // Show generate section, hide cards
-      document.getElementById('generateSection').classList.add('visible');
-      document.getElementById('cardStackContainer').classList.remove('visible');
+      // Reset card stack
+      document.getElementById('cardStack').innerHTML = `
+        <div class="empty-state">
+          <div class="icon">↓</div>
+          <p>Click "Generate Recommendations"<br>to create personalized cards</p>
+        </div>
+      `;
+      document.getElementById('stackIndicator').innerHTML = '';
+      document.getElementById('tapHint').style.display = 'none';
     }
 
     function togglePrompts() {
       showPrompts = !showPrompts;
       document.getElementById('promptsToggle').classList.toggle('active', showPrompts);
-      document.getElementById('promptsToggle').textContent = showPrompts ? 'Hide Prompts' : 'Show Prompts';
 
       document.querySelectorAll('.prompt-box').forEach(box => {
         box.classList.toggle('visible', showPrompts);
@@ -918,15 +923,25 @@ tailored to the persona's skill level.</pre>
       cards = topicsByPersona[selectedPersona.id];
       currentCardIndex = 0;
 
-      document.getElementById('generateSection').classList.remove('visible');
-      document.getElementById('cardStackContainer').classList.add('visible');
-
+      document.getElementById('tapHint').style.display = 'block';
       renderCardStack();
     }
 
     function renderCardStack() {
       const stack = document.getElementById('cardStack');
       stack.innerHTML = '';
+
+      if (currentCardIndex >= cards.length) {
+        stack.innerHTML = `
+          <div class="done-state">
+            <div class="checkmark">✓</div>
+            <p>All caught up!</p>
+          </div>
+        `;
+        document.getElementById('stackIndicator').innerHTML = '';
+        document.getElementById('tapHint').style.display = 'none';
+        return;
+      }
 
       // Render cards in reverse order (last card at bottom)
       const visibleCards = cards.slice(currentCardIndex, currentCardIndex + 3);
@@ -967,18 +982,17 @@ tailored to the persona's skill level.</pre>
         <div class="swipe-hint right">SAVE</div>
       `;
 
-      cardEl.onclick = (e) => {
+      cardEl.addEventListener('click', (e) => {
         if (!cardEl.classList.contains('dragging')) {
-          openMiniApps(card);
+          openPanel(card);
         }
-      };
+      });
 
       return cardEl;
     }
 
     function enableSwipe(cardEl) {
       let startX = 0;
-      let startY = 0;
       let currentX = 0;
       let isDragging = false;
 
@@ -986,7 +1000,6 @@ tailored to the persona's skill level.</pre>
         isDragging = true;
         cardEl.classList.add('dragging');
         startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-        startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
       };
 
       const onMove = (e) => {
@@ -1002,23 +1015,17 @@ tailored to the persona's skill level.</pre>
         const leftHint = cardEl.querySelector('.swipe-hint.left');
         const rightHint = cardEl.querySelector('.swipe-hint.right');
 
-        if (currentX < -50) {
-          leftHint.style.opacity = Math.min(1, Math.abs(currentX + 50) / 100);
-        } else {
-          leftHint.style.opacity = 0;
-        }
-
-        if (currentX > 50) {
-          rightHint.style.opacity = Math.min(1, (currentX - 50) / 100);
-        } else {
-          rightHint.style.opacity = 0;
-        }
+        leftHint.style.opacity = currentX < -50 ? Math.min(1, Math.abs(currentX + 50) / 100) : 0;
+        rightHint.style.opacity = currentX > 50 ? Math.min(1, (currentX - 50) / 100) : 0;
       };
 
       const onEnd = () => {
         if (!isDragging) return;
         isDragging = false;
-        cardEl.classList.remove('dragging');
+
+        setTimeout(() => {
+          cardEl.classList.remove('dragging');
+        }, 100);
 
         const threshold = 100;
 
@@ -1031,18 +1038,7 @@ tailored to the persona's skill level.</pre>
 
           setTimeout(() => {
             currentCardIndex++;
-            if (currentCardIndex < cards.length) {
-              renderCardStack();
-            } else {
-              // All cards viewed
-              document.getElementById('cardStack').innerHTML = `
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #555;">
-                  <p style="font-size: 48px; margin-bottom: 16px;">✓</p>
-                  <p>All caught up!</p>
-                </div>
-              `;
-              document.getElementById('stackIndicator').innerHTML = '';
-            }
+            renderCardStack();
           }, 300);
         } else {
           // Snap back
@@ -1079,11 +1075,12 @@ tailored to the persona's skill level.</pre>
       }).join('');
     }
 
-    function openMiniApps(card) {
+    function openPanel(card) {
+      selectedCard = card;
       const apps = miniAppsByTopic[card.topic] || [];
 
-      document.getElementById('modalTitle').textContent = card.topic;
-      document.getElementById('modalSubtitle').textContent = `${apps.length} mini-apps to explore`;
+      document.getElementById('panelTitle').textContent = card.topic;
+      document.getElementById('panelSubtitle').textContent = `${apps.length} mini-apps to explore`;
 
       const list = document.getElementById('miniAppsList');
       list.innerHTML = apps.map(app => `
@@ -1097,13 +1094,12 @@ tailored to the persona's skill level.</pre>
         </div>
       `).join('');
 
-      document.getElementById('modalOverlay').classList.add('visible');
-      document.getElementById('modal').classList.add('visible');
+      document.getElementById('layout').classList.add('panel-open');
     }
 
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('visible');
-      document.getElementById('modal').classList.remove('visible');
+    function closePanel() {
+      document.getElementById('layout').classList.remove('panel-open');
+      selectedCard = null;
     }
 
     init();
