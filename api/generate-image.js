@@ -78,9 +78,9 @@ export default async function handler(req, res) {
     // Step 2: If generateImage is true and we have Google AI key, generate the image
     if (generateImage && googleKey) {
       try {
-        // Use Imagen 3 via Gemini API
+        // Use Imagen 4 via Gemini API
         const imagenResponse = await fetch(
-          `${GOOGLE_AI_URL}/models/imagen-3.0-generate-002:predict?key=${googleKey}`,
+          `${GOOGLE_AI_URL}/models/imagen-4.0-generate-001:predict?key=${googleKey}`,
           {
             method: 'POST',
             headers: {
