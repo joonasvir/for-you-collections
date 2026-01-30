@@ -54,26 +54,44 @@
       color: #1a1a1a;
     }
 
-    .prompts-toggle {
-      padding: 6px 10px;
+    /* Contextual prompt buttons */
+    .prompt-toggle-btn {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
       background: transparent;
       border: 1px solid #ddd;
-      color: #888;
-      border-radius: 6px;
+      color: #aaa;
       font-size: 11px;
       cursor: pointer;
       transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 8px;
+      flex-shrink: 0;
     }
 
-    .prompts-toggle:hover {
-      border-color: #bbb;
+    .prompt-toggle-btn:hover {
+      border-color: #999;
       color: #666;
+      background: #f5f5f5;
     }
 
-    .prompts-toggle.active {
-      background: #f0f0f0;
-      border-color: #ccc;
-      color: #555;
+    .prompt-toggle-btn.active {
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+      color: #fff;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-header .section-label {
+      margin-bottom: 0;
     }
 
     .section-label {
@@ -689,10 +707,20 @@
     <aside class="sidebar">
       <div class="sidebar-header">
         <h1>For You</h1>
-        <button class="prompts-toggle" id="promptsToggle">Prompts</button>
       </div>
 
-      <div class="section-label">Persona Type</div>
+      <div class="section-header">
+        <span class="section-label">Persona Type</span>
+        <button class="prompt-toggle-btn" data-prompt="personaPrompt" title="Show prompt">?</button>
+      </div>
+      <div class="prompt-box" id="personaPrompt">
+        <div class="label">Persona Selection Prompt</div>
+        <pre>Given the user's profile and memories,
+select the most relevant content topics.
+Consider personal interests, professional
+background, lifestyle values, and recent
+activities. Return 5 diverse topics.</pre>
+      </div>
       <div class="filter-tabs" id="filterTabs">
         <button class="filter-tab active" data-filter="all">All</button>
         <button class="filter-tab" data-filter="fictional">Fictional</button>
@@ -706,17 +734,19 @@
         <div class="section-label">About</div>
         <p class="persona-bio" id="personaBio"></p>
 
-        <div class="section-label">Interests</div>
-        <div class="memories" id="personaMemories"></div>
-
+        <div class="section-header">
+          <span class="section-label">Interests</span>
+          <button class="prompt-toggle-btn" data-prompt="cardPrompt" title="Show prompt">?</button>
+        </div>
         <div class="prompt-box" id="cardPrompt">
-          <div class="label">Card Generation</div>
+          <div class="label">Card Generation Prompt</div>
           <pre>For topic "{topic}" and persona:
 Generate headline (5-8 words),
 subheadline (15-20 words), and
 atmospheric image prompt. Match
 tone to persona's sophistication.</pre>
         </div>
+        <div class="memories" id="personaMemories"></div>
 
         <button class="generate-btn" id="generateBtn">Generate Recommendations</button>
       </div>
@@ -754,8 +784,12 @@ tone to persona's sophistication.</pre>
         <button class="panel-close" id="panelClose">×</button>
       </div>
       <div class="panel-content">
-        <div class="prompt-box visible" id="miniAppsPrompt">
-          <div class="label">Mini-Apps Generation</div>
+        <div class="section-header" style="margin-bottom: 16px;">
+          <span class="section-label">Mini-Apps</span>
+          <button class="prompt-toggle-btn" data-prompt="miniAppsPrompt" title="Show prompt">?</button>
+        </div>
+        <div class="prompt-box" id="miniAppsPrompt">
+          <div class="label">Mini-Apps Generation Prompt</div>
           <pre>For category "{topic}" and persona:
 Generate 4-5 relevant mini-apps with
 name, description, icon emoji, and
@@ -1190,7 +1224,6 @@ tools within this category.</pre>
 
     let selectedPersona = null;
     let cards = [];
-    let showPrompts = false;
     let panelOpen = false;
     let currentStyle = 'photo';
     let currentFilter = 'all';
@@ -1199,11 +1232,25 @@ tools within this category.</pre>
     function init() {
       initStyleSelector();
       initFilterTabs();
+      initPromptToggles();
       renderPersonaList();
 
       document.getElementById('generateBtn').onclick = generateCards;
-      document.getElementById('promptsToggle').onclick = togglePrompts;
       document.getElementById('panelClose').onclick = closePanel;
+    }
+
+    function initPromptToggles() {
+      document.querySelectorAll('.prompt-toggle-btn').forEach(btn => {
+        btn.onclick = () => {
+          const promptId = btn.dataset.prompt;
+          const promptBox = document.getElementById(promptId);
+          const isVisible = promptBox.classList.contains('visible');
+
+          promptBox.classList.toggle('visible', !isVisible);
+          btn.classList.toggle('active', !isVisible);
+          btn.textContent = isVisible ? '?' : '×';
+        };
+      });
     }
 
     function initStyleSelector() {
@@ -1278,15 +1325,7 @@ tools within this category.</pre>
       document.getElementById('tapHint').style.display = 'none';
     }
 
-    function togglePrompts() {
-      showPrompts = !showPrompts;
-      document.getElementById('promptsToggle').classList.toggle('active', showPrompts);
-
-      document.querySelectorAll('.prompt-box').forEach(box => {
-        box.classList.toggle('visible', showPrompts);
-      });
-    }
-
+    
     async function generateCards() {
       if (!selectedPersona) return;
 
