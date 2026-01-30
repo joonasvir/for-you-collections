@@ -1260,7 +1260,7 @@ tools within this category.</pre>
           selector.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           currentStyle = btn.dataset.style;
-          document.getElementById('stylePromptText').textContent = visualStyles[currentStyle].prompt;
+          console.log('Style changed to:', currentStyle);
         };
       });
     }
