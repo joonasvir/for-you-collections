@@ -1,23 +1,25 @@
-// Health check endpoint to verify API connection
+// Health check endpoint to verify API connections
 
 const NODEBRAIN_BASE_URL = 'https://nodes.ivanovskii.com';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
 
-  const apiKey = process.env.GATEWAY_API_KEY;
+  const gatewayKey = process.env.GATEWAY_API_KEY;
+  const replicateKey = process.env.REPLICATE_API_TOKEN;
 
   const status = {
-    apiKeyConfigured: !!apiKey,
+    gatewayKeyConfigured: !!gatewayKey,
+    replicateKeyConfigured: !!replicateKey,
     nodeBrainUrl: NODEBRAIN_BASE_URL,
     timestamp: new Date().toISOString()
   };
 
-  // Optionally check nodeBrain connectivity
-  if (apiKey) {
+  // Check nodeBrain connectivity
+  if (gatewayKey) {
     try {
       const response = await fetch(`${NODEBRAIN_BASE_URL}/api/gateway/llm/models`, {
-        headers: { 'X-API-Key': apiKey }
+        headers: { 'X-API-Key': gatewayKey }
       });
       status.nodeBrainConnected = response.ok;
       if (response.ok) {
@@ -26,9 +28,28 @@ export default async function handler(req, res) {
       }
     } catch (error) {
       status.nodeBrainConnected = false;
-      status.error = error.message;
+      status.nodeBrainError = error.message;
     }
   }
+
+  // Check Replicate connectivity
+  if (replicateKey) {
+    try {
+      const response = await fetch('https://api.replicate.com/v1/models/black-forest-labs/flux-schnell', {
+        headers: { 'Authorization': `Bearer ${replicateKey}` }
+      });
+      status.replicateConnected = response.ok;
+      if (response.ok) {
+        const model = await response.json();
+        status.fluxModel = model.latest_version?.id ? 'available' : 'not found';
+      }
+    } catch (error) {
+      status.replicateConnected = false;
+      status.replicateError = error.message;
+    }
+  }
+
+  status.imageGenerationReady = status.nodeBrainConnected && status.replicateConnected;
 
   return res.status(200).json(status);
 }
