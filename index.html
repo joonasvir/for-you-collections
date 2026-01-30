@@ -22,20 +22,20 @@
     /* Three Column Layout */
     .layout {
       display: grid;
-      grid-template-columns: 320px 1fr 0px;
+      grid-template-columns: 340px 1fr 0px;
       height: 100vh;
       transition: grid-template-columns 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .layout.panel-open {
-      grid-template-columns: 320px 1fr 400px;
+      grid-template-columns: 340px 1fr 400px;
     }
 
     /* Left Sidebar */
     .sidebar {
       background: #fafafa;
       border-right: 1px solid #eee;
-      padding: 32px 24px;
+      padding: 24px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -45,7 +45,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
 
     .sidebar h1 {
@@ -81,22 +81,93 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: #999;
+      margin-bottom: 12px;
+    }
+
+    /* Visual Style Selector */
+    .style-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .style-btn {
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .style-btn:hover {
+      border-color: #ccc;
+      background: #fafafa;
+    }
+
+    .style-btn.active {
+      border-color: #1a1a1a;
+      color: #1a1a1a;
+      background: #f5f5f5;
+    }
+
+    .style-btn .icon {
+      font-size: 14px;
+    }
+
+    /* Persona Filters */
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
       margin-bottom: 16px;
+      background: #f0f0f0;
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .filter-tab {
+      flex: 1;
+      padding: 8px 12px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-tab:hover {
+      color: #666;
+    }
+
+    .filter-tab.active {
+      background: #fff;
+      color: #1a1a1a;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
     /* Persona Selector */
     .persona-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 32px;
+      gap: 6px;
+      margin-bottom: 24px;
+      max-height: 280px;
+      overflow-y: auto;
     }
 
     .persona-btn {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px;
+      padding: 10px 12px;
       background: transparent;
       border: 1px solid transparent;
       border-radius: 12px;
@@ -115,8 +186,8 @@
     }
 
     .persona-avatar {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #eee;
@@ -133,10 +204,10 @@
     }
 
     .persona-btn .name {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: #666;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
 
     .persona-btn.active .name {
@@ -144,8 +215,17 @@
     }
 
     .persona-btn .role {
-      font-size: 12px;
+      font-size: 11px;
       color: #999;
+    }
+
+    .persona-badge {
+      font-size: 9px;
+      padding: 2px 6px;
+      background: #e8e8e8;
+      border-radius: 4px;
+      color: #888;
+      margin-left: auto;
     }
 
     /* Prompt Box */
@@ -153,8 +233,8 @@
       background: #f5f5f5;
       border: 1px solid #eee;
       border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 24px;
+      padding: 12px;
+      margin-bottom: 20px;
       display: none;
     }
 
@@ -193,22 +273,22 @@
       color: #666;
       line-height: 1.6;
       font-size: 13px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .memories {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 24px;
+      gap: 5px;
+      margin-bottom: 20px;
     }
 
     .memory-tag {
       background: #fff;
       border: 1px solid #e5e5e5;
-      padding: 6px 10px;
-      border-radius: 14px;
-      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 12px;
+      font-size: 10px;
       color: #666;
     }
 
@@ -339,6 +419,18 @@
       border-radius: 20px;
       font-size: 12px;
       color: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-style-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.9);
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      color: #333;
       backdrop-filter: blur(10px);
     }
 
@@ -527,12 +619,10 @@
       font-size: 16px;
     }
 
-    /* Card prompt in panel */
     .panel .prompt-box {
       margin: 0 0 16px 0;
     }
 
-    /* All done state */
     .done-state {
       display: flex;
       flex-direction: column;
@@ -554,10 +644,10 @@
     /* Responsive */
     @media (max-width: 1024px) {
       .layout {
-        grid-template-columns: 280px 1fr 0px;
+        grid-template-columns: 300px 1fr 0px;
       }
       .layout.panel-open {
-        grid-template-columns: 280px 1fr 340px;
+        grid-template-columns: 300px 1fr 340px;
       }
     }
 
@@ -593,23 +683,36 @@
         <button class="prompts-toggle" id="promptsToggle">Prompts</button>
       </div>
 
-      <div class="prompt-box" id="personaPrompt">
-        <div class="label">Persona Selection</div>
-        <pre>Given the user's profile and memories,
-select the most relevant content topics.
-Consider personal interests, professional
-background, lifestyle values, and recent
-activities. Return 5 diverse topics.</pre>
+      <div class="section-label">Visual Style</div>
+      <div class="style-selector" id="styleSelector">
+        <button class="style-btn active" data-style="photo"><span class="icon">📷</span> Photo</button>
+        <button class="style-btn" data-style="illustration"><span class="icon">🎨</span> Illustration</button>
+        <button class="style-btn" data-style="3d"><span class="icon">🧊</span> 3D Render</button>
+        <button class="style-btn" data-style="minimal"><span class="icon">◻️</span> Minimal</button>
       </div>
 
-      <div class="section-label">Choose Persona</div>
+      <div class="prompt-box" id="stylePrompt">
+        <div class="label">Image Style Prompt</div>
+        <pre id="stylePromptText">Editorial photography style,
+natural lighting, shallow depth
+of field, magazine quality,
+atmospheric and evocative.</pre>
+      </div>
+
+      <div class="section-label">Persona Type</div>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="fictional">Fictional</button>
+        <button class="filter-tab" data-filter="luminary">Luminaries</button>
+      </div>
+
       <div class="persona-list" id="personaList"></div>
 
       <div class="persona-details" id="personaDetails">
         <div class="section-label">About</div>
         <p class="persona-bio" id="personaBio"></p>
 
-        <div class="section-label">Memories</div>
+        <div class="section-label">Interests</div>
         <div class="memories" id="personaMemories"></div>
 
         <div class="prompt-box" id="cardPrompt">
@@ -665,43 +768,127 @@ tools within this category.</pre>
   </div>
 
   <script>
-    // Personas with images
+    // Visual styles with prompts
+    const visualStyles = {
+      photo: {
+        label: 'Photo',
+        prompt: 'Editorial photography style, natural lighting, shallow depth of field, magazine quality, atmospheric and evocative.',
+        images: {} // Will use default Unsplash photos
+      },
+      illustration: {
+        label: 'Illustration',
+        prompt: 'Hand-painted gouache illustration with visible brushstrokes, soft painterly style inspired by Studio Ghibli, warm atmospheric lighting, dreamy and whimsical.',
+        images: {}
+      },
+      '3d': {
+        label: '3D Render',
+        prompt: 'Cinema 4D style 3D render, soft lighting, pastel colors, abstract geometric shapes, clean minimalist composition, octane render quality.',
+        images: {}
+      },
+      minimal: {
+        label: 'Minimal',
+        prompt: 'Minimalist graphic design, solid color blocks, simple geometric shapes, bold typography integration, Bauhaus inspired.',
+        images: {}
+      }
+    };
+
+    // Personas organized by type
     const personas = [
+      // Fictional personas
       {
         id: 'creative-professional',
-        name: 'Maya',
+        name: 'Maya Chen',
         role: 'Creative Director',
+        type: 'fictional',
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
-        bio: 'A 34-year-old creative director based in Brooklyn. Passionate about sustainable design, experimental typography, and finding inspiration in urban architecture. Spends weekends exploring galleries and vintage bookstores.',
-        memories: ['sustainable design', 'typography', 'urban exploration', 'vintage books', 'gallery visits', 'Brooklyn life', 'brand identity']
+        bio: 'A 34-year-old creative director based in Brooklyn. Passionate about sustainable design, experimental typography, and finding inspiration in urban architecture.',
+        memories: ['sustainable design', 'typography', 'urban exploration', 'vintage books', 'gallery visits', 'brand identity']
       },
       {
         id: 'tech-entrepreneur',
-        name: 'Alex',
+        name: 'Alex Rivera',
         role: 'Startup Founder',
+        type: 'fictional',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
-        bio: 'A 29-year-old tech entrepreneur building their second startup in the AI space. Interested in productivity systems, meditation, and long-distance running. Believes in building tools that amplify human potential.',
-        memories: ['AI technology', 'productivity', 'meditation', 'running marathons', 'sci-fi novels', 'startup culture', 'system design']
+        bio: 'A 29-year-old tech entrepreneur building their second startup in the AI space. Interested in productivity systems, meditation, and long-distance running.',
+        memories: ['AI technology', 'productivity', 'meditation', 'running', 'sci-fi novels', 'system design']
       },
       {
         id: 'culinary-explorer',
-        name: 'Sofia',
+        name: 'Sofia Russo',
         role: 'Food Writer',
+        type: 'fictional',
         avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80',
-        bio: 'A 42-year-old food writer who spent years living in Italy and Japan. Obsessed with fermentation, seasonal cooking, and the stories behind family recipes. Collects vintage cookware.',
-        memories: ['Italian cuisine', 'Japanese cooking', 'fermentation', 'seasonal ingredients', 'family recipes', 'vintage cookware', 'food history']
+        bio: 'A 42-year-old food writer who spent years living in Italy and Japan. Obsessed with fermentation, seasonal cooking, and family recipes.',
+        memories: ['Italian cuisine', 'Japanese cooking', 'fermentation', 'seasonal ingredients', 'food history']
       },
       {
         id: 'outdoor-minimalist',
-        name: 'Kai',
+        name: 'Kai Nakamura',
         role: 'Nature Photographer',
+        type: 'fictional',
         avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
-        bio: 'A 38-year-old nature photographer living in a converted van. Documents wilderness areas and advocates for conservation. Finds peace in solitude and the rhythm of natural light.',
-        memories: ['wilderness photography', 'van life', 'conservation', 'minimalism', 'natural light', 'mountain trails', 'wildlife']
+        bio: 'A 38-year-old nature photographer living in a converted van. Documents wilderness areas and advocates for conservation.',
+        memories: ['wilderness photography', 'van life', 'conservation', 'minimalism', 'mountain trails']
+      },
+      // Tech Luminaries
+      {
+        id: 'marc-andreessen',
+        name: 'Marc Andreessen',
+        role: 'Venture Capitalist',
+        type: 'luminary',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Marc_Andreessen-9.jpg/440px-Marc_Andreessen-9.jpg',
+        bio: 'Co-founder of Netscape and Andreessen Horowitz. Pioneer of the modern web browser. Believes software is eating the world and that technology is the primary driver of progress.',
+        memories: ['venture capital', 'software eating the world', 'techno-optimism', 'web3', 'AI', 'founder mentality']
+      },
+      {
+        id: 'elon-musk',
+        name: 'Elon Musk',
+        role: 'Tech CEO',
+        type: 'luminary',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/440px-Elon_Musk_Royal_Society_%28crop2%29.jpg',
+        bio: 'CEO of Tesla and SpaceX. Obsessed with making humanity multi-planetary, accelerating sustainable energy, and pushing the boundaries of what\'s possible.',
+        memories: ['space exploration', 'electric vehicles', 'neural interfaces', 'AI risk', 'first principles', 'Mars colonization']
+      },
+      {
+        id: 'satya-nadella',
+        name: 'Satya Nadella',
+        role: 'Microsoft CEO',
+        type: 'luminary',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg/440px-MS-Exec-Nadella-Satya-2017-08-31-22_%28cropped%29.jpg',
+        bio: 'CEO of Microsoft who transformed the company\'s culture. Believes in empathy, growth mindset, and the democratization of AI for every person and organization.',
+        memories: ['cloud computing', 'growth mindset', 'empathy in leadership', 'AI democratization', 'cricket', 'poetry']
+      },
+      {
+        id: 'jensen-huang',
+        name: 'Jensen Huang',
+        role: 'NVIDIA CEO',
+        type: 'luminary',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Jensen_Huang_GTC_Keynote_%282024%29.png/440px-Jensen_Huang_GTC_Keynote_%282024%29.png',
+        bio: 'Founder and CEO of NVIDIA. Pioneered GPU computing and positioned the company at the center of the AI revolution. Known for his leather jacket and intense focus.',
+        memories: ['GPU computing', 'AI acceleration', 'gaming', 'data centers', 'robotics', 'autonomous systems']
+      },
+      {
+        id: 'sam-altman',
+        name: 'Sam Altman',
+        role: 'OpenAI CEO',
+        type: 'luminary',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Sam_Altman_-_TechCrunch_SF_2019_%28cropped%29.jpg/440px-Sam_Altman_-_TechCrunch_SF_2019_%28cropped%29.jpg',
+        bio: 'CEO of OpenAI. Former president of Y Combinator. Believes AGI will be the most transformative technology in human history and is focused on ensuring it benefits everyone.',
+        memories: ['artificial general intelligence', 'startup acceleration', 'nuclear energy', 'universal basic income', 'longevity', 'San Francisco']
+      },
+      {
+        id: 'sundar-pichai',
+        name: 'Sundar Pichai',
+        role: 'Google CEO',
+        type: 'luminary',
+        avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Sundar_Pichai_%2832522152118%29_%28cropped%29.jpg/440px-Sundar_Pichai_%2832522152118%29_%28cropped%29.jpg',
+        bio: 'CEO of Google and Alphabet. Rose through Chrome and Android to lead one of the world\'s most influential companies. Focuses on making AI helpful for everyone.',
+        memories: ['search', 'Android', 'Chrome', 'AI for good', 'quantum computing', 'cricket']
       }
     ];
 
-    // Topics and cards by persona
+    // Topics by persona
     const topicsByPersona = {
       'creative-professional': [
         { topic: 'Typography', headline: 'The Lost Art of Hand-Lettering', subheadline: 'How Brooklyn sign painters are keeping traditional letterforms alive in the digital age', image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80' },
@@ -730,10 +917,52 @@ tools within this category.</pre>
         { topic: 'Minimalism', headline: 'Everything I Own Fits Here', subheadline: 'What two years of van life taught me about what actually matters', image: 'https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=800&q=80' },
         { topic: 'Solitude', headline: 'The Gift of Being Alone', subheadline: 'Finding yourself in places where no one can find you', image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80' },
         { topic: 'Wildlife', headline: 'Patience as Practice', subheadline: 'The meditation of waiting for wildlife to reveal itself', image: 'https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=800&q=80' }
+      ],
+      'marc-andreessen': [
+        { topic: 'Software Revolution', headline: 'Why Software Still Eats Everything', subheadline: 'Two decades later, the thesis is stronger than ever—here\'s what\'s being consumed next', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80' },
+        { topic: 'Techno-Optimism', headline: 'The Case for Building', subheadline: 'Why pessimism is a luxury we can\'t afford and optimism is a moral imperative', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80' },
+        { topic: 'Venture Capital', headline: 'Pattern Recognition', subheadline: 'What separates billion-dollar founders from everyone else', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
+        { topic: 'AI Future', headline: 'Intelligence Abundance', subheadline: 'When AI makes expertise free, what becomes truly valuable?', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
+        { topic: 'Media & Tech', headline: 'The Great Rebundling', subheadline: 'How technology is reconstructing media after a decade of unbundling', image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80' }
+      ],
+      'elon-musk': [
+        { topic: 'Mars Colonization', headline: 'Making Life Multi-Planetary', subheadline: 'The engineering challenges of building a civilization on Mars', image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=80' },
+        { topic: 'First Principles', headline: 'Reasoning From Zero', subheadline: 'How to solve impossible problems by questioning every assumption', image: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&q=80' },
+        { topic: 'Electric Future', headline: 'The S-Curve of Adoption', subheadline: 'Why the transition to sustainable energy is now unstoppable', image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=80' },
+        { topic: 'Neural Interfaces', headline: 'Bandwidth to the Brain', subheadline: 'The next frontier of human-computer interaction', image: 'https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800&q=80' },
+        { topic: 'Manufacturing', headline: 'The Machine That Builds the Machine', subheadline: 'Why the factory is the product that matters most', image: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80' }
+      ],
+      'satya-nadella': [
+        { topic: 'Growth Mindset', headline: 'Learn It All vs Know It All', subheadline: 'How changing Microsoft\'s culture changed everything', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80' },
+        { topic: 'Cloud Computing', headline: 'The Intelligent Cloud', subheadline: 'Why cloud is the foundation of every modern business', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80' },
+        { topic: 'Empathy in Tech', headline: 'The Soft Edge of Innovation', subheadline: 'Why emotional intelligence is the hardest engineering problem', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80' },
+        { topic: 'AI Democratization', headline: 'AI for Every Developer', subheadline: 'Making artificial intelligence accessible to the next billion builders', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
+        { topic: 'Platform Thinking', headline: 'Ecosystems Over Products', subheadline: 'The strategic shift that powers modern tech giants', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' }
+      ],
+      'jensen-huang': [
+        { topic: 'GPU Revolution', headline: 'The Parallel Universe', subheadline: 'How graphics processors became the engine of artificial intelligence', image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&q=80' },
+        { topic: 'AI Infrastructure', headline: 'Building the AI Factory', subheadline: 'Why data centers are the new oil refineries', image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80' },
+        { topic: 'Robotics', headline: 'Physical AI', subheadline: 'When artificial intelligence learns to move through the world', image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80' },
+        { topic: 'Gaming Technology', headline: 'The Simulation Hypothesis', subheadline: 'How gaming technology is creating new realities', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80' },
+        { topic: 'Accelerated Computing', headline: 'The End of General Purpose', subheadline: 'Why specialized hardware is the future of computing', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80' }
+      ],
+      'sam-altman': [
+        { topic: 'AGI Progress', headline: 'The Road to Superintelligence', subheadline: 'Mapping the milestones between here and artificial general intelligence', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80' },
+        { topic: 'AI Safety', headline: 'Aligned by Design', subheadline: 'Building AI systems that want what we want', image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80' },
+        { topic: 'Startup Building', headline: 'The YC Playbook', subheadline: 'Timeless principles for building companies that matter', image: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&q=80' },
+        { topic: 'Energy & Compute', headline: 'The Power Bottleneck', subheadline: 'Why the AI future depends on solving energy abundance', image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80' },
+        { topic: 'Economic Transformation', headline: 'Post-Scarcity Thinking', subheadline: 'What happens when intelligence becomes a commodity', image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80' }
+      ],
+      'sundar-pichai': [
+        { topic: 'Search Evolution', headline: 'Beyond Ten Blue Links', subheadline: 'How AI is transforming the way we find information', image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80' },
+        { topic: 'AI for Good', headline: 'Technology as Equalizer', subheadline: 'Using artificial intelligence to solve humanity\'s biggest challenges', image: 'https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=800&q=80' },
+        { topic: 'Mobile First', headline: 'The Android Decade', subheadline: 'How mobile transformed computing and what comes next', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80' },
+        { topic: 'Quantum Computing', headline: 'Beyond Classical Limits', subheadline: 'The race to build computers that think differently', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80' },
+        { topic: 'Responsible AI', headline: 'Building Trust at Scale', subheadline: 'The principles guiding AI development for billions of users', image: 'https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80' }
       ]
     };
 
-    // Mini apps by topic
+    // Mini apps by topic (keeping existing ones, adding new for luminaries)
     const miniAppsByTopic = {
       'Typography': [
         { name: 'Letter Lab', desc: 'Practice hand-lettering with guided stroke exercises', icon: '✍️', color: '#2D3436' },
@@ -753,136 +982,128 @@ tools within this category.</pre>
         { name: 'Space Sketch', desc: 'Quick architectural concept drawings', icon: '✏️', color: '#B2BEC3' },
         { name: 'Light Study', desc: 'Simulate natural light in any space', icon: '☀️', color: '#FDCB6E' }
       ],
-      'Creative Process': [
-        { name: 'Morning Pages', desc: 'Guided journaling for creative breakthroughs', icon: '📓', color: '#E17055' },
-        { name: 'Idea Shuffle', desc: 'Random prompts to spark unexpected connections', icon: '🎲', color: '#A29BFE' },
-        { name: 'Focus Timer', desc: 'Pomodoro with ambient sounds for deep work', icon: '⏱️', color: '#00CEC9' },
-        { name: 'Mood Board', desc: 'Collect and arrange visual inspiration', icon: '🎨', color: '#FD79A8' }
+      'Software Revolution': [
+        { name: 'Market Map', desc: 'Track which industries are being software-ized', icon: '🗺️', color: '#6C5CE7' },
+        { name: 'Disruption Alert', desc: 'Early signals of software eating new sectors', icon: '⚡', color: '#E17055' },
+        { name: 'Founder Radar', desc: 'Track emerging founders in key verticals', icon: '📡', color: '#00B894' },
+        { name: 'Tech Thesis', desc: 'Build and test investment theses', icon: '📝', color: '#2D3436' }
       ],
-      'Visual Culture': [
-        { name: 'Gallery Walk', desc: 'Virtual tours of independent bookshops worldwide', icon: '🚶', color: '#6C5CE7' },
-        { name: 'Cover Archive', desc: 'Browse 50 years of iconic book cover design', icon: '📚', color: '#E84393' },
-        { name: 'Print Spotter', desc: 'Identify printing techniques in publications', icon: '🔍', color: '#2D3436' },
-        { name: 'Zine Maker', desc: 'Create and print your own mini publications', icon: '📰', color: '#00B894' }
+      'Mars Colonization': [
+        { name: 'Mars Sim', desc: 'Simulate colony building on the red planet', icon: '🔴', color: '#E17055' },
+        { name: 'Rocket Math', desc: 'Calculate orbital mechanics and fuel needs', icon: '🚀', color: '#2D3436' },
+        { name: 'Habitat Designer', desc: 'Design pressurized living spaces', icon: '🏠', color: '#636E72' },
+        { name: 'Resource Planner', desc: 'Plan ISRU and supply chains', icon: '⛏️', color: '#FDCB6E' }
       ],
-      'AI & Creativity': [
-        { name: 'Prompt Lab', desc: 'Experiment with AI prompting techniques', icon: '🧪', color: '#6C5CE7' },
-        { name: 'AI Audit', desc: 'Understand how AI makes decisions in your tools', icon: '🔍', color: '#636E72' },
-        { name: 'Co-Create', desc: 'Real-time collaborative writing with AI', icon: '🤝', color: '#00CEC9' },
-        { name: 'Future Scan', desc: 'AI predictions for your industry', icon: '🔮', color: '#A29BFE' }
+      'Growth Mindset': [
+        { name: 'Mindset Check', desc: 'Daily reflection on fixed vs growth thinking', icon: '🧠', color: '#6C5CE7' },
+        { name: 'Learn Log', desc: 'Track your learning journey and insights', icon: '📚', color: '#00B894' },
+        { name: 'Feedback Loop', desc: 'Structured feedback collection and analysis', icon: '🔄', color: '#74B9FF' },
+        { name: 'Culture Pulse', desc: 'Measure team mindset and culture health', icon: '💓', color: '#FD79A8' }
       ],
-      'Mindfulness': [
-        { name: 'Silent Start', desc: 'Phone-free morning routine tracker', icon: '🌅', color: '#FDCB6E' },
-        { name: 'Breath Box', desc: 'Simple breathing exercises for focus', icon: '🫁', color: '#74B9FF' },
-        { name: 'Mind Map', desc: 'Visualize your mental state over time', icon: '🧠', color: '#FD79A8' },
-        { name: 'Zen Space', desc: 'Ambient soundscapes for meditation', icon: '🎵', color: '#55A3A2' }
+      'GPU Revolution': [
+        { name: 'CUDA Lab', desc: 'Learn parallel programming interactively', icon: '💻', color: '#76B900' },
+        { name: 'Benchmark', desc: 'Compare GPU performance across workloads', icon: '📊', color: '#2D3436' },
+        { name: 'ML Optimizer', desc: 'Optimize your models for GPU inference', icon: '⚡', color: '#E17055' },
+        { name: 'Chip Watch', desc: 'Track the GPU and AI chip landscape', icon: '👁️', color: '#636E72' }
       ],
-      'Endurance': [
-        { name: 'Trail Finder', desc: 'Discover running routes by terrain and distance', icon: '🏃', color: '#E17055' },
-        { name: 'Pace Coach', desc: 'AI-powered training plans for your goals', icon: '📈', color: '#00B894' },
-        { name: 'Recovery Log', desc: 'Track sleep, nutrition, and rest days', icon: '😴', color: '#74B9FF' },
-        { name: 'Mental Miles', desc: 'Visualization exercises for race day', icon: '🧘', color: '#A29BFE' }
+      'AGI Progress': [
+        { name: 'Capability Track', desc: 'Monitor AI benchmark progress over time', icon: '📈', color: '#6C5CE7' },
+        { name: 'Safety Score', desc: 'Evaluate AI systems on alignment metrics', icon: '🛡️', color: '#00B894' },
+        { name: 'Research Radar', desc: 'Track breakthrough papers and discoveries', icon: '📡', color: '#E17055' },
+        { name: 'Timeline Model', desc: 'Explore different AGI arrival scenarios', icon: '⏳', color: '#636E72' }
       ],
-      'Future Fiction': [
-        { name: 'Sci-Fi Stack', desc: 'Personalized reading recommendations', icon: '📚', color: '#2D3436' },
-        { name: 'World Builder', desc: 'Create and explore fictional universes', icon: '🌍', color: '#6C5CE7' },
-        { name: 'Tech Timeline', desc: 'When fiction predicted reality', icon: '⏳', color: '#636E72' },
-        { name: 'Story Spark', desc: 'AI-generated sci-fi writing prompts', icon: '✨', color: '#FD79A8' }
+      'Search Evolution': [
+        { name: 'Query Lab', desc: 'Explore how AI transforms search queries', icon: '🔍', color: '#4285F4' },
+        { name: 'Intent Map', desc: 'Understand user intent classification', icon: '🧭', color: '#00B894' },
+        { name: 'Answer Engine', desc: 'Build AI-powered Q&A experiences', icon: '💬', color: '#6C5CE7' },
+        { name: 'Knowledge Graph', desc: 'Explore connected information structures', icon: '🕸️', color: '#E17055' }
       ],
-      'Systems Thinking': [
-        { name: 'Flow Chart', desc: 'Map complex systems visually', icon: '🔀', color: '#636E72' },
-        { name: 'Habit Stack', desc: 'Build routines that compound', icon: '📊', color: '#00B894' },
-        { name: 'Decision Tree', desc: 'Structured frameworks for tough choices', icon: '🌳', color: '#55A3A2' },
-        { name: 'Time Audit', desc: 'Understand where your hours actually go', icon: '⏰', color: '#E17055' }
-      ],
-      'Fermentation': [
-        { name: 'Ferment Timer', desc: 'Track your cultures with smart reminders', icon: '⏱️', color: '#B2BEC3' },
-        { name: 'Koji Guide', desc: 'Step-by-step instructions for growing koji', icon: '🍚', color: '#DFE6E9' },
-        { name: 'Flavor Map', desc: 'Understand umami development over time', icon: '👅', color: '#E17055' },
-        { name: 'Starter Swap', desc: 'Trade cultures with local fermenters', icon: '🔄', color: '#00B894' }
-      ],
-      'Italian Heritage': [
-        { name: 'Nonna\'s Voice', desc: 'Record and transcribe family recipes', icon: '🎙️', color: '#E17055' },
-        { name: 'Pasta Shapes', desc: 'Match pasta to sauce like an Italian', icon: '🍝', color: '#FDCB6E' },
-        { name: 'Region Dive', desc: 'Explore cuisine by Italian province', icon: '🗺️', color: '#00B894' },
-        { name: 'Sunday Table', desc: 'Plan authentic multi-course meals', icon: '🍽️', color: '#B2BEC3' }
-      ],
-      'Seasonal Cooking': [
-        { name: 'Harvest Cal', desc: 'What\'s fresh and local right now', icon: '📅', color: '#00B894' },
-        { name: 'Preserve It', desc: 'Guides for canning, pickling, and drying', icon: '🫙', color: '#FDCB6E' },
-        { name: 'Root Cellar', desc: 'Storage tips for seasonal abundance', icon: '🥕', color: '#E17055' },
-        { name: 'Frost Date', desc: 'Plan your garden and preservation calendar', icon: '❄️', color: '#74B9FF' }
-      ],
-      'Food History': [
-        { name: 'Spice Routes', desc: 'Interactive map of culinary trade history', icon: '🌶️', color: '#E17055' },
-        { name: 'Time Table', desc: 'Explore historical menus and meals', icon: '📜', color: '#B2BEC3' },
-        { name: 'Origin Story', desc: 'The surprising history of everyday dishes', icon: '🔍', color: '#6C5CE7' },
-        { name: 'Empire Eats', desc: 'How colonialism shaped global cuisine', icon: '🌍', color: '#636E72' }
-      ],
-      'Kitchen Tools': [
-        { name: 'Tool Tales', desc: 'Share stories about your heirloom cookware', icon: '🍳', color: '#B2BEC3' },
-        { name: 'Vintage Find', desc: 'Identify and value antique kitchen items', icon: '🔎', color: '#FDCB6E' },
-        { name: 'Care Guide', desc: 'Maintain cast iron, copper, and carbon steel', icon: '✨', color: '#636E72' },
-        { name: 'Maker Map', desc: 'Find artisan cookware craftspeople', icon: '🗺️', color: '#00B894' }
-      ],
-      'Light & Landscape': [
-        { name: 'Golden Hour', desc: 'Precise light timing for any location', icon: '🌅', color: '#FDCB6E' },
-        { name: 'Weather Eye', desc: 'Predict dramatic skies and conditions', icon: '⛅', color: '#74B9FF' },
-        { name: 'Comp Guide', desc: 'Composition overlays for your camera', icon: '📷', color: '#2D3436' },
-        { name: 'Light Journal', desc: 'Log conditions for repeat visits', icon: '📓', color: '#E17055' }
-      ],
-      'Conservation': [
-        { name: 'Wild Watch', desc: 'Report and track wildlife sightings', icon: '🦌', color: '#00B894' },
-        { name: 'Trail Guard', desc: 'Document trail conditions and issues', icon: '🥾', color: '#B2BEC3' },
-        { name: 'Impact Calc', desc: 'Measure your outdoor footprint', icon: '👣', color: '#636E72' },
-        { name: 'Action Hub', desc: 'Local conservation volunteer opportunities', icon: '🤝', color: '#55A3A2' }
-      ],
-      'Minimalism': [
-        { name: 'Own Less', desc: 'Guided decluttering by category', icon: '📦', color: '#B2BEC3' },
-        { name: 'Van Config', desc: 'Space planning for mobile living', icon: '🚐', color: '#636E72' },
-        { name: 'Essentials', desc: 'Curated lists of quality basics', icon: '✓', color: '#2D3436' },
-        { name: 'Cost Per Use', desc: 'Track the real value of what you own', icon: '💰', color: '#00B894' }
-      ],
-      'Solitude': [
-        { name: 'Quiet Finder', desc: 'Discover secluded spots near you', icon: '🏔️', color: '#74B9FF' },
-        { name: 'Solo Journal', desc: 'Reflection prompts for time alone', icon: '📝', color: '#B2BEC3' },
-        { name: 'Silence Map', desc: 'Noise pollution data for trip planning', icon: '🔇', color: '#636E72' },
-        { name: 'Inner Voice', desc: 'Guided self-discovery exercises', icon: '🧘', color: '#A29BFE' }
-      ],
-      'Wildlife': [
-        { name: 'Track ID', desc: 'Identify animal signs and tracks', icon: '🐾', color: '#B2BEC3' },
-        { name: 'Wait Spot', desc: 'Community-sourced wildlife viewing locations', icon: '👀', color: '#00B894' },
-        { name: 'Call Library', desc: 'Learn and identify animal vocalizations', icon: '🔊', color: '#6C5CE7' },
-        { name: 'Behavior Log', desc: 'Document wildlife patterns and habits', icon: '📊', color: '#E17055' }
+      // Add defaults for other topics
+      'default': [
+        { name: 'Deep Dive', desc: 'Comprehensive guides and tutorials', icon: '📖', color: '#6C5CE7' },
+        { name: 'Practice Mode', desc: 'Interactive exercises and challenges', icon: '🎯', color: '#00B894' },
+        { name: 'Community', desc: 'Connect with others interested in this topic', icon: '👥', color: '#E17055' },
+        { name: 'News Feed', desc: 'Latest updates and developments', icon: '📰', color: '#636E72' }
       ]
     };
+
+    // Add remaining mini-apps mappings
+    const defaultTopics = ['Creative Process', 'Visual Culture', 'AI & Creativity', 'Mindfulness', 'Endurance',
+      'Future Fiction', 'Systems Thinking', 'Fermentation', 'Italian Heritage', 'Seasonal Cooking', 'Food History',
+      'Kitchen Tools', 'Light & Landscape', 'Conservation', 'Minimalism', 'Solitude', 'Wildlife',
+      'Techno-Optimism', 'Venture Capital', 'AI Future', 'Media & Tech', 'First Principles', 'Electric Future',
+      'Neural Interfaces', 'Manufacturing', 'Cloud Computing', 'Empathy in Tech', 'AI Democratization',
+      'Platform Thinking', 'AI Infrastructure', 'Robotics', 'Gaming Technology', 'Accelerated Computing',
+      'AI Safety', 'Startup Building', 'Energy & Compute', 'Economic Transformation', 'AI for Good',
+      'Mobile First', 'Quantum Computing', 'Responsible AI'];
+
+    defaultTopics.forEach(topic => {
+      if (!miniAppsByTopic[topic]) {
+        miniAppsByTopic[topic] = miniAppsByTopic['default'];
+      }
+    });
 
     let selectedPersona = null;
     let currentCardIndex = 0;
     let cards = [];
     let showPrompts = false;
     let panelOpen = false;
+    let currentStyle = 'photo';
+    let currentFilter = 'all';
 
     // Initialize
     function init() {
-      initPersonaList();
+      initStyleSelector();
+      initFilterTabs();
+      renderPersonaList();
 
       document.getElementById('generateBtn').onclick = generateCards;
       document.getElementById('promptsToggle').onclick = togglePrompts;
       document.getElementById('panelClose').onclick = closePanel;
     }
 
-    function initPersonaList() {
+    function initStyleSelector() {
+      const selector = document.getElementById('styleSelector');
+      selector.querySelectorAll('.style-btn').forEach(btn => {
+        btn.onclick = () => {
+          selector.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentStyle = btn.dataset.style;
+          document.getElementById('stylePromptText').textContent = visualStyles[currentStyle].prompt;
+        };
+      });
+    }
+
+    function initFilterTabs() {
+      const tabs = document.getElementById('filterTabs');
+      tabs.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.onclick = () => {
+          tabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          currentFilter = tab.dataset.filter;
+          renderPersonaList();
+        };
+      });
+    }
+
+    function renderPersonaList() {
       const list = document.getElementById('personaList');
-      personas.forEach(persona => {
+      list.innerHTML = '';
+
+      const filtered = currentFilter === 'all'
+        ? personas
+        : personas.filter(p => p.type === currentFilter);
+
+      filtered.forEach(persona => {
         const btn = document.createElement('button');
-        btn.className = 'persona-btn';
+        btn.className = 'persona-btn' + (selectedPersona?.id === persona.id ? ' active' : '');
         btn.innerHTML = `
-          <img class="persona-avatar" src="${persona.avatar}" alt="${persona.name}">
+          <img class="persona-avatar" src="${persona.avatar}" alt="${persona.name}" onerror="this.src='https://via.placeholder.com/80?text=${persona.name[0]}'">
           <div class="persona-btn-info">
             <div class="name">${persona.name}</div>
             <div class="role">${persona.role}</div>
           </div>
+          ${persona.type === 'luminary' ? '<span class="persona-badge">Public Figure</span>' : ''}
         `;
         btn.onclick = () => selectPersona(persona);
         list.appendChild(btn);
@@ -894,10 +1115,7 @@ tools within this category.</pre>
       currentCardIndex = 0;
       closePanel();
 
-      // Update button states
-      document.querySelectorAll('.persona-btn').forEach((btn, i) => {
-        btn.classList.toggle('active', personas[i].id === persona.id);
-      });
+      renderPersonaList();
 
       // Show persona details
       document.getElementById('personaDetails').classList.add('visible');
@@ -929,7 +1147,7 @@ tools within this category.</pre>
     function generateCards() {
       if (!selectedPersona) return;
 
-      cards = topicsByPersona[selectedPersona.id];
+      cards = topicsByPersona[selectedPersona.id] || topicsByPersona['tech-entrepreneur'];
       currentCardIndex = 0;
 
       document.getElementById('tapHint').style.display = 'block';
@@ -956,14 +1174,12 @@ tools within this category.</pre>
         return;
       }
 
-      // Render cards in reverse order (last card at bottom)
       const visibleCards = cards.slice(currentCardIndex, currentCardIndex + 3);
 
       visibleCards.reverse().forEach((card, reverseIndex) => {
         const actualIndex = visibleCards.length - 1 - reverseIndex;
         const cardEl = createCardElement(card, currentCardIndex + actualIndex);
 
-        // Stack offset
         const offset = actualIndex * 8;
         const scale = 1 - (actualIndex * 0.03);
         cardEl.style.transform = `translateY(${offset}px) scale(${scale})`;
@@ -978,7 +1194,6 @@ tools within this category.</pre>
 
       renderStackIndicator();
 
-      // Update panel with current card if panel is open
       if (panelOpen && cards[currentCardIndex]) {
         updatePanel(cards[currentCardIndex]);
       }
@@ -996,6 +1211,7 @@ tools within this category.</pre>
           <div class="card-subheadline">${card.subheadline}</div>
         </div>
         <div class="card-counter">${index + 1} / ${cards.length}</div>
+        <div class="card-style-badge">${visualStyles[currentStyle].label}</div>
         <div class="swipe-hint left">SKIP</div>
         <div class="swipe-hint right">SAVE</div>
       `;
@@ -1029,7 +1245,6 @@ tools within this category.</pre>
         const rotation = currentX * 0.05;
         cardEl.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
 
-        // Show hints
         const leftHint = cardEl.querySelector('.swipe-hint.left');
         const rightHint = cardEl.querySelector('.swipe-hint.right');
 
@@ -1048,7 +1263,6 @@ tools within this category.</pre>
         const threshold = 100;
 
         if (Math.abs(currentX) > threshold) {
-          // Swipe away
           cardEl.classList.add('animating');
           const direction = currentX > 0 ? 1 : -1;
           cardEl.style.transform = `translateX(${direction * 500}px) rotate(${direction * 30}deg)`;
@@ -1059,7 +1273,6 @@ tools within this category.</pre>
             renderCardStack();
           }, 300);
         } else {
-          // Snap back
           cardEl.classList.add('animating');
           cardEl.style.transform = 'translateX(0) rotate(0)';
           cardEl.querySelector('.swipe-hint.left').style.opacity = 0;
@@ -1100,7 +1313,7 @@ tools within this category.</pre>
     }
 
     function updatePanel(card) {
-      const apps = miniAppsByTopic[card.topic] || [];
+      const apps = miniAppsByTopic[card.topic] || miniAppsByTopic['default'];
 
       document.getElementById('panelTitle').textContent = card.topic;
       document.getElementById('panelSubtitle').textContent = `${apps.length} mini-apps to explore`;
