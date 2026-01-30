@@ -516,6 +516,11 @@
       line-height: 1.6;
     }
 
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     /* Right Panel - Mini Apps */
     .panel {
       background: #fafafa;
@@ -1281,13 +1286,55 @@ tools within this category.</pre>
       });
     }
 
-    function generateCards() {
+    async function generateCards() {
       if (!selectedPersona) return;
 
       // Clone the array so we can manipulate it for the stack loop
       cards = [...(topicsByPersona[selectedPersona.id] || topicsByPersona['tech-entrepreneur'])];
 
       document.getElementById('tapHint').style.display = 'block';
+
+      // Show loading state
+      const stack = document.getElementById('cardStack');
+      stack.innerHTML = `
+        <div class="empty-state">
+          <div class="icon" style="animation: spin 1s linear infinite;">⏳</div>
+          <p>Generating personalized cards...</p>
+        </div>
+      `;
+
+      // If using illustration/3d/minimal style, try to enhance prompts via API
+      if (currentStyle !== 'photo') {
+        try {
+          // Generate enhanced prompts for each card (in parallel)
+          const enhancedCards = await Promise.all(
+            cards.map(async (card) => {
+              try {
+                const response = await fetch('/api/generate-image', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    prompt: `${card.topic}: ${card.headline}`,
+                    style: currentStyle
+                  })
+                });
+
+                if (response.ok) {
+                  const data = await response.json();
+                  return { ...card, enhancedPrompt: data.imagePrompt };
+                }
+              } catch (e) {
+                console.log('API not available, using defaults');
+              }
+              return card;
+            })
+          );
+          cards = enhancedCards;
+        } catch (error) {
+          console.log('Using default cards:', error);
+        }
+      }
+
       renderCardStack();
 
       // Open panel with first card
