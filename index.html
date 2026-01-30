@@ -711,7 +711,7 @@
 
       <div class="section-header">
         <span class="section-label">Persona Type</span>
-        <button class="prompt-toggle-btn" data-prompt="personaPrompt" title="Show prompt">?</button>
+        <button class="prompt-toggle-btn" data-prompt="personaPrompt" title="Show prompt">✦</button>
       </div>
       <div class="prompt-box" id="personaPrompt">
         <div class="label">Persona Selection Prompt</div>
@@ -736,7 +736,7 @@ activities. Return 5 diverse topics.</pre>
 
         <div class="section-header">
           <span class="section-label">Interests</span>
-          <button class="prompt-toggle-btn" data-prompt="cardPrompt" title="Show prompt">?</button>
+          <button class="prompt-toggle-btn" data-prompt="cardPrompt" title="Show prompt">✦</button>
         </div>
         <div class="prompt-box" id="cardPrompt">
           <div class="label">Card Generation Prompt</div>
@@ -786,7 +786,7 @@ tone to persona's sophistication.</pre>
       <div class="panel-content">
         <div class="section-header" style="margin-bottom: 16px;">
           <span class="section-label">Mini-Apps</span>
-          <button class="prompt-toggle-btn" data-prompt="miniAppsPrompt" title="Show prompt">?</button>
+          <button class="prompt-toggle-btn" data-prompt="miniAppsPrompt" title="Show prompt">✦</button>
         </div>
         <div class="prompt-box" id="miniAppsPrompt">
           <div class="label">Mini-Apps Generation Prompt</div>
@@ -1248,7 +1248,7 @@ tools within this category.</pre>
 
           promptBox.classList.toggle('visible', !isVisible);
           btn.classList.toggle('active', !isVisible);
-          btn.textContent = isVisible ? '?' : '×';
+          btn.textContent = isVisible ? '✦' : '×';
         };
       });
     }
